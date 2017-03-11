@@ -54,7 +54,7 @@ class ZQ_GEN(object):
         print self.args
         self._call_hiera("make_doc", "Error creating documentation in %s")
         self.env = ZQ_ENV(self)
-        ENVIRONMENT("default",self.env)
+        ENVIRONMENT(self.args.default_environment,self.env)
         self.main_preflight()
         if self.args.banner:
             self.banner()

@@ -1,0 +1,11 @@
+## Example of working with custom values
+
+##
+## We are creating custom value, but this value are not in the stack
+##
+(Value {"KEY" "Value"})
+
+##
+## But it is returned to us and we can format and output it.
+##
+  (Pretty_Json)

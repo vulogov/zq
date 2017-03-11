@@ -98,3 +98,5 @@ ENV/
 
 .idea/workspace.xml
 
+
+*.swp

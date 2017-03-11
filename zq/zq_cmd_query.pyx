@@ -3,6 +3,10 @@ class ZQ_CMD_QUERY:
         self.URL = get_from_env("ZQ_URL", default="http://127.0.0.1/zabbix")
         self.USER = get_from_env("ZQ_USER", default="Admin")
         self.PASS = get_from_env("ZQ_PASS", default="zabbix")
+        try:
+            self.MAX_PIPELINE = int(get_from_env("ZQ_MAX_PIPELINE", default="100"))
+        except:
+            self.MAX_PIPELINE = 100
         self.parser.add_argument("--url", type=str, default=self.URL,
                                  help="Zabbix server URL")
         self.parser.add_argument("--user", "-U", type=str, default=self.USER,
@@ -11,20 +15,11 @@ class ZQ_CMD_QUERY:
                                  help="Zabbix password")
         self.parser.add_argument("--name", type=str, default="zabbix",
                                  help="Zabbix name")
+        self.parser.add_argument("--max-query-pipeline", type=int, default=self.MAX_PIPELINE,
+                                 help="Maximum number of elements in the query pipeline")
+
     def preflight(self):
         self.env.srv.addServer(self.args.url, self.args.user, self.args.password, self.args.name)
-        print self.env.srv
+        self.env.cfg["ZQ_MAX_PIPELINE"] = self.args.max_query_pipeline
     def QUERY(self):
-        try:
-            for s in self.args.N[1:]:
-                if self.args.v != None:
-                    prefix = color("%s"%s,"cyan")+color(" = ","yellow")
-                else:
-                    prefix = ""
-                print "%s%s"%(prefix,color(repr(self.env.QUERY(s)),"white"))
-        except:
-            self.error("Error in %s"%s)
-            if self.args.traceback:
-                exc_type, exc_value, exc_traceback = sys.exc_info()
-                traceback.print_exception(exc_type, exc_value, exc_traceback,
-                                          limit=2, file=sys.stdout)
+        self.Exec(self.env.QUERY, self.args.default_environment, self.args.default_server)

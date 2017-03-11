@@ -1,0 +1,7 @@
+## This is a very basic query, demonstrating acquisition the data from Zabbix system
+## and Route the data in output
+## Input: List of the Hosts
+## Output: Formatted JSON
+(Hosts)
+(Out)
+   (Pretty_Json)

@@ -1,0 +1,24 @@
+##
+## This is an example, of how you can push data into a stack in your queries
+##
+
+##
+## First, we pust "the answer"
+##
+(Push "ANSWER" 42) 
+
+##
+## Then we push the "wrong answer"
+##
+(Push "ANSWER" 43)  
+
+##
+## (Peek) Just printing the top of the stack, without removing any data
+##
+  (Peek) 
+
+##
+## But (Out) pull and return the data from top of the stack
+##
+    (Out)
+      (Pretty_Json)

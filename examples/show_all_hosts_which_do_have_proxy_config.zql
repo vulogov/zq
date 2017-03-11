@@ -1,0 +1,44 @@
+##
+## Example of using Filter And Merge
+##
+
+##
+## Take the list of hosts
+##
+(Hosts) 
+
+##
+## Filter them, so you include only the ones where proxy do have a value
+## Please note TRUE as parameter for the filter. Even it is not strictly required
+## For the argument-based filters, it will make parser happier
+##
+
+  (Filter TRUE [proxy_hostid Ne 0]) 
+
+##
+## So, now we do have a filtered list of the host in stack,
+## Let's merge it with Proxy configuration
+##
+
+##
+## First, we will put the list of the Proxies to stack
+##
+(Proxies) 
+
+##
+## Then merge previous data in the stack with the last one.
+## The previous were the Hosts, so if the value proxy_hostid and hostid
+## in (Hosts) and (Proxies) will be the same, the proxy value will be merged with the Host 
+## and the new value wiull be stored in the stack
+##
+  (Merge proxy_hostid proxyid)  
+
+##
+## Tak the last value from the stack. It was merged results, remember ?
+##
+(Out) 
+
+##
+## ... and run it through JSON prettification filter
+##
+  (Pretty_Json)

@@ -4,6 +4,15 @@ class ZQ_CMD_EVAL:
     def __init__(self):
         self.parser.add_argument("--traceback", action="store_true",
                                  help="Display error traceback for the LISP evaluations")
+        self.parser.add_argument("--raw", action="store_true",
+                                 help="Output result 'as-is', without extra formatting")
+        self.parser.add_argument("--no-out", action="store_true",
+                                 help="Supress the output of the query result")
+        self.parser.add_argument("--default-environment", type=str, default="default",
+                                 help="Set the default environment name")
+        self.parser.add_argument("--default-server", type=str,
+                                 help="Set the default server for the queries")
+
     def make_doc(self):
         self.doc.append(("eval", "evaluate LISP statements"))
     def HELP_EVAL(self):
@@ -13,16 +22,4 @@ Example:
     %s eval "(time.time)"
                 """%sys.argv[0]
     def EVAL(self):
-        try:
-            for s in self.args.N[1:]:
-                if self.args.v != None:
-                    prefix = color("%s "%s,"cyan")+color(" = ","yellow")
-                else:
-                    prefix = ""
-                print "%s%s"%(prefix,color(repr(self.env.EVAL(s)),"white"))
-        except:
-            self.error("Error in %s"%s)
-            if self.args.traceback:
-                exc_type, exc_value, exc_traceback = sys.exc_info()
-                traceback.print_exception(exc_type, exc_value, exc_traceback,
-                                          limit=2, file=sys.stdout)
+        self.Exec(self.env.EVAL)

@@ -165,6 +165,17 @@ def read_file_into_buffer(fname):
         buf.append(_l)
     return buf
 
+def buffer_2_list(_buffer):
+    out = []
+    for l in _buffer.split("\n"):
+        l = l.strip()
+        if len(l) == 0 or l[0] == "#":
+            continue
+        out.append(l)
+    return out
+def list_2_buffer(_list):
+    return "".join(_list)
+
 def get_directory_name(path):
     """
     Get the basename of the directory

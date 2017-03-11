@@ -1,3 +1,5 @@
+from Queue import LifoQueue
+
 class ZQ_ZBX(object):
     def __init__(self, _url, _username, _password, _name, env, _shell=None):
         self.env = env
@@ -6,7 +8,28 @@ class ZQ_ZBX(object):
         self.url = _url
         self._username = _username
         self._password = _password
-        self.value = None
+        self.zapi = None
+        self.value = LifoQueue(self.env.cfg["ZQ_MAX_PIPELINE"])
+        self.reconnect()
+    def reconnect(self):
+        self.zapi = ZabbixAPI(server=self.url)
+        self.zapi.login(user=self._username, password=self._password)
+    def pull(self):
+        try:
+            return self.value.get_nowait()
+        except:
+            return None
+    def peek(self):
+        data = self.pull()
+        self.push(data)
+        return data
+    def push(self, data):
+        try:
+            self.value.put(data)
+        except:
+            return False
+        return True
+
 
 class ZQ_SRV(UserDict.UserDict):
     def __init__(self, env=None, _shell=None, **kw):
@@ -24,20 +47,16 @@ class ZQ_SRV(UserDict.UserDict):
             self[_key] = ZQ_ZBX(_url,_username,_password,_name,self.env,self.shell)
         return self[_key]
 
-def zbx(name="default"):
+def ZBX(name="default", server="zabbix"):
     env = ENVIRONMENT(name)
-    return env
-def hosts(env, server_name=None):
-    if not server_name and env.shell != None:
-        server_name = env.shell.args.name
-    if not server_name:
-        return env
-    if not env.srv.has_key(server_name):
-        return env
-    print env.srv[server_name]
-    return env
-def items(*args):
-    print args
-    return {"not an answer": 43}
+    if not env.srv.has_key(server):
+        return None
+    return env.srv[server]
+def ZBXS(name="default"):
+    env = ENVIRONMENT(name)
+    return env.srv.data
+
+
+
 
 

@@ -1,0 +1,8 @@
+include LICENSE
+include CMakeLists.txt
+recursive-include zq *.pyx
+recursive-include zq CMakeLists.txt
+recursive-include src *.pyi
+recursive-include include *
+recursive-include cmake *
+

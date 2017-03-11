@@ -2,10 +2,11 @@ include "zq.pyx"
 include "zq_terminal.pyx"
 include "zq_query.pyx"
 include "zq_cmd.pyx"
+include "zq_cmd_exec.pyx"
 include "zq_cmd_eval.pyx"
 include "zq_cmd_query.pyx"
 
-class ZQ_SHELL(ZQ_GEN,ZQ_TERMINAL,ZQ_HELP,ZQ_CMD_EVAL,ZQ_CMD_QUERY):
+class ZQ_SHELL(ZQ_GEN,ZQ_TERMINAL,ZQ_HELP,ZQ_CMD_EVAL,ZQ_CMD_QUERY,ZQ_CMD_EXEC):
     def __init__(self):
         self.doc = []
         self.log = None

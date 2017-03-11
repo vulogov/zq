@@ -23,11 +23,18 @@ class ZQ_ENV(UserDict.UserDict):
         self.ready = self.reload()
     def reload(self):
         self.cfg = CFG(self.params)
+        self.set_defaults()
         return True
+    def set_defaults(self):
+        self.cfg["ZQ_MAX_PIPELINE"] = 100
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)
-    def QUERY(self, _q):
-        return zq_eval("(-> %s)"%_q, self, self.shell)
+    def QUERY(self, _q, default_environment="default", default_server=None):
+        if default_server != None:
+            query = '(-> (ZBX "%s" "%s") %s)'%(default_environment, default_server, _q)
+        else:
+            query = "(-> %s)" % _q
+        return zq_eval(query, self, self.shell)
 
 class ENV_CTL(UserDict.UserDict):
     def __init__(self):
