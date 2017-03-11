@@ -5,7 +5,7 @@ class ZQ_CMD_EXEC:
                 ## Hey, it is URL
                 url = urllib.FancyURLopener()
                 s = url.open(s[1:]).read().strip()
-            elif s[0] == '%':
+            elif s[0] == '+':
                 ## Hey, it is a file path
                 if not check_file_read(s[1:]):
                     return

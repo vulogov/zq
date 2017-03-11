@@ -12,8 +12,13 @@ class ZQ_ZBX(object):
         self.value = LifoQueue(self.env.cfg["ZQ_MAX_PIPELINE"])
         self.reconnect()
     def reconnect(self):
-        self.zapi = ZabbixAPI(server=self.url)
-        self.zapi.login(user=self._username, password=self._password)
+        try:
+            self.zapi = ZabbixAPI(server=self.url)
+            self.zapi.login(user=self._username, password=self._password)
+        except:
+            self.zapi = None
+            if self.shell != None:
+                self.shell.error("Can not connect to %s"%self.url)
     def pull(self):
         try:
             return self.value.get_nowait()
