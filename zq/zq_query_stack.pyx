@@ -37,7 +37,7 @@ def Until(ctx, key):
             return ctx
         if type(data) != type({}) or data.has_key(key):
             ctx.push(data)
-        return ctx
+            return ctx
 
 def Merge(ctx, dst_merge_key, merge_key=None):
     merging_data = ctx.pull()
