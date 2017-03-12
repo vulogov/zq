@@ -4,5 +4,5 @@ Zabbix Query Language is an instrument, which will permit you to send a human-fr
 
 ### Documentation
 
-Read the (ZQ Documentation)[Documentation/README.md]
+Read the [ZQ Documentation](Documentation/README.md)
 
