@@ -11,6 +11,8 @@ from hy.lex import parser, lexer
 from hy.importer import hy_eval
 from hy import HyList
 
+
+include "zq_symbols.pyx"
 include "zq_constants.pyi"
 include "zq_lib.pyx"
 include "zq_pyzabbix.pyx"

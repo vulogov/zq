@@ -1,13 +1,4 @@
 
-Eq = lambda x,y: x == y
-Ne = lambda x,y: x != y
-Gt = lambda x,y: x > y
-Gte = lambda x,y: x >= y
-Lg = lambda x,y: x < y
-Lge = lambda x,y: x <= y
-TRUE = lambda x,y: True
-FALSE = lambda x,y: False
-
 
 
 def Filter(ctx, _comparator=None, *_arg_filter, **_kw_filter):

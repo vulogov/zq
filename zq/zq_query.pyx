@@ -52,7 +52,7 @@ class ZQ_SRV(UserDict.UserDict):
             self[_key] = ZQ_ZBX(_url,_username,_password,_name,self.env,self.shell)
         return self[_key]
 
-def ZBX(name="default", server="zabbix"):
+def ZBX(ctx=None, server="zabbix", name="default"):
     env = ENVIRONMENT(name)
     if not env.srv.has_key(server):
         return None

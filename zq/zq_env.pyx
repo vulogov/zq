@@ -31,7 +31,7 @@ class ZQ_ENV(UserDict.UserDict):
         return zq_eval(_q, self, self.shell)
     def QUERY(self, _q, default_environment="default", default_server=None):
         if default_server != None:
-            query = '(-> (ZBX "%s" "%s") %s)'%(default_environment, default_server, _q)
+            query = '(-> (ZBX NONE "%s" "%s") %s)'%(default_server, default_environment, _q)
         else:
             query = "(-> %s)" % _q
         return zq_eval(query, self, self.shell)

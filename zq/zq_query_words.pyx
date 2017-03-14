@@ -1,9 +1,4 @@
-hostid="hostid"
-templateid="templateid"
-status="status"
-name="name"
-proxyid="proxyid"
-proxy_hostid="proxy_hostid"
+
 
 def Version(ctx):
     ctx.push({'VERSION': ctx.zapi.api_version()})
