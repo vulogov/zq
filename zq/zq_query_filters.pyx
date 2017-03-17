@@ -8,6 +8,11 @@ def Filter(ctx, _comparator=None, *_arg_filter, **_kw_filter):
     if type(data) != type({}):
         ctx.push(data)
         return ctx
+    if ctx.env.shell != None:
+        for _p in _arg_filter:
+            ctx.env.shell.ok("[Filter] %s"%repr(_p))
+        for _p in _kw_filter.keys():
+            ctx.env.shell.ok("{Filter} %s->%s->%s" % (_p, repr(_comparator), repr(_kw_filter[_p])))
     new_data = {}
     for k in data.keys():
         new_data[k] = []

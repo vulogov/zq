@@ -1,5 +1,4 @@
-def Value(ctx_or_data_no_matter_will_be_ignored, val):
-    return val
+
 
 def F(ctx, *_arg_filter, **_kw_filter):
     """

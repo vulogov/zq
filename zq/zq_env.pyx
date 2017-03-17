@@ -34,6 +34,9 @@ class ZQ_ENV(UserDict.UserDict):
             query = '(-> (ZBX NONE "%s" "%s") %s)'%(default_server, default_environment, _q)
         else:
             query = "(-> %s)" % _q
+
+        if self.shell != None:
+            self.shell.ok("Translated query: %s"%query)
         return zq_eval(query, self, self.shell)
 
 class ENV_CTL(UserDict.UserDict):

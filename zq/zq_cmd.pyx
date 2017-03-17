@@ -41,6 +41,7 @@ class ZQ_GEN(object):
                 self.error(err_msg%b.__name__)
                 sys.exit(98)
     def preflight(self):
+        global ENV
         try:
             import humanfriendly
         except ImportError:
@@ -58,6 +59,9 @@ class ZQ_GEN(object):
         self.main_preflight()
         if self.args.banner:
             self.banner()
+        for e in ENV.keys():
+            for s in ENV[e].srv.keys():
+                self.ok("ENV: %s Server: %s - %s"%(e,s,ENV[e].srv[s].url))
         if len(self.args.N) == 0:
             self.error("You did not specified the command. Please run %s help"%sys.argv[0])
             self.ready = False

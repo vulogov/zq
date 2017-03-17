@@ -7,6 +7,7 @@ Lge = lambda x,y: x <= y
 TRUE = lambda x,y: True
 FALSE = lambda x,y: False
 NONE = None
+NEW = None
 
 
 hostid="hostid"

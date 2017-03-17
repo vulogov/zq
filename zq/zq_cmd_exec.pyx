@@ -12,6 +12,8 @@ class ZQ_CMD_EXEC:
                 s = open(s[1:]).read()
             s = list_2_buffer(buffer_2_list(s))
             a = tuple([s,]+list(args))
+            if self.env.shell != None:
+                self.env.shell.ok("%s: %s"%(_callable.__name__, s))
             res = apply(_callable, a, {})
             if self.args.v != None or not self.args.raw:
                 prefix = color("%s"%s,"cyan")+color(" = ","yellow")
