@@ -52,7 +52,7 @@ class ZQ_GEN(object):
         return True
     def process(self):
         self.args = self.parser.parse_args()
-        print self.args
+        #print self.args
         self._call_hiera("make_doc", "Error creating documentation in %s")
         self.env = ZQ_ENV(self)
         ENVIRONMENT(self.args.default_environment,self.env)

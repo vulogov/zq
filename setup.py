@@ -57,7 +57,7 @@ setup(
     name = "zq",
     version = '0.1',
     description = 'ZQL - Zabbix Query Language',
-    install_requires = ["msgpack-python", "simplejson", "hy", "pyfiglet",
+    install_requires = ["cython", "msgpack-python", "simplejson", "hy", "pyfiglet",
                 "gevent", "json", "termcolor", "humanfriendly"],
     requires = [],
     include_package_data = True,
