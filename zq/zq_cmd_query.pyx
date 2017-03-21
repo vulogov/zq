@@ -7,6 +7,11 @@ class ZQ_CMD_QUERY:
             self.MAX_PIPELINE = int(get_from_env("ZQ_MAX_PIPELINE", default="100"))
         except:
             self.MAX_PIPELINE = 100
+        try:
+            self.MAX_ENVSTACK = int(get_from_env("ZQ_MAX_ENV_STACK", default="100"))
+        except:
+            self.MAX_ENVSTACK = 100
+
         self.parser.add_argument("--url", type=str, default=self.URL,
                                  help="Zabbix server URL")
         self.parser.add_argument("--user", "-U", type=str, default=self.USER,
@@ -17,10 +22,14 @@ class ZQ_CMD_QUERY:
                                  help="Zabbix name")
         self.parser.add_argument("--max-query-pipeline", type=int, default=self.MAX_PIPELINE,
                                  help="Maximum number of elements in the query pipeline")
+        self.parser.add_argument("--max-env-stack", type=int, default=self.MAX_ENVSTACK,
+                                 help="Maximum number of elements in the query pipeline")
 
     def preflight(self):
         self.env.srv.addServer(self.args.url, self.args.user, self.args.password, self.args.name)
         self.env.cfg["ZQ_MAX_PIPELINE"] = self.args.max_query_pipeline
+        self.env.cfg["ZQ_MAX_ENV_STACK"] = self.args.max_env_stack
+
     def make_doc(self):
         self.doc.append(("query", "Send query to Zabbix"))
     def HELP_QUERY(self):

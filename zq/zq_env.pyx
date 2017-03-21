@@ -30,6 +30,7 @@ class ZQ_ENV(UserDict.UserDict):
         return True
     def set_defaults(self):
         self.cfg["ZQ_MAX_PIPELINE"] = 100
+        self.cfg["ZQ_MAX_ENV_STACK"] = 100
         self.cfg["ZQ_UNSAFE_GLOBALS"] = False
         self.registerGlobals("Ne", Ne)
         self.registerGlobals("Eq", Eq)

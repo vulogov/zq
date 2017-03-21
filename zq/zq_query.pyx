@@ -10,6 +10,7 @@ class ZQ_ZBX(object):
         self._password = _password
         self.zapi = None
         self.value = LifoQueue(self.env.cfg["ZQ_MAX_PIPELINE"])
+        self.envs = LifoQueue(self.env.cfg["ZQ_MAX_ENV_STACK"])
         self.reconnect()
     def reconnect(self):
         try:
@@ -31,6 +32,17 @@ class ZQ_ZBX(object):
     def push(self, data):
         try:
             self.value.put(data)
+        except:
+            return False
+        return True
+    def ctx_pull(self):
+        try:
+            return self.envs.get_nowait()
+        except:
+            return None
+    def ctx_push(self, _env):
+        try:
+            self.envs.put(_env)
         except:
             return False
         return True
@@ -56,6 +68,8 @@ def ZBX(ctx=None, server="zabbix", name="default"):
     env = ENVIRONMENT(name)
     if not env.srv.has_key(server):
         return None
+    if ctx == "PULL":
+        env.ctx_pull()
     return env.srv[server]
 def ZBXS(name="default"):
     env = ENVIRONMENT(name)
