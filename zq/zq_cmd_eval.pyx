@@ -12,7 +12,11 @@ class ZQ_CMD_EVAL:
                                  help="Set the default environment name")
         self.parser.add_argument("--default-server", type=str,
                                  help="Set the default server for the queries")
+        self.parser.add_argument("--unsafe-globals", action="store_true",
+                                 help="Use unsafe globals")
 
+    def preflight(self):
+        self.env.cfg["ZQ_UNSAFE_GLOBALS"] = self.args.unsafe_globals
     def make_doc(self):
         self.doc.append(("eval", "evaluate LISP statements"))
     def HELP_EVAL(self):
