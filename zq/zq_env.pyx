@@ -29,6 +29,8 @@ class ZQ_ENV(UserDict.UserDict):
         self.set_defaults()
         return True
     def set_defaults(self):
+        self.cfg["ZQ_HOME"] = "/tmp"
+        self.cfg["ZQ_ENV_NAME"] = "default"
         self.cfg["ZQ_MAX_PIPELINE"] = 100
         self.cfg["ZQ_MAX_ENV_STACK"] = 100
         self.cfg["ZQ_UNSAFE_GLOBALS"] = False

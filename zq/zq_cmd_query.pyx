@@ -3,6 +3,7 @@ class ZQ_CMD_QUERY:
         self.URL = get_from_env("ZQ_URL", default="http://127.0.0.1/zabbix")
         self.USER = get_from_env("ZQ_USER", default="Admin")
         self.PASS = get_from_env("ZQ_PASS", default="zabbix")
+        self.ZQ_CFG = get_from_env("ZQ_CFG", default=None)
         try:
             self.MAX_PIPELINE = int(get_from_env("ZQ_MAX_PIPELINE", default="100"))
         except:
@@ -12,6 +13,8 @@ class ZQ_CMD_QUERY:
         except:
             self.MAX_ENVSTACK = 100
 
+        self.parser.add_argument("--config", "-c", type=str, default=self.ZQ_CFG,
+                                 help="Path to the servers configuration file")
         self.parser.add_argument("--url", type=str, default=self.URL,
                                  help="Zabbix server URL")
         self.parser.add_argument("--user", "-U", type=str, default=self.USER,
@@ -26,9 +29,21 @@ class ZQ_CMD_QUERY:
                                  help="Maximum number of elements in the query pipeline")
 
     def preflight(self):
-        self.env.srv.addServer(self.args.url, self.args.user, self.args.password, self.args.name)
+        if self.args.config != None:
+            self.ok("Attempting to load %s"%self.args.config)
+            cfg_file = "%s/%s"%(self.env.cfg["ZQ_ENV_PATH"], self.args.config)
+            self.ok("Loading from %s"%cfg_file)
+            cfg = load_config_file(cfg_file)
+            if cfg == None:
+                self.error("Configuration file %s can not be loaded"%self.args.config)
+                return False
+            for s in cfg:
+                self.env.srv.addServer(s["url"],s["username"],s["password"],s["name"])
+        else:
+            self.env.srv.addServer(self.args.url, self.args.user, self.args.password, self.args.name)
         self.env.cfg["ZQ_MAX_PIPELINE"] = self.args.max_query_pipeline
         self.env.cfg["ZQ_MAX_ENV_STACK"] = self.args.max_env_stack
+        return True
 
     def make_doc(self):
         self.doc.append(("query", "Send query to Zabbix"))
