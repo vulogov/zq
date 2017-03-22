@@ -68,6 +68,8 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Peek", Peek)
         self.registerGlobals("Until", Until)
         self.registerGlobals("Swap", Swap)
+        self.registerGlobals("Setv", Setv)
+        self.registerGlobals("Getv", Getv)
         self.registerGlobals("Merge", Merge)
         self.registerGlobals("Out", Out)
         self.registerGlobals("File", File)

@@ -24,6 +24,16 @@
 ### ZQL Language core
 
 * New "word" (Swap ...) Will swap two elements in the stack.
+* New "word" (Setv <name> <value>) Will set the variable with <name> and the value <value> in the query/eval context. Will return ctx
+* New "word" (Getv <name>) Behaving similarly to the (Out) but breaking context word chain and return the value of the variable from the query/eval context
+Example:
+```bash
+zql query "(ZBX) (Setv \"Answer\" 42) (Getv \"Answer\")"
+```
+Will return
+```bash
+(ZBX) (Setv "Answer" 42) (Getv "Answer") = 42L
+```
 
 Example:
 ```bash
