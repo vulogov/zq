@@ -9,8 +9,6 @@
 2. _@URL_ . URL's must be prepended with an '@';
 3. _+/path/to/the/file_ References to the files can be prepended with '+'.
 
-
-
 ### ZQ module
 
 * ZQ Environment supported safe (default) and unsafe (globals()) execution context dictionaries
@@ -22,6 +20,20 @@
 * --config/-c parameter. If passed if will point on Zabbix Servers configuration file and servers configuration will be loaded from that file, instead of defined by --url/--username/--password in command line
 * --home/-H parameter. Reference to the location of the configuration file. The path to the file will be defined by {HOME}/{DEFAULT-ENVIRONMENT}/{CONFIG}. 
 * --max-env-stack parameter. Maximum size of the context stack.
+
+### ZQL Language core
+
+* New "word" (Swap ...) Will swap two elements in the stack.
+
+Example:
+```bash
+zql query "(ZBX) (Push \"V\" {\"a\" 41}) (Push \"V\" {\"b\" 42}) (Swap) (Out)"
+```
+Will output:
+```bash
+(ZBX) (Push "V" {"a" 41}) (Push "V" {"b" 42}) (Swap) (Out) = {u'V': {u'a': 41L}}
+```
+
 
 ## Updated features
 

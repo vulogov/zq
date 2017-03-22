@@ -65,9 +65,7 @@ class ZQ_GEN(object):
         else:
             pass
         if not check_reference_read(self.env.cfg["ZQ_ENV_PATH"], True):
-            self.error("Configuration HOME %s can not be accessed"%self.env.cfg["ZQ_ENV_PATH"])
-            return False
-
+            self.warning("Configuration HOME %s can not be accessed"%self.env.cfg["ZQ_ENV_PATH"])
         else:
             self.ok("Configuration HOME set to %s"%self.env.cfg["ZQ_ENV_PATH"])
         return True
