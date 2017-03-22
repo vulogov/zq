@@ -43,6 +43,15 @@ Will output:
 ```bash
 (ZBX) (Push "V" {"a" 41}) (Push "V" {"b" 42}) (Swap) (Out) = {u'V': {u'a': 41L}}
 ```
+* New "word" (Dup) Will duplicate the value on top of the stack.
+```bash
+zbx query "(ZBX) (Push \"Answer\" {\"answer\" 42}) (Dup) (Drop) (Out)"
+```
+Will return
+```bash
+(ZBX) (Push "Answer" {"answer" 42}) (Dup) (Drop) (Out) = {u'Answer': {u'answer': 42L}}
+```
+First, we push the value to the stack, then duplicate it, then dropping value and (Out) will take a copy of the origibal value from the stack
 
 
 ## Updated features
