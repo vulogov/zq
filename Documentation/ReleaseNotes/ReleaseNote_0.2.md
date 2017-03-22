@@ -1,4 +1,4 @@
-# Release Note for <insert release version>
+# Release Note for 0.2
 
 ## New features
 
