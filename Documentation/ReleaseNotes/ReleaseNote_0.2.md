@@ -1,4 +1,4 @@
-# Release Note for 0.2
+# Release Note for 0.2 RC1
 
 ## New features
 
