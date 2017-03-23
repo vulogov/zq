@@ -4,6 +4,7 @@ class ZQ_CMD_QUERY:
         self.USER = get_from_env("ZQ_USER", default="Admin")
         self.PASS = get_from_env("ZQ_PASS", default="zabbix")
         self.ZQ_CFG = get_from_env("ZQ_CFG", default=None)
+        self.SENDER = get_from_env("ZQ_SENDER", default="127.0.0.1")
         try:
             self.MAX_PIPELINE = int(get_from_env("ZQ_MAX_PIPELINE", default="100"))
         except:
@@ -12,11 +13,18 @@ class ZQ_CMD_QUERY:
             self.MAX_ENVSTACK = int(get_from_env("ZQ_MAX_ENV_STACK", default="100"))
         except:
             self.MAX_ENVSTACK = 100
-
+        try:
+            self.SENDER_PORT = int(get_from_env("ZQ_SENDER_PORT", default="10051"))
+        except:
+            self.MAX_ENVSTACK = 10051
         self.parser.add_argument("--config", "-c", type=str, default=self.ZQ_CFG,
                                  help="Path to the servers configuration file")
         self.parser.add_argument("--url", type=str, default=self.URL,
                                  help="Zabbix server URL")
+        self.parser.add_argument("--sender", type=str, default=self.SENDER,
+                                 help="IP address for the Zabbix Sender Protocol")
+        self.parser.add_argument("--sender-port", type=int, default=self.SENDER_PORT,
+                                 help="Maximum number of elements in the query pipeline")
         self.parser.add_argument("--user", "-U", type=str, default=self.USER,
                                  help="Zabbix User")
         self.parser.add_argument("--password", type=str, default=self.PASS,
@@ -38,9 +46,9 @@ class ZQ_CMD_QUERY:
                 self.error("Configuration file %s can not be loaded"%self.args.config)
                 return False
             for s in cfg:
-                self.env.srv.addServer(s["url"],s["username"],s["password"],s["name"])
+                self.env.srv.addServer(s["url"],s["username"],s["password"],s["name"],s["sender"],s["sender_port"])
         else:
-            self.env.srv.addServer(self.args.url, self.args.user, self.args.password, self.args.name)
+            self.env.srv.addServer(self.args.url, self.args.user, self.args.password, self.args.name, self.args.sender, self.args.sender_port)
         self.env.cfg["ZQ_MAX_PIPELINE"] = self.args.max_query_pipeline
         self.env.cfg["ZQ_MAX_ENV_STACK"] = self.args.max_env_stack
         return True

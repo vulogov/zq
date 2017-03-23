@@ -20,6 +20,8 @@
 * --config/-c parameter. If passed if will point on Zabbix Servers configuration file and servers configuration will be loaded from that file, instead of defined by --url/--username/--password in command line
 * --home/-H parameter. Reference to the location of the configuration file. The path to the file will be defined by {HOME}/{DEFAULT-ENVIRONMENT}/{CONFIG}. 
 * --max-env-stack parameter. Maximum size of the context stack.
+* --sender parameter. IP address of the Zabbix Trapper
+* --sender-port parameter. IP address of the Zabbix Trapper
 
 ### ZQL Language core
 
@@ -56,6 +58,9 @@ First, we push the value to the stack, then duplicate it, then dropping value an
 
 ## Updated features
 
-*
+### ZQ Module
+
+* Preparation for the support for the Zabbix Sender protocol
+
 
 ## Removed features

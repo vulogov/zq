@@ -1,13 +1,15 @@
 from Queue import LifoQueue
 
 class ZQ_ZBX(object):
-    def __init__(self, _url, _username, _password, _name, env, _shell=None):
+    def __init__(self, _url, _username, _password, _name, _sender, _sender_port, env, _shell=None):
         self.env = env
         self.shell = _shell
         self.name = _name
         self.url = _url
         self._username = _username
         self._password = _password
+        self.sender = _sender
+        self.sender_port = _sender_port
         self.zapi = None
         self.value = LifoQueue(self.env.cfg["ZQ_MAX_PIPELINE"])
         self.envs = LifoQueue(self.env.cfg["ZQ_MAX_ENV_STACK"])
@@ -55,13 +57,13 @@ class ZQ_SRV(UserDict.UserDict):
         self.shell = _shell
         self.ready = False
         self.params = kw
-    def addServer(self, _url, _username, _password, _name=None):
+    def addServer(self, _url, _username, _password, _name, _sender, _sender_port):
         if not _name:
             _key = _url
         else:
             _key = _name
         if _key not in self.keys():
-            self[_key] = ZQ_ZBX(_url,_username,_password,_name,self.env,self.shell)
+            self[_key] = ZQ_ZBX(_url,_username,_password,_name,_sender, _sender_port, self.env,self.shell)
         return self[_key]
 
 def ZBX(ctx=None, server="zabbix", name="default"):
