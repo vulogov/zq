@@ -83,6 +83,9 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("File", File)
         self.registerGlobals("Json", Json)
         self.registerGlobals("Pretty_Json", Pretty_Json)
+        self.registerGlobals("Status", Status)
+        self.registerGlobals("Result", Result)
+        self.registerGlobals("Group", Group)
         ##
         self.registerGlobals("GET", GET)
         self.registerGlobals("CREATE", CREATE)

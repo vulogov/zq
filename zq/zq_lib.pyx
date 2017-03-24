@@ -328,3 +328,20 @@ def print_dict(_shell, _dict):
         return
     for i in _dict.keys():
         _shell.ok(": %-25s : %-50s ;"%(i,repr(_dict[i])))
+
+def extract_key_from_info(_info, main_key, search_key):
+    res = []
+    if not _info.has_key(main_key):
+        return res
+    if type(_info[main_key]) != types.ListType:
+        return res
+    for d in _info[main_key]:
+        if type(d) == types.DictType and d.has_key(search_key):
+            res.append(d[search_key])
+    return res
+
+def list2listofdicts(_list, key):
+    out = []
+    for i in _list:
+        out.append({key: i})
+    return out
