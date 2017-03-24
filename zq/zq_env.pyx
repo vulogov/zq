@@ -44,9 +44,15 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("FALSE", FALSE)
         self.registerGlobals("NONE", NONE)
         self.registerGlobals("NEW", NEW)
+        self.registerGlobals("T", T)
+        self.registerGlobals("F", F)
         ##
         self.registerGlobals("hostid", hostid)
+        self.registerGlobals("hostids", hostids)
         self.registerGlobals("templateid", templateid)
+        self.registerGlobals("templateids", templateids)
+        self.registerGlobals("groupid", groupid)
+        self.registerGlobals("groupids", groupids)
         self.registerGlobals("status", status)
         self.registerGlobals("name", name)
         self.registerGlobals("proxyid", proxyid)
@@ -76,6 +82,14 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("File", File)
         self.registerGlobals("Json", Json)
         self.registerGlobals("Pretty_Json", Pretty_Json)
+        ##
+        self.registerGlobals("GET", GET)
+        self.registerGlobals("CREATE", CREATE)
+        self.registerGlobals("DELETE", DELETE)
+        self.registerGlobals("UPDATE", UPDATE)
+        self.registerGlobals("limit", limit)
+        self.registerGlobals("filter", filter)
+        self.registerGlobals("name", name)
 
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)

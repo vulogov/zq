@@ -322,3 +322,9 @@ def check_reference_read(_ref, _dir=False):
         return check_directory(_ref)
     else:
         return check_file_read(_ref)
+
+def print_dict(_shell, _dict):
+    if _shell == None:
+        return
+    for i in _dict.keys():
+        _shell.ok(": %-25s : %-50s ;"%(i,repr(_dict[i])))
