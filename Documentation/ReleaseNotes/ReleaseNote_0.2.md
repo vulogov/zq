@@ -13,6 +13,28 @@
 
 * ZQ Environment supported safe (default) and unsafe (globals()) execution context dictionaries
 * ZQ Environment supports LIFO stack of the environments
+* New symbols:
+1. T - resolved to 1
+2. F - resolved to 0
+3. groupid
+4. groupids
+5. templateid
+6. templateids
+7. hostid
+8. hostids
+9. GET
+10. CREATE
+11. UPDATE
+12. DELETE
+* New comparator function to use in (Filter...) - (Match ...). In version 0.2 it is matched value against shell-like pattern.
+Example query:
+```bash
+(ZBX) (Hostgroups) (Filter TRUE ["name" Match "Prod*"]) (Out)
+```
+will filter the hostgroup, which name matching the pattern "Prod*"
+
+
+Those symbols has been added just to make queries "more visual"
 
 ### ZQL CLI tool
 
@@ -61,6 +83,16 @@ First, we push the value to the stack, then duplicate it, then dropping value an
 ### ZQ Module
 
 * Preparation for the support for the Zabbix Sender protocol
+* Changed the arguments for the (Hostgroups ...), now you can pass the following arguments: GET (default and only one implemented in 0.2), UPDATE, CREATE, DELETE, the keywords arguments will be passed to the hostgroups.get as is.
+
+Example query:
+```bash
+(ZBX) (Hostgroups GET :output "extend" :selectHosts T) (Out)
+```
+
+Will return the list of the hostgroups, which do have the hosts added to them.
 
 
 ## Removed features
+
+* Symbol name

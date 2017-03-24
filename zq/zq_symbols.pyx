@@ -4,6 +4,14 @@ Gt = lambda x,y: x > y
 Gte = lambda x,y: x >= y
 Lg = lambda x,y: x < y
 Lge = lambda x,y: x <= y
+
+def Match(x,y):
+    import re,fnmatch
+    if fnmatch.fnmatch(x,y) == True:
+        return True
+    else:
+        return False
+
 TRUE = lambda x,y: True
 FALSE = lambda x,y: False
 T = 1
@@ -31,7 +39,6 @@ proxy_hostid="proxy_hostid"
 ## Action codes and symbols
 limit="limit"
 filter="filter"
-name="name"
 extend="extend"
 GET=0
 CREATE=1

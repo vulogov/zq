@@ -46,6 +46,8 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("NEW", NEW)
         self.registerGlobals("T", T)
         self.registerGlobals("F", F)
+        self.registerGlobals("Match", Match)
+
         ##
         self.registerGlobals("hostid", hostid)
         self.registerGlobals("hostids", hostids)
@@ -54,7 +56,6 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("groupid", groupid)
         self.registerGlobals("groupids", groupids)
         self.registerGlobals("status", status)
-        self.registerGlobals("name", name)
         self.registerGlobals("proxyid", proxyid)
         self.registerGlobals("proxy_hostid", proxy_hostid)
         ##
@@ -89,7 +90,6 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("UPDATE", UPDATE)
         self.registerGlobals("limit", limit)
         self.registerGlobals("filter", filter)
-        self.registerGlobals("name", name)
 
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)
