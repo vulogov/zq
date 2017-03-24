@@ -46,6 +46,13 @@ Example query:
 
 will link all hosts to the Hostgroup "Boo"
 
+* New grouping "word" (Ungroup). This "word" will reverse effect of the (Group)
+Example query:
+```bash
+(ZBX) (Hostgroups) (Filter TRUE ["name" Eq "Boo"]) (Hosts) (Ungroup) (Result) (Out)
+```
+This query will ungroup all hosts from the Hostgroup "Boo"
+
 * New "word" (Status *args, *keywords). This "word" will push the status objject into the Stack. The status object contains the information ether previous "word" finished succesfully or not. The result of the (Status) can be analyzed by use of the (Result). This "word" is mainly intended to be used inside other words in Python code, but you can use it in the query if needed.
 * New "word" (Result). This word will pick-up from the stack status left previously by (Status) called ether directly or from the "words" code and will print the message from the status and push True or False into the stack (whatever (Status) provides). If you'll call (Result :die TRUE), then the whole application will exit if query is failed.
 

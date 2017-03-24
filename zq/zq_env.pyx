@@ -86,6 +86,8 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Status", Status)
         self.registerGlobals("Result", Result)
         self.registerGlobals("Group", Group)
+        self.registerGlobals("Ungroup", Ungroup)
+
         ##
         self.registerGlobals("GET", GET)
         self.registerGlobals("CREATE", CREATE)

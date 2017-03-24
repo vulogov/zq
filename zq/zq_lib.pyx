@@ -345,3 +345,10 @@ def list2listofdicts(_list, key):
     for i in _list:
         out.append({key: i})
     return out
+
+def listofdict2list(_list, _key):
+    out = []
+    for i in _list:
+        if i.has_key(_key):
+            out.append(i[_key])
+    return out
