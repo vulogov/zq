@@ -1,0 +1,14 @@
+[
+  {
+    "name": "zabbix",
+    "url": "http://192.168.101.23/zabbix",
+    "username": "Admin",
+    "password": "zabbix"
+  },
+  {
+    "name": "zabbix2",
+    "url": "http://192.168.101.23/zabbix",
+    "username": "Admin",
+    "password": "zabbix"
+  }
+]

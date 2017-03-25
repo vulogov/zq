@@ -9,8 +9,8 @@ class _NullHandler(logging.Handler):
         pass
 
 logger = logging.getLogger(__name__)
-logger.addHandler(_NullHandler())
-
+#logger.addHandler(_NullHandler())
+logger.addHandler(logging.StreamHandler())
 
 class ZabbixAPIException(Exception):
     """ generic zabbix api exception
@@ -103,6 +103,9 @@ class ZabbixAPI(object):
         logger.debug("Sending: %s", json.dumps(request_json,
                                                indent=4,
                                                separators=(',', ': ')))
+        #print json.dumps(request_json,
+        #                    indent=4,
+        #                    separators=(',', ': '))
         response = self.session.post(
             self.url,
             data=json.dumps(request_json),

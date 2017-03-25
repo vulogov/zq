@@ -6,8 +6,14 @@ class ZQ_GEN(object):
     def __init__(self, _desc, _epilog):
         self.epilog = _epilog + ". Type: %s help for the general help"%sys.argv[0]
         self.BANNER="GENERIC"
+        try:
+            self.ZQ_HOME = get_from_env("ZQ_HOME", default="%s/.zq"%os.environ["HOME"])
+        except:
+            self.ZQ_HOME = "/tmp"
         self.parser = argparse.ArgumentParser(prog='zql', description=_desc, epilog=self.epilog)
         self.parser.add_argument("--banner", action="store_true", help="Display banner during start")
+        self.parser.add_argument("--home", "-H", type=str, default=self.ZQ_HOME,
+                                 help="Path to the default home directory or URL")
         self.parser.add_argument('N', metavar='N', type=str, nargs='*',
                                  help='Parameters')
         self.ready = True
@@ -49,6 +55,19 @@ class ZQ_GEN(object):
         if self.env.ready != True:
             self.ready = False
             return False
+        self.env.cfg["ZQ_HOME"] = self.args.home
+        self.env.cfg["ZQ_ENV_NAME"] = self.args.default_environment
+        self.env.cfg["ZQ_ENV_PATH"] = "%s/%s/"%(self.env.cfg["ZQ_HOME"], self.env.cfg["ZQ_ENV_NAME"])
+        if self.env.cfg["ZQ_ENV_PATH"] == "+":
+            self.env.cfg["ZQ_ENV_PATH"] = "+" + posixpath.abspath(self.env.cfg["ZQ_ENV_PATH"][1:])
+        elif self.env.cfg["ZQ_ENV_PATH"] != "@":
+            self.env.cfg["ZQ_ENV_PATH"] = "+" + posixpath.abspath(self.env.cfg["ZQ_ENV_PATH"])
+        else:
+            pass
+        if not check_reference_read(self.env.cfg["ZQ_ENV_PATH"], True):
+            self.warning("Configuration HOME %s can not be accessed"%self.env.cfg["ZQ_ENV_PATH"])
+        else:
+            self.ok("Configuration HOME set to %s"%self.env.cfg["ZQ_ENV_PATH"])
         return True
     def process(self):
         self.args = self.parser.parse_args()

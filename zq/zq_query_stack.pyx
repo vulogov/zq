@@ -14,6 +14,27 @@ def F(ctx, *_arg_filter, **_kw_filter):
         ctx.push({'FILTER': {'TYPE':_key, 'FILTER': _f}})
     return ctx
 
+def Dup(ctx):
+    import copy
+    p1 = ctx.pull()
+    if not p1:
+        return ctx
+    p2 = copy.deepcopy(p1)
+    ctx.push(p2)
+    ctx.push(p1)
+    return ctx
+def Swap(ctx):
+    p1 = ctx.pull()
+    if not p1:
+        return ctx
+    p2 = ctx.pull()
+    if not p2:
+        ctx.push(p1)
+        return ctx
+    ctx.push(p1)
+    ctx.push(p2)
+    return ctx
+
 def Drop(ctx):
     ctx.pull()
     return ctx

@@ -280,4 +280,75 @@ def string_to_quoted_expr(s):
     return HyList(parser.parse(lexer.lex(s)))
 
 def zq_eval(_line, env=None, _shell=None):
-    return hy_eval(string_to_quoted_expr(_line), globals(), 'zq')[0]
+    if env != None and not env.cfg["ZQ_UNSAFE_GLOBALS"]:
+        if _shell != None:
+            _shell.ok("Using safe globals")
+        e = env.Globals
+    else:
+        if _shell != None:
+            _shell.warning("Using unsafe globals")
+        e = globals()
+    return hy_eval(string_to_quoted_expr(_line), e, 'zq')[0]
+
+def load_file_from_the_reference(_ref):
+    if _ref[0] == "+":
+        ## This is a file path
+        _ref = _ref[1:]
+        if not check_file_read(_ref):
+            return None
+        return open(_ref).read()
+    elif _ref[0] == "@":
+        ## This is URL
+        _ref = _ref[1:]
+        try:
+            url = urllib.FancyURLopener()
+            s = url.open(_ref).read().strip()
+            url.close()
+        except:
+            return None
+        finally:
+            return s
+    else:
+        ## Return the value as is
+        return _ref
+
+def check_reference_read(_ref, _dir=False):
+    if _ref[0] == "@":
+        ## In 0.2 we do not know how to check URL references
+        return True
+    if _ref[0] == "+":
+        _ref = _ref[1:]
+    if _dir:
+        return check_directory(_ref)
+    else:
+        return check_file_read(_ref)
+
+def print_dict(_shell, _dict):
+    if _shell == None:
+        return
+    for i in _dict.keys():
+        _shell.ok(": %-25s : %-50s ;"%(i,repr(_dict[i])))
+
+def extract_key_from_info(_info, main_key, search_key):
+    res = []
+    if not _info.has_key(main_key):
+        return res
+    if type(_info[main_key]) != types.ListType:
+        return res
+    for d in _info[main_key]:
+        if type(d) == types.DictType and d.has_key(search_key):
+            res.append(d[search_key])
+    return res
+
+def list2listofdicts(_list, key):
+    out = []
+    for i in _list:
+        out.append({key: i})
+    return out
+
+def listofdict2list(_list, _key):
+    out = []
+    for i in _list:
+        if i.has_key(_key):
+            out.append(i[_key])
+    return out

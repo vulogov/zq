@@ -55,13 +55,13 @@ with open('README.txt') as file:
 
 setup(
     name = "zq",
-    version = '0.1',
+    version = '0.2',
     description = 'ZQL - Zabbix Query Language',
     install_requires = ["cython", "msgpack-python", "simplejson", "hy", "pyfiglet",
                 "gevent", "json", "termcolor", "humanfriendly"],
     requires = [],
     include_package_data = True,
-    url = 'https://github.com/vulogov/zql/',
+    url = 'https://github.com/vulogov/zq/',
     author='Vladimir Ulogov',
     author_email = 'vladimir.ulogov@me.com',
     maintainer_email = 'vladimir.ulogov@me.com',
