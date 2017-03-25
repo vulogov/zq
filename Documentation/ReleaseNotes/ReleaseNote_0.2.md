@@ -22,10 +22,7 @@
 6. templateids
 7. hostid
 8. hostids
-9. GET
-10. CREATE
-11. UPDATE
-12. DELETE
+
 
 Those symbols has been added just to make queries "more visual"
 
@@ -104,11 +101,11 @@ First, we push the value to the stack, then duplicate it, then dropping value an
 ### ZQ Module
 
 * Preparation for the support for the Zabbix Sender protocol
-* Changed the arguments for the (Hostgroups ...), now you can pass the following arguments: GET (default and only one implemented in 0.2), UPDATE, CREATE, DELETE, the keywords arguments will be passed to the hostgroups.get as is.
+* Changed the arguments for the (Hostgroups ...), now you can pass the keywords arguments and they will be passed to the hostgroups.get as is.
 
 Example query:
 ```bash
-(ZBX) (Hostgroups GET :output "extend" :selectHosts T) (Out)
+(ZBX) (Hostgroups  :output "extend" :selectHosts T) (Out)
 ```
 
 Will return the list of the hostgroups, which do have the hosts added to them.
