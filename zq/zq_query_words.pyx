@@ -12,15 +12,10 @@ def Interfaces(ctx):
     ctx.push({'INTERFACES': ctx.zapi.hostinterface.get()})
     return ctx
 
-def Hostgroups(ctx, _action=GET, **kw):
-    if _action == GET:
-        res = apply(ctx.zapi.hostgroup.get, (), kw)
-        ctx.push({'HOSTGROUPS': res})
-    else:
-        return ctx
+def Hostgroups(ctx, **kw):
+    res = apply(ctx.zapi.hostgroup.get, (), kw)
+    ctx.push({'HOSTGROUPS': res})
     return ctx
-
-
 
 
 def Templates(ctx):
