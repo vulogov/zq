@@ -5,22 +5,28 @@ def Version(ctx):
     return ctx
 
 def Hosts(ctx, **kw):
-    ctx.push({'HOST': ctx.zapi.host.get()})
+    try:
+        res = apply(ctx.zapi.host.get, (), kw)
+        ctx.push({'HOST': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Hosts) query to Zabbix")
+        return ctx
     return ctx
 
 def Interfaces(ctx):
     ctx.push({'INTERFACES': ctx.zapi.hostinterface.get()})
     return ctx
 
-def Hostgroups(ctx, _action=GET, **kw):
-    if _action == GET:
+def Hostgroups(ctx, **kw):
+    try:
         res = apply(ctx.zapi.hostgroup.get, (), kw)
         ctx.push({'HOSTGROUPS': res})
-    else:
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Hostgroups) query to Zabbix")
         return ctx
     return ctx
-
-
 
 
 def Templates(ctx):
