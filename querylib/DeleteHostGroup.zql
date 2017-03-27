@@ -1,0 +1,7 @@
+## This Query will delete the single Hostgroup
+## Accepting following keyword parameters:
+##     name = <name of the hostgroup>
+## Returns:
+##     True/False and leave the stack as it were before the call
+
+(Hostgroups) (Filter TRUE ["name" Eq "$name"]) (Delete) (Result) (Out)

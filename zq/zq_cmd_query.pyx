@@ -5,6 +5,7 @@ class ZQ_CMD_QUERY:
         self.PASS = get_from_env("ZQ_PASS", default="zabbix")
         self.ZQ_CFG = get_from_env("ZQ_CFG", default=None)
         self.SENDER = get_from_env("ZQ_SENDER", default="127.0.0.1")
+        self.REFBASE = get_from_env("ZQ_REF_BASE", default="+.")
         try:
             self.MAX_PIPELINE = int(get_from_env("ZQ_MAX_PIPELINE", default="100"))
         except:
@@ -35,6 +36,8 @@ class ZQ_CMD_QUERY:
                                  help="Maximum number of elements in the query pipeline")
         self.parser.add_argument("--max-env-stack", type=int, default=self.MAX_ENVSTACK,
                                  help="Maximum number of elements in the query pipeline")
+        self.parser.add_argument("--ref-base", type=str, default=self.REFBASE,
+                                 help="Default base for all Zabbix Query load as column-separated list of the references")
 
     def preflight(self):
         if self.args.config != None:
@@ -51,6 +54,7 @@ class ZQ_CMD_QUERY:
             self.env.srv.addServer(self.args.url, self.args.user, self.args.password, self.args.name, self.args.sender, self.args.sender_port)
         self.env.cfg["ZQ_MAX_PIPELINE"] = self.args.max_query_pipeline
         self.env.cfg["ZQ_MAX_ENV_STACK"] = self.args.max_env_stack
+        self.env.cfg["ZQ_REF_BASE"] = split_list(self.args.ref_base, ":")
         return True
 
     def make_doc(self):

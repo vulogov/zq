@@ -8,6 +8,8 @@ import urllib
 import types
 import gevent
 import uuid
+import string
+import posixpath
 from hy.lex import parser, lexer
 from hy.importer import hy_eval
 from hy import HyList
@@ -20,10 +22,15 @@ include "zq_pyzabbix.pyx"
 include "zq_cfg.pyx"
 include "zq_env.pyx"
 include "zq_query.pyx"
+include "zq_query_display.pyx"
 include "zq_query_status.pyx"
 include "zq_query_vars.pyx"
 include "zq_query_stackless.pyx"
+include "zq_query_logic.pyx"
+include "zq_query_query.pyx"
 include "zq_query_delete.pyx"
+include "zq_query_create.pyx"
+include "zq_query_update.pyx"
 include "zq_query_words.pyx"
 include "zq_query_group.pyx"
 include "zq_query_output.pyx"

@@ -19,6 +19,8 @@ F = 0
 NONE = None
 NEW = "NEW"
 PULL = "PULL"
+DEFAULT = "DEFAULT"
+CR = "\n"
 
 
 

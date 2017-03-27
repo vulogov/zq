@@ -20,6 +20,9 @@ class ZQ_ENV(UserDict.UserDict):
         self.shell = _shell
         self.params = kw
         self.Globals = {}
+        self.Queries = {}
+        self.RefBase = "+."
+        self.envs = None
         self.srv = ZQ_SRV(self, self.shell)
         self.ready = self.reload()
     def registerGlobals(self, name, _ref):
@@ -30,10 +33,12 @@ class ZQ_ENV(UserDict.UserDict):
         return True
     def set_defaults(self):
         self.cfg["ZQ_HOME"] = "/tmp"
+        self.cfg["ZQ_REF_BASE"] = self.RefBase
         self.cfg["ZQ_ENV_NAME"] = "default"
         self.cfg["ZQ_MAX_PIPELINE"] = 100
         self.cfg["ZQ_MAX_ENV_STACK"] = 100
         self.cfg["ZQ_UNSAFE_GLOBALS"] = False
+        self.envs = LifoQueue(self.cfg["ZQ_MAX_ENV_STACK"])
         self.registerGlobals("Ne", Ne)
         self.registerGlobals("Eq", Eq)
         self.registerGlobals("Lg", Lg)
@@ -44,10 +49,11 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("FALSE", FALSE)
         self.registerGlobals("NONE", NONE)
         self.registerGlobals("NEW", NEW)
+        self.registerGlobals("DEFAULT", DEFAULT)
         self.registerGlobals("T", T)
         self.registerGlobals("F", F)
         self.registerGlobals("Match", Match)
-
+        self.registerGlobals("CR", CR)
         ##
         self.registerGlobals("hostid", hostid)
         self.registerGlobals("hostids", hostids)
@@ -88,6 +94,18 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Group", Group)
         self.registerGlobals("Ungroup", Ungroup)
         self.registerGlobals("Delete", Delete)
+        self.registerGlobals("Create", Create)
+        self.registerGlobals("Update", Update)
+        self.registerGlobals("Query", Query)
+        self.registerGlobals("Call", Call)
+        self.registerGlobals("Load", Load)
+        self.registerGlobals("LoadPath", LoadPath)
+        self.registerGlobals("IfTrue", IfTrue)
+        self.registerGlobals("IfFalse", IfFalse)
+        self.registerGlobals("Error", Error)
+        self.registerGlobals("Warning", Warning)
+        self.registerGlobals("Ok", Ok)
+        self.registerGlobals("RawDisplay", RawDisplay)
         ##
         self.registerGlobals("GET", GET)
         self.registerGlobals("CREATE", CREATE)
@@ -98,15 +116,21 @@ class ZQ_ENV(UserDict.UserDict):
 
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)
-    def QUERY(self, _q, default_environment="default", default_server=None):
-        if default_server != None:
+    def QUERY(self, _q, default_environment="default", default_server=None, **kw):
+        env = ENVIRONMENT(default_environment)
+        if default_server != None and not kw.has_key("ctx"):
             query = '(-> (ZBX NONE "%s" "%s") %s)'%(default_server, default_environment, _q)
+        elif default_server == None and not kw.has_key("ctx"):
+            query = "(-> %s)" % _q
+        elif kw.has_key("ctx"):
+            kw["ctx"].ctx_push(kw["ctx"])
+            query = '(-> (ZBX DEFAULT "" "%s") %s)'%(default_environment, _q)
         else:
             query = "(-> %s)" % _q
-
         if self.shell != None:
             self.shell.ok("Translated query: %s"%query)
-        return zq_eval(query, self, self.shell)
+        res = zq_eval(query, self, self.shell)
+        return res
 
 class ENV_CTL(UserDict.UserDict):
     def __init__(self):
