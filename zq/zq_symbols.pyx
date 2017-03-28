@@ -46,3 +46,8 @@ GET=0
 CREATE=1
 DELETE=2
 UPDATE=3
+
+## Symbols for the (New...)
+HOST="HOST"
+HOSTGROUPS="HOSTGROUPS"
+

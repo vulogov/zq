@@ -39,6 +39,8 @@ class ZQ_ENV(UserDict.UserDict):
         self.cfg["ZQ_MAX_ENV_STACK"] = 100
         self.cfg["ZQ_UNSAFE_GLOBALS"] = False
         self.envs = LifoQueue(self.cfg["ZQ_MAX_ENV_STACK"])
+        self.registerGlobals("Set", Set)
+        self.registerGlobals("Append", Append)
         self.registerGlobals("Ne", Ne)
         self.registerGlobals("Eq", Eq)
         self.registerGlobals("Lg", Lg)
@@ -78,6 +80,7 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Value", Value)
         self.registerGlobals("Drop", Drop)
         self.registerGlobals("Push", Push)
+        self.registerGlobals("New", New)
         self.registerGlobals("Peek", Peek)
         self.registerGlobals("Until", Until)
         self.registerGlobals("Swap", Swap)
@@ -113,6 +116,9 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("UPDATE", UPDATE)
         self.registerGlobals("limit", limit)
         self.registerGlobals("filter", filter)
+        ##
+        self.registerGlobals("HOST", HOST)
+        self.registerGlobals("HOSTGROUPS", HOSTGROUPS)
 
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)

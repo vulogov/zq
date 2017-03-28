@@ -10,6 +10,7 @@ import gevent
 import uuid
 import string
 import posixpath
+import copy
 from hy.lex import parser, lexer
 from hy.importer import hy_eval
 from hy import HyList
@@ -31,6 +32,7 @@ include "zq_query_query.pyx"
 include "zq_query_delete.pyx"
 include "zq_query_create.pyx"
 include "zq_query_update.pyx"
+include "zq_query_new.pyx"
 include "zq_query_words.pyx"
 include "zq_query_group.pyx"
 include "zq_query_output.pyx"
