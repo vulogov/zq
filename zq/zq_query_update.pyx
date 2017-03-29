@@ -1,3 +1,8 @@
+##
+## Update functors
+##
+
+
 def Set(_src, _dst, key, value):
     if not _src.has_key(key):
         return _dst
@@ -15,6 +20,11 @@ def Append(_src, _dst, key, value):
     else:
         return _dst
     return _dst
+
+
+##
+## Update logic
+##
 
 def _update_element(ctx, _cmd, args, _primary_key, _p):
     for p in _p:
@@ -40,27 +50,32 @@ def _update_element(ctx, _cmd, args, _primary_key, _p):
             return False
     return True
 
-def Update(ctx, *args):
-    supported_keys = [HOST, HOSTGROUPS]
+
+def _update_hostgroup(ctx, args, kw, _data):
+    print "YYY",_data
+    return _update_element(ctx, ctx.zapi.hostgroup.update, args, "groupid", _data)
+
+def _update_host(ctx, args, kw, _data):
+    print "(Update) HOST",_data
+    return True
+
+_UPDATE_CALL_TABLE={
+    "HOSTGROUPS": _update_hostgroup,
+    "HOST": _update_host,
+}
+
+def Update(ctx, *args, **kw):
+    if not _fill_bjq_queue(ctx, ctx.jobs.direct):
+        if ctx.env.shell != None:
+            ctx.env.shell.warning("(Update...) can not populate the queue. Check logic!")
+        return ctx
     while True:
-        p = ctx.pull()
-        if not p:
+        sjob = ctx.jobs.pull()
+        if sjob == None:
             break
-        if p.has_key("HOST"):
-            _cmd = ctx.zapi.host.update
-            _data = p["HOST"]
-            _primary_key = "hostid"
-        elif p.has_key("HOSTGROUPS"):
-            _cmd = ctx.zapi.hostgroup.update
-            _data = p["HOSTGROUPS"]
-            _primary_key = "groupid"
-        else:
-            _cmd = None
-        if _cmd == None:
-            ctx.push(p)
-            break
-        res = _update_element(ctx, _cmd, args, _primary_key, _data)
-        if not res:
-            if ctx.env.shell:
-                ctx.env.shell.warning("(Update...) has failed %s" % str(p))
+        _pri, _req = sjob
+        _key, _data = _req
+        if not _UPDATE_CALL_TABLE[_key](ctx, args, kw, _data):
+            if ctx.env.shell != None:
+                ctx.env.shell.warning("(Update...) can not create element %s"%str(_req))
     return ctx

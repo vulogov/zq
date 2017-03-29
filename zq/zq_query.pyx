@@ -12,7 +12,22 @@ class ZQ_ZBX(object):
         self.sender_port = _sender_port
         self.zapi = None
         self.value = LifoQueue(self.env.cfg["ZQ_MAX_PIPELINE"])
+        self.jobs = BJQ(self.env)
         self.reconnect()
+    def reload(self):
+        """
+        reload() will clear all (but jobs) context queues and reconnect to Zabbix
+        :return:
+        """
+        self.reconnect()
+        while True:
+            p = self.pull()
+            if not p:
+                break
+        while True:
+            p = self.ctx_pull()
+            if not p:
+                break
     def reconnect(self):
         try:
             self.zapi = ZabbixAPI(server=self.url)
@@ -20,7 +35,7 @@ class ZQ_ZBX(object):
         except:
             self.zapi = None
             if self.shell != None:
-                self.shell.error("Can not connect to %s"%self.url)
+                self.shell.error("Can not connect to the %s"%self.url)
     def pull(self):
         try:
             return self.value.get_nowait()
@@ -33,7 +48,7 @@ class ZQ_ZBX(object):
     def push(self, data):
         try:
             self.value.put(data)
-        except:
+        except KeyboardInterrupt:
             return False
         return True
     def ctx_pull(self):

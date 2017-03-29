@@ -109,6 +109,8 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Warning", Warning)
         self.registerGlobals("Ok", Ok)
         self.registerGlobals("RawDisplay", RawDisplay)
+        self.registerGlobals("Clear", Clear)
+        self.registerGlobals("ClearJobQueue", ClearJobQueue)
         ##
         self.registerGlobals("GET", GET)
         self.registerGlobals("CREATE", CREATE)
