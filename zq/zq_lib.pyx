@@ -312,6 +312,19 @@ def load_file_from_the_reference(_ref):
         ## Return the value as is
         return _ref
 
+def load_and_parse_from_the_reference(_ref, kw):
+    buf = load_file_from_the_reference(_ref)
+    if not buf:
+        return buf
+    try:
+        tpl = string.Template(buf)
+        res = tpl.safe_substitute(kw)
+    except:
+        return None
+    finally:
+        return res
+
+
 def check_reference_read(_ref, _dir=False):
     if _ref[0] == "@":
         ## In 0.2 we do not know how to check URL references
@@ -352,3 +365,20 @@ def listofdict2list(_list, _key):
         if i.has_key(_key):
             out.append(i[_key])
     return out
+
+def discover_element(ctx, _type, _elem):
+    if not _elem.has_key(_type):
+        ctx.push(_elem)
+    else:
+        return _elem[_type]
+    return None
+
+
+def do_template(_buffer, _kw=os.environ, **kw):
+    for k in kw.keys():
+        _kw[k] = kw[k]
+    tpl = string.Template(_buffer)
+    res = tpl.safe_substitute(_kw)
+    return res
+
+

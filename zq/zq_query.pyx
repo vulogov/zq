@@ -12,8 +12,22 @@ class ZQ_ZBX(object):
         self.sender_port = _sender_port
         self.zapi = None
         self.value = LifoQueue(self.env.cfg["ZQ_MAX_PIPELINE"])
-        self.envs = LifoQueue(self.env.cfg["ZQ_MAX_ENV_STACK"])
+        self.jobs = BJQ(self.env)
         self.reconnect()
+    def reload(self):
+        """
+        reload() will clear all (but jobs) context queues and reconnect to Zabbix
+        :return:
+        """
+        self.reconnect()
+        while True:
+            p = self.pull()
+            if not p:
+                break
+        while True:
+            p = self.ctx_pull()
+            if not p:
+                break
     def reconnect(self):
         try:
             self.zapi = ZabbixAPI(server=self.url)
@@ -21,7 +35,7 @@ class ZQ_ZBX(object):
         except:
             self.zapi = None
             if self.shell != None:
-                self.shell.error("Can not connect to %s"%self.url)
+                self.shell.error("Can not connect to the %s"%self.url)
     def pull(self):
         try:
             return self.value.get_nowait()
@@ -34,17 +48,17 @@ class ZQ_ZBX(object):
     def push(self, data):
         try:
             self.value.put(data)
-        except:
+        except KeyboardInterrupt:
             return False
         return True
     def ctx_pull(self):
         try:
-            return self.envs.get_nowait()
+            return self.env.envs.get_nowait()
         except:
             return None
     def ctx_push(self, _env):
         try:
-            self.envs.put(_env)
+            self.env.envs.put(_env)
         except:
             return False
         return True
@@ -68,10 +82,18 @@ class ZQ_SRV(UserDict.UserDict):
 
 def ZBX(ctx=None, server="zabbix", name="default"):
     env = ENVIRONMENT(name)
-    if not env.srv.has_key(server):
+    if ctx not in ["PULL", "DEFAULT"] and not env.srv.has_key(server):
         return None
     if ctx == "PULL":
-        env.ctx_pull()
+        return env.envs.get_nowait()
+    elif ctx == "DEFAULT":
+        _ctx = env.envs.get_nowait()
+        if _ctx == None and env.shell != None:
+            env.shell.error("DEFAULT context has been requested, but there is None. Check logic!")
+            return None
+        return _ctx
+    else:
+        pass
     return env.srv[server]
 def ZBXS(name="default"):
     env = ENVIRONMENT(name)

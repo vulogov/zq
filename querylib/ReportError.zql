@@ -1,0 +1,9 @@
+##
+## This query will be used as an example for the "words" (IfTrue) and (IfFalse)
+## It will display an error
+## Parameter:
+##    MESSAGE - message displayed
+## Return:
+##    Context
+##
+(Error "$MESSAGE")

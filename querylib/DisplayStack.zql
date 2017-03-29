@@ -1,0 +1,9 @@
+##
+## Nothing more but raw printing the data that we got from the Stack through, for example: (Until...)
+## Parameters:
+##    DATA - what to display
+##    IS_REPR - display as repr() ?
+## Returns:
+##     Nothing useful
+##
+(RawDisplay "Data from the Stack:" "$DATA" CR :repr $IS_REPR)

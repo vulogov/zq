@@ -1,0 +1,7 @@
+## This Query will return Hostgroup based on it's name
+## Accepting following keyword parameters:
+##     name = <name of the hostgroup>
+## Returns:
+##     Context
+
+(Hostgroups) (Filter TRUE ["name" Eq "$name"])

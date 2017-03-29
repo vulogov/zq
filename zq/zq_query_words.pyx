@@ -5,7 +5,13 @@ def Version(ctx):
     return ctx
 
 def Hosts(ctx, **kw):
-    ctx.push({'HOST': ctx.zapi.host.get()})
+    try:
+        res = apply(ctx.zapi.host.get, (), kw)
+        ctx.push({'HOST': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Hosts) query to Zabbix")
+        return ctx
     return ctx
 
 def Interfaces(ctx):
@@ -13,8 +19,13 @@ def Interfaces(ctx):
     return ctx
 
 def Hostgroups(ctx, **kw):
-    res = apply(ctx.zapi.hostgroup.get, (), kw)
-    ctx.push({'HOSTGROUPS': res})
+    try:
+        res = apply(ctx.zapi.hostgroup.get, (), kw)
+        ctx.push({'HOSTGROUPS': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Hostgroups) query to Zabbix")
+        return ctx
     return ctx
 
 

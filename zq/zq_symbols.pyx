@@ -19,6 +19,8 @@ F = 0
 NONE = None
 NEW = "NEW"
 PULL = "PULL"
+DEFAULT = "DEFAULT"
+CR = "\n"
 
 
 
@@ -44,3 +46,8 @@ GET=0
 CREATE=1
 DELETE=2
 UPDATE=3
+
+## Symbols for the (New...)
+HOST="HOST"
+HOSTGROUPS="HOSTGROUPS"
+

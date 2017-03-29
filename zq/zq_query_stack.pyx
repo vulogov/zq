@@ -39,8 +39,11 @@ def Drop(ctx):
     ctx.pull()
     return ctx
 
-def Push(ctx, key, value):
-    ctx.push({key:value})
+def Push(ctx, key, value=None, **kw):
+    if value == None:
+        ctx.push({key: kw})
+    else:
+        ctx.push({key:value})
     return ctx
 
 def Peek(ctx):
@@ -50,14 +53,6 @@ def Peek(ctx):
     print data
     return ctx
 
-def Until(ctx, key):
-    while True:
-        data = ctx.pull()
-        if data == None:
-            return ctx
-        if type(data) != type({}) or data.has_key(key):
-            ctx.push(data)
-            return ctx
 
 def Merge(ctx, dst_merge_key, merge_key=None):
     merging_data = ctx.pull()

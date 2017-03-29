@@ -30,7 +30,7 @@ class ZQ_CMD_EXEC:
             if self.args.traceback:
                 exc_type, exc_value, exc_traceback = sys.exc_info()
                 traceback.print_exception(exc_type, exc_value, exc_traceback,
-                                          limit=1, file=sys.stdout)
+                                          limit=6, file=sys.stdout)
     def Exec(self, _callable, *args):
         for s in self.args.N[1:]:
             self.ExecSingle(_callable, s, args)
