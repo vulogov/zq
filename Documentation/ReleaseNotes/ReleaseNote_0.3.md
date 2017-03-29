@@ -124,6 +124,19 @@ Example query. Let's see how simpler it gets with the query from (Until...) exam
 ```
 Instead multiple (Load...) statements, you'll get to specify just the list of the directories. Please mind the fact, that the (LoadPath...) is not replacement for the (Load...) as it supports only loads from the files, not the loads from the values or URL's.
 
+8. "Word" _(New {type of the data} {keyword parameters)_. This "word" will place on the stack the data elemebt which then can be used by (Create) "word" as an instructions and the values for updating Zabbix configuration with new elements. {keyword arguments} will be passed to the create API call as is.
+9. "Word" (Create). This "word" will loop through the stack for all elements pushed by (New..), until it finds first non-matched element and will call ZAPI create. Only Hostgroup creatin is supported as of now
+
+Example query:
+```bash
+(ZBX) (New HOSTGROUPS :name "TestGroup") (Create)
+```
+
+This query will create the new Hostgroup
+
+Stack:
+
+Will remove all (New...) elements until first non-matching.
 
 ## Updated features
 

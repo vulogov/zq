@@ -16,13 +16,17 @@ def _fill_bjq_queue(ctx, _cmd, _key=None, **kw):
         job = ctx.pull()
         if not job:
             break
+        if type(job) != types.DictType:
+            ## This is not a real job, eih !
+            ctx.push(job)
+            break
         c += 1
         acceptable = False
         for k in job.keys():
-            if not ctx.jobs.isAcceptable(k):
+            if not ctx.jobs.isAcceptable(k) or type(job[k]) != types.DictType:
                 acceptable = False
-                return False
-            acceptable = True
+            else:
+                acceptable = True
         if not acceptable:
             ctx.push(job)
             break

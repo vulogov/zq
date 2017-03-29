@@ -1,5 +1,10 @@
 def _create_hostgroup(ctx, _data):
-    print "JJJ",_data
+    try:
+        res = apply(ctx.zapi.hostgroup.create, (), _data)
+    except:
+        return False
+    if not res.has_key("groupids"):
+        return False
     return True
 
 def _create_host(ctx, _data):
