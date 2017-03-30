@@ -381,4 +381,32 @@ def do_template(_buffer, _kw=os.environ, **kw):
     res = tpl.safe_substitute(_kw)
     return res
 
+def pull_elements_from_stack_by_type(ctx, *_types):
+    out = {}
+    while True:
+        p = ctx.pull()
+        if not p:
+            break
+        for k in p.keys():
+            if k in _types:
+                if k not in out.keys():
+                    out[k] = p[k]
+                else:
+                    out[k] += p[k]
+            else:
+                ctx.push(p)
+                break
+    return out
+
+def push_elements_back_to_stack(ctx, _data):
+    for k in _data.keys():
+        Push(ctx, k, _data[k])
+
+
+def rename_keys_from_aliases(_data, _aliases):
+    for k in _data.keys():
+        if k in _aliases.keys():
+            _data[_aliases[k]] = _data[k]
+            del _data[k]
+    return _data
 

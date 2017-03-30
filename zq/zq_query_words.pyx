@@ -30,7 +30,7 @@ def Hostgroups(ctx, **kw):
 
 
 def Templates(ctx):
-    ctx.push({'TEMPLATES': ctx.zapi.template.get()})
+    ctx.push({'TEMPLATE': ctx.zapi.template.get()})
     return ctx
 
 def Items(ctx):

@@ -23,17 +23,18 @@ def _fill_bjq_queue(ctx, _cmd, _key=None, **kw):
         c += 1
         acceptable = False
         for k in job.keys():
-            if not ctx.jobs.isAcceptable(k) or type(job[k]) != types.DictType:
+            if not ctx.jobs.isAcceptable(k) or type(job[k]) not in [ types.DictType, types.ListType ]:
                 acceptable = False
             else:
                 acceptable = True
+        print acceptable, job
         if not acceptable:
             ctx.push(job)
             break
         for k in job.keys():
             if _key != None and k == _key:
                 continue
-            if _key != None:
+            if _key != None and type(job[k]) == types.DictType:
                 del job[k][_key]
         res = _cmd(job)
         if res == False:
@@ -42,7 +43,7 @@ def _fill_bjq_queue(ctx, _cmd, _key=None, **kw):
 
 class BJQ:
     def __init__(self, env):
-        self.supported_types = ["HOSTGROUPS", "TEMPLATES", "HOST", "ITEMS", "ACTIONS"]
+        self.supported_types = ["HOSTGROUPS", "TEMPLATE", "HOST", "ITEMS", "ACTIONS"]
         self.env = env
         self.jobs = Queue.PriorityQueue(maxsize=self.env.cfg["ZQ_MAX_PIPELINE"])
     def isAcceptable(self, key):

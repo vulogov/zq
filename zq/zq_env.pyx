@@ -121,6 +121,7 @@ class ZQ_ENV(UserDict.UserDict):
         ##
         self.registerGlobals("HOST", HOST)
         self.registerGlobals("HOSTGROUPS", HOSTGROUPS)
+        self.registerGlobals("TEMPLATE", TEMPLATE)
 
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)

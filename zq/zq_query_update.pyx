@@ -26,7 +26,7 @@ def Append(_src, _dst, key, value):
 ## Update logic
 ##
 
-def _update_element(ctx, _cmd, args, _primary_key, _p):
+def _update_element(ctx, _cmd, args, _primary_key, _group_key, _p):
     for p in _p:
         if not p.has_key(_primary_key):
             return False
@@ -45,23 +45,26 @@ def _update_element(ctx, _cmd, args, _primary_key, _p):
             except KeyboardInterrupt:
                 return False
         res = apply(_cmd, (), d)
-        if not res.has_key(_primary_key) or len(res[_primary_key]) == 0:
-            print 1,res
+        if not res.has_key(_group_key):
             return False
     return True
 
 
 def _update_hostgroup(ctx, args, kw, _data):
-    print "YYY",_data
-    return _update_element(ctx, ctx.zapi.hostgroup.update, args, "groupid", _data)
+    return _update_element(ctx, ctx.zapi.hostgroup.update, args, "groupid", "groupids", _data)
 
 def _update_host(ctx, args, kw, _data):
     print "(Update) HOST",_data
     return True
 
+def _update_template(ctx, args, kw, _data):
+    return _update_element(ctx, ctx.zapi.template.update, args, "templateid", "templateids", _data)
+
+
 _UPDATE_CALL_TABLE={
     "HOSTGROUPS": _update_hostgroup,
     "HOST": _update_host,
+    "TEMPLATE": _update_template,
 }
 
 def Update(ctx, *args, **kw):
@@ -77,5 +80,5 @@ def Update(ctx, *args, **kw):
         _key, _data = _req
         if not _UPDATE_CALL_TABLE[_key](ctx, args, kw, _data):
             if ctx.env.shell != None:
-                ctx.env.shell.warning("(Update...) can not create element %s"%str(_req))
+                ctx.env.shell.warning("(Update...) can not change element %s"%str(_req))
     return ctx
