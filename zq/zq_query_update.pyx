@@ -54,7 +54,7 @@ def _update_hostgroup(ctx, args, kw, _data):
     return _update_element(ctx, ctx.zapi.hostgroup.update, args, "groupid", "groupids", _data)
 
 def _update_host(ctx, args, kw, _data):
-    return _update_element(ctx, ctx.zapi.host.update, args, "hostid", "hostidids", _data)
+    return _update_element(ctx, ctx.zapi.host.update, args, "hostid", "hostids", _data)
 
 def _update_template(ctx, args, kw, _data):
     return _update_element(ctx, ctx.zapi.template.update, args, "templateid", "templateids", _data)

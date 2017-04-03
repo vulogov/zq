@@ -51,4 +51,13 @@ Example query:
 
 This query will get the list of the Hostgroups, then the list of the Templates, then you shall as instructed by (New)(Create) it will create a new host in the specified hostgroup(s) and link this host with desired templates. After creation, ZQL will subquery the information about this host and place ity on the stack.
 
+4. (Update) now supports update if the hosts.
+
+Example query:
+```bash
+(ZBX) (Hosts) (Filter TRUE ["host" Eq "test"]) (Update ["host" Set "MyTest"])
+```
+Changing the host with the name "test" to "MyTest"
+
+
 ## Removed features
