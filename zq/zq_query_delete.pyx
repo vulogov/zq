@@ -12,8 +12,7 @@ def _delete_hostgroup(ctx, args, kw, _data):
     return _delete_element(ctx, args, kw, ctx.zapi.hostgroup.delete, _data, "groupid", "groupids")
 
 def _delete_host(ctx, args, kw, _data):
-    print "(Delete) HOST",_data
-    return True
+    return _delete_element(ctx, args, kw, ctx.zapi.host.delete, _data, "hostid", "hostids")
 
 def _delete_template(ctx, args, kw, _data):
     return _delete_element(ctx, args, kw, ctx.zapi.template.delete, _data, "templateid", "templateids")
@@ -32,7 +31,8 @@ def Delete(ctx, *args, **kw):
                 "You had requested to (Delete) all configuration entities that you have in your stack. Hope you know what you are doing.")
     else:
         limit = 1
-    if not _fill_bjq_queue(ctx, ctx.jobs.reverse, limit=limit):
+    kw["mode"] = 1
+    if not _fill_bjq_queue(ctx, ctx.jobs.reverse, limit=limit, mode=1):
         if ctx.env.shell != None:
             ctx.env.shell.warning("(Delete...) can not populate the queue. Check logic!")
         return ctx

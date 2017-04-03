@@ -68,7 +68,8 @@ _UPDATE_CALL_TABLE={
 }
 
 def Update(ctx, *args, **kw):
-    if not _fill_bjq_queue(ctx, ctx.jobs.direct):
+    kw["mode"] = 2
+    if not _fill_bjq_queue(ctx, ctx.jobs.direct, mode=2):
         if ctx.env.shell != None:
             ctx.env.shell.warning("(Update...) can not populate the queue. Check logic!")
         return ctx

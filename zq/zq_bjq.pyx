@@ -9,6 +9,11 @@ def _fill_bjq_queue(ctx, _cmd, _key=None, **kw):
             limit = int(kw["limit"])
         except:
             limit = None
+    if not kw.has_key("mode"):
+        ## Default is create
+        mode = 0
+    else:
+        mode = kw["mode"]
     c = 0
     while True:
         if limit != None and c >= limit:
@@ -27,7 +32,12 @@ def _fill_bjq_queue(ctx, _cmd, _key=None, **kw):
                 acceptable = False
             else:
                 acceptable = True
-        print acceptable, job
+            if type(job[k]) == types.ListType and mode == 0:
+                for l in job[k]:
+                    if "CREATE" in l.keys():
+                        acceptable = True
+                    else:
+                        acceptable = False
         if not acceptable:
             ctx.push(job)
             break

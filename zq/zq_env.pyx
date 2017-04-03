@@ -122,6 +122,11 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("HOST", HOST)
         self.registerGlobals("HOSTGROUPS", HOSTGROUPS)
         self.registerGlobals("TEMPLATE", TEMPLATE)
+        ## For the hostinterface (Create)
+        self.registerGlobals("AgentHostInterface", AgentHostInterface)
+        self.registerGlobals("SnmpHostInterface", SnmpHostInterface)
+        self.registerGlobals("IPMIHostInterface", IPMIHostInterface)
+        self.registerGlobals("JmxHostInterface", SnmpHostInterface)
 
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)
