@@ -30,6 +30,19 @@ This query will get and filter the interface based on "dns" field equal to "prob
 * (Templates)(Join) will populate HOSTS, HOSTGROUPS, TEMPLATES from discovered TEMPLATES
 * (Interfaces)(Join) will populate HOSTS from discovered INTERFACES
 
+7. New "functors" for (Update): EnableHost/DisableHost. Will make (Update) more visual.
+
+Example query which will disable all hosts in the group:
+```bash
+(ZBX) (Hostgroups) (Filter TRUE ["name" Eq "MyGroup"]) (Join) (Update ["status" DisableHost])
+```
+
+and enable all hosts in the group
+
+```bash
+(ZBX) (Hostgroups) (Filter TRUE ["name" Eq "MyGroup"]) (Join) (Update ["status" EnableHost])
+```
+
 *JOIN IS NOT RECURSIVE*
 
 Example query which creating the new host taking other host as a prototype 

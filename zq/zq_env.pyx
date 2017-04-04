@@ -42,6 +42,8 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Set", Set)
         self.registerGlobals("Append", Append)
         self.registerGlobals("SearchAndReplace", SearchAndReplace)
+        self.registerGlobals("EnableHost", EnableHost)
+        self.registerGlobals("DisableHost", DisableHost)
         self.registerGlobals("Ne", Ne)
         self.registerGlobals("Eq", Eq)
         self.registerGlobals("Lg", Lg)

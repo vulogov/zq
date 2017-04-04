@@ -9,6 +9,19 @@ def Set(_src, _dst, key, value):
     _dst[key] = value
     return _dst
 
+def EnableHost(_src, _dst, key, value):
+    if not _src.has_key(key):
+        return _dst
+    _dst[key] = 0
+    return _dst
+
+def DisableHost(_src, _dst, key, value):
+    if not _src.has_key(key):
+        return _dst
+    _dst[key] = 1
+    return _dst
+
+
 def Append(_src, _dst, key, value):
     if not _src.has_key(key) or type(_src[key]) != types.ListType:
         return _dst
