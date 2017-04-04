@@ -9,6 +9,58 @@
  * SnmpHostInterface
  * IPMIHostInterface
  * JmxHostInterface
+ 
+2. New "word" (Interfaces), will store information about interfaces from Zabbix
+3. New symbols:
+* INTERFACE
+4. New "functor" for (Update): _SearchAndReplace_: Replacing substring to another substring in the (Update) command. Value for the functor having a format: "/"original string"/"replace string"/"
+
+Example query:
+
+```bash
+(ZBX) (Interfaces) (Filter TRUE ["dns" Eq "probe.example.com"]) (Update ["dns" SearchAndReplace "/probe/test/"])
+```
+This query will get and filter the interface based on "dns" field equal to "probe.example.com" and then changing "dns" value of all selected records from "*probe*" to the "*test*." In our example, it will rename "probe.example.com" to "test.example.com".
+
+5. New "word" (Empty). This "word" works just like (Out), but emptying the whole stack and return it's content in the list.
+
+6. New "word" (Join {keyword arguments}). This "word" will perform operations similar to an SQL "JOIN" queries. When processing (Join), ZQL will take HOST, TEMPLATE, HOSTGROUP, INTERFACE element from the stack and re-populate stack with HOST, TEMPLATE, HOSTGROUP information discovered from thouse entities. Here is the list of the ZQL JOIN operations:
+* (Hosts)(Join) will populate HOSTGROUPS, TEMPLATES from discovered HOSTS
+* (Hostgroups)(Join) will populate HOSTS, TEMPLATES from discovered HOSTGROUPS
+* (Templates)(Join) will populate HOSTS, HOSTGROUPS, TEMPLATES from discovered TEMPLATES
+* (Interfaces)(Join) will populate HOSTS from discovered INTERFACES
+
+*JOIN IS NOT RECURSIVE*
+
+Example query which creating the new host taking other host as a prototype 
+```bash
+(ZBX) (Hosts) (Filter TRUE ["host" Eq "MyTest"]) 
+   (Join) 
+       (New HOST :host "new_test" 
+       :interfaces [(AgentHostInterface :dns "web1.example.com" :main True)]) 
+   (Create :HOST True) (Out)
+
+```
+
+another example query, will perform (Update) over all hosts members of the specific Hostgroup
+
+```bash
+(ZBX) (Hostgroups) (Filter TRUE ["name" Eq "MyHostGroup"]) 
+  (Join) 
+(Update ["status" Set 1])
+```
+This query will disable all hosts belonging to that group
+
+This example will return all hosts, which dns nama matches pattern "test*":
+
+```bash
+(ZBX) (Interfaces) (Filter TRUE ["dns" Match "test*"]) (Join) (Out)
+```
+
+(Join) is controlled through keyword arguments, which are _Name of the system_ (i.e. TEMPLATES) and True/False. Default is True, means (Join) for this subsystem will be performed. If set to False, example (Join :TEMPLATE False), operation for this subsystem will be set to NOOP.
+
+7. Global variable "ExtendedSelect", accessible through (Getv)/(Setv) controlling (Hosts)/... behaviour. If set to True (which is default), extended select, required from (Join) will be executed. If you are not planning to use (Join), you can save some traffic and CPU by sending 
+(Setv "ExtendedSelect" False) in your query.
 
 ## Updated features
 
@@ -58,6 +110,15 @@ Example query:
 (ZBX) (Hosts) (Filter TRUE ["host" Eq "test"]) (Update ["host" Set "MyTest"])
 ```
 Changing the host with the name "test" to "MyTest"
+
+5. (Update) now support update of the interfaces
+
+Example query:
+```bash
+(ZBX) (Interfaces) (Filter TRUE ["dns" Eq "test.example.com"]) (Update ["dns" Set "probe.example.com"]) (Out)
+```
+This query will find the interface with DNS matches "test.example.com" and change it to "probe.example.com"
+
 
 
 ## Removed features

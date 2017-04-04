@@ -21,6 +21,25 @@ def Append(_src, _dst, key, value):
         return _dst
     return _dst
 
+def SearchAndReplace(_src, _dst, key, value):
+    if not _src.has_key(key):
+        return _dst
+    if value[0] == "/":
+        ## String replacement
+        p = value.split("/")
+        if len(p) != 4 and p[0] != "" and p[3] != "":
+            return _dst
+        _orig, _repl = p[1], p[2]
+        _dst[key] = _src[key]
+        _dst[key] = _dst[key].replace(_orig, _repl)
+    elif value[0] in ['+', '@']:
+        ## Table replacement
+        pass
+    else:
+        pass
+    return _dst
+
+
 
 ##
 ## Update logic
@@ -59,11 +78,16 @@ def _update_host(ctx, args, kw, _data):
 def _update_template(ctx, args, kw, _data):
     return _update_element(ctx, ctx.zapi.template.update, args, "templateid", "templateids", _data)
 
+def _update_interface(ctx, args, kw, _data):
+    return _update_element(ctx, ctx.zapi.hostinterface.update, args, "interfaceid", "interfaceids", _data)
+
+
 
 _UPDATE_CALL_TABLE={
     "HOSTGROUPS": _update_hostgroup,
     "HOST": _update_host,
     "TEMPLATE": _update_template,
+    "INTERFACE": _update_interface,
 }
 
 def Update(ctx, *args, **kw):

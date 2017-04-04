@@ -20,6 +20,7 @@ def _create_host(ctx, args, kw, _data):
     if not _data.has_key("host"):
         return False
     cfg = pull_elements_from_stack_by_type(ctx, "HOSTGROUPS", "TEMPLATE")
+    print "MMMM",cfg
     if not cfg.has_key("HOSTGROUPS"):
         push_elements_back_to_stack(ctx, cfg)
         return False
@@ -30,6 +31,7 @@ def _create_host(ctx, args, kw, _data):
         _templateids = []
     _data["groups"] = _hostgroupids
     _data["templates"] = _templateids
+    print "FFFF",_data
     try:
         res = apply(ctx.zapi.host.create, (), _data)
     except KeyboardInterrupt:
@@ -38,6 +40,8 @@ def _create_host(ctx, args, kw, _data):
         return False
     if shall_i_select(kw, "HOST") == True:
         Push(ctx, "HOST", apply(ctx.zapi.host.get, (), res))
+    else:
+        push_elements_back_to_stack(ctx, cfg)
     return True
 
 def _create_template(ctx, args, kw, _data):
@@ -62,12 +66,39 @@ def _create_template(ctx, args, kw, _data):
         return False
     if shall_i_select(kw, "TEMPLATE") == True:
         Push(ctx, "TEMPLATE", apply(ctx.zapi.template.get, (), res))
+    else:
+        push_elements_back_to_stack(ctx, cfg)
+    return True
+
+def _create_interface(ctx, args, kw, _data):
+    if not _data.has_key("ip") or not _data.has_key("dns"):
+        return False
+    cfg = pull_elements_from_stack_by_type(ctx, "HOST")
+    if not cfg.has_key("HOST"):
+        push_elements_back_to_stack(ctx, cfg)
+        return False
+    if cfg.has_key("HOST"):
+        _hostids = list2listofdicts(listofdict2list(cfg["HOST"], "hostid"), "hostid")
+    else:
+        _hostids = []
+    _data["hosts"] = _hostids
+    try:
+        res = apply(ctx.zapi.hostinterface.create, (), _data)
+    except:
+        return False
+    if not res.has_key("hostinterfaceids"):
+        return False
+    if shall_i_select(kw, "INTERFACE") == True:
+        Push(ctx, "INTERFACE", apply(ctx.zapi.hostinterface.get, (), res))
+    else:
+        push_elements_back_to_stack(ctx, cfg)
     return True
 
 _CREATE_CALL_TABLE={
     "HOSTGROUPS": _create_hostgroup,
     "HOST": _create_host,
     "TEMPLATE": _create_template,
+    "INTERFACE": _create_interface,
 }
 
 def Create(ctx, *args, **kw):
