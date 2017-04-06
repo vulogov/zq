@@ -3,26 +3,34 @@
 ##
 
 
-def Set(_src, _dst, key, value):
+def Set(ctx, _src, _dst, key, value):
     if not _src.has_key(key):
         return _dst
     _dst[key] = value
     return _dst
 
-def EnableHost(_src, _dst, key, value):
+def EnableHost(ctx, _src, _dst, key, value):
     if not _src.has_key(key):
         return _dst
     _dst[key] = 0
     return _dst
 
-def DisableHost(_src, _dst, key, value):
+def DisableHost(ctx, _src, _dst, key, value):
     if not _src.has_key(key):
         return _dst
     _dst[key] = 1
     return _dst
 
+def Variable(ctx, _src, _dst, key, value):
+    true_value = Getv(ctx, value)
+    if true_value == None:
+        return _dst
+    _dst[key] = value
+    return _dst
 
-def Append(_src, _dst, key, value):
+
+
+def Append(ctx, _src, _dst, key, value):
     if not _src.has_key(key) or type(_src[key]) != types.ListType:
         return _dst
     elif _dst.has_key(key) and type(_dst[key]) == types.ListType:
@@ -34,7 +42,7 @@ def Append(_src, _dst, key, value):
         return _dst
     return _dst
 
-def SearchAndReplace(_src, _dst, key, value):
+def SearchAndReplace(ctx, _src, _dst, key, value):
     if not _src.has_key(key):
         return _dst
     if value[0] == "/":
@@ -73,7 +81,7 @@ def _update_element(ctx, _cmd, args, _primary_key, _group_key, _p):
                 ## Bad parameters
                 continue
             try:
-                d = apply(func, (p, d, key, _val))
+                d = apply(func, (ctx, p, d, key, _val))
             except KeyboardInterrupt:
                 return False
         res = apply(_cmd, (), d)
@@ -94,6 +102,8 @@ def _update_template(ctx, args, kw, _data):
 def _update_interface(ctx, args, kw, _data):
     return _update_element(ctx, ctx.zapi.hostinterface.update, args, "interfaceid", "interfaceids", _data)
 
+def _update_item(ctx, args, kw, _data):
+    return _update_element(ctx, ctx.zapi.item.update, args, "itemid", "itemids", _data)
 
 
 _UPDATE_CALL_TABLE={
@@ -101,6 +111,7 @@ _UPDATE_CALL_TABLE={
     "HOST": _update_host,
     "TEMPLATE": _update_template,
     "INTERFACE": _update_interface,
+    "ITEM": _update_item,
 }
 
 def Update(ctx, *args, **kw):

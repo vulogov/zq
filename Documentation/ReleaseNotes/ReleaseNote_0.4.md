@@ -43,7 +43,7 @@ and enable all hosts in the group
 (ZBX) (Hostgroups) (Filter TRUE ["name" Eq "MyGroup"]) (Join) (Update ["status" EnableHost])
 ```
 
-*JOIN IS NOT RECURSIVE*
+*JOIN IS NOT RECURSIVE BUT YOU CAN USE MULTIPLE JOINS*
 
 Example query which creating the new host taking other host as a prototype 
 ```bash
@@ -52,7 +52,6 @@ Example query which creating the new host taking other host as a prototype
        (New HOST :host "new_test" 
        :interfaces [(AgentHostInterface :dns "web1.example.com" :main True)]) 
    (Create :HOST True) (Out)
-
 ```
 
 another example query, will perform (Update) over all hosts members of the specific Hostgroup
@@ -74,6 +73,19 @@ This example will return all hosts, which dns nama matches pattern "test*":
 
 7. Global variable "ExtendedSelect", accessible through (Getv)/(Setv) controlling (Hosts)/... behaviour. If set to True (which is default), extended select, required from (Join) will be executed. If you are not planning to use (Join), you can save some traffic and CPU by sending 
 (Setv "ExtendedSelect" False) in your query.
+
+8. (Interfaces) are now supporting (Join)
+
+9. Cainable (Join) is now supported.
+
+Example query:
+```bash
+(ZBX) (Interfaces) (Filter TRUE ["dns" Match "test*"]) 
+  (Join) 
+  (Join :HOSTGROUPS False :TEMPLATE False :INTERFACE False) 
+(Out)
+```
+This query will select Interfaces where DNS matches "test*", perform the first Join to get the host information and the second Join, which will push only Items into the stack. So...essentially, here is the list of the Items configured for the host where dns matches certain pattern.
 
 ## Updated features
 

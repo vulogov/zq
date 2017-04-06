@@ -44,6 +44,7 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("SearchAndReplace", SearchAndReplace)
         self.registerGlobals("EnableHost", EnableHost)
         self.registerGlobals("DisableHost", DisableHost)
+        self.registerGlobals("Variable", Variable)
         self.registerGlobals("Ne", Ne)
         self.registerGlobals("Eq", Eq)
         self.registerGlobals("Lg", Lg)
@@ -116,6 +117,10 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("RawDisplay", RawDisplay)
         self.registerGlobals("Clear", Clear)
         self.registerGlobals("ClearJobQueue", ClearJobQueue)
+        self.registerGlobals("Link", Link)
+        self.registerGlobals("Unlink", Unlink)
+        self.registerGlobals("Application", Application)
+
         ##
         self.registerGlobals("GET", GET)
         self.registerGlobals("CREATE", CREATE)

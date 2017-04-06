@@ -94,11 +94,33 @@ def _create_interface(ctx, args, kw, _data):
         push_elements_back_to_stack(ctx, cfg)
     return True
 
+def _create_item(ctx, args, kw, _data):
+    if not _data.has_key("name") or not _data.has_key("key_") or not _data.has_key("type") or not _data.has_key("value_type") or not _data.has_key("delay"):
+        return False
+    cfg = pull_elements_from_stack_by_type(ctx, "TEMPLATE")
+    if not cfg.has_key("TEMPLATE"):
+        push_elements_back_to_stack(ctx, cfg)
+        return False
+    _tplid = listofdict2list(cfg["TEMPLATE"], "templteid")
+    for t in _tplid:
+        try:
+            res = apply(ctx.zapi.item.create, (), _data)
+        except KeyboardInterrupt:
+            return False
+        if shall_i_select(kw, "ITEM") == True:
+            Push(ctx, "ITEM", apply(ctx.zapi.item.get, (), res))
+    if shall_i_select(kw, "ITEM") == False:
+        push_elements_back_to_stack(ctx, cfg)
+    return True
+
+
+
 _CREATE_CALL_TABLE={
     "HOSTGROUPS": _create_hostgroup,
     "HOST": _create_host,
     "TEMPLATE": _create_template,
     "INTERFACE": _create_interface,
+    "ITEM": _create_item,
 }
 
 def Create(ctx, *args, **kw):

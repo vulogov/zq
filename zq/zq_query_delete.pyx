@@ -20,11 +20,15 @@ def _delete_template(ctx, args, kw, _data):
 def _delete_interface(ctx, args, kw, _data):
     return _delete_element(ctx, args, kw, ctx.zapi.hostinterface.delete, _data, "interfaceid", "interfaceids")
 
+def _delete_item(ctx, args, kw, _data):
+    return _delete_element(ctx, args, kw, ctx.zapi.item.delete, _data, "itemid", "itemids")
+
 _DELETE_CALL_TABLE={
     "HOSTGROUPS": _delete_hostgroup,
     "HOST": _delete_host,
     "TEMPLATE": _delete_template,
     "INTERFACE": _delete_interface,
+    "ITEM": _delete_item,
 }
 
 def Delete(ctx, *args, **kw):
