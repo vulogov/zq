@@ -109,8 +109,10 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Call", Call)
         self.registerGlobals("Load", Load)
         self.registerGlobals("LoadPath", LoadPath)
+        self.registerGlobals("Do", Do)
         self.registerGlobals("IfTrue", IfTrue)
         self.registerGlobals("IfFalse", IfFalse)
+        self.registerGlobals("Loop", Loop)
         self.registerGlobals("Error", Error)
         self.registerGlobals("Warning", Warning)
         self.registerGlobals("Ok", Ok)
@@ -139,6 +141,10 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("JmxHostInterface", SnmpHostInterface)
         ## Pre-defined variables
         self.registerGlobals("ExtendedSelect", True)  ## Add extra data into (Hosts) and friends
+        ## And the modules, just for fun of it
+        self.registerGlobals("Time", time)
+        self.registerGlobals('loop', create_module('loop', _LOOP_MODULE, "Loop functors"))
+
 
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)

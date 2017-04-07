@@ -430,5 +430,15 @@ def set_dict_default(_d, _key, _default):
     _d[_key] = _default
     return _d
 
+def create_module(name, _kw, desc="", **kw):
+    import types
+    for k in kw.keys():
+        _kw[k] = kw[k]
+    m = types.ModuleType(name, desc)
+    print m,_kw
+    m.__dict__.update(_kw)
+    return m
+
+
 
 

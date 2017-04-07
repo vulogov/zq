@@ -58,7 +58,7 @@ setup(
     version = '0.4',
     description = 'ZQL - Zabbix Query Language',
     install_requires = ["cython", "msgpack-python", "simplejson", "hy", "pyfiglet",
-                "gevent", "json", "termcolor", "humanfriendly"],
+                "gevent", "json", "termcolor", "humanfriendly", "ipaddr"],
     requires = [],
     include_package_data = True,
     url = 'https://github.com/vulogov/zq/',

@@ -44,7 +44,10 @@ include "zq_query_output.pyx"
 include "zq_query_stack.pyx"
 include "zq_query_filters.pyx"
 include "zq_query_join.pyx"
+include "zq_query_loop.pyx"
+include "zq_query_extern.pyx"
 include "zq_clear.pyx"
+
 
 
 
