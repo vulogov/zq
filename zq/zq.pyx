@@ -31,16 +31,21 @@ include "zq_query_vars.pyx"
 include "zq_query_stackless.pyx"
 include "zq_query_logic.pyx"
 include "zq_query_query.pyx"
+include "zq_query_join.pyx"
+include "zq_query_application.pyx"
 include "zq_query_delete.pyx"
 include "zq_query_create.pyx"
 include "zq_query_update.pyx"
 include "zq_query_new.pyx"
 include "zq_query_words.pyx"
 include "zq_query_group.pyx"
+include "zq_query_link.pyx"
 include "zq_query_output.pyx"
 include "zq_query_stack.pyx"
 include "zq_query_filters.pyx"
+include "zq_query_join.pyx"
 include "zq_clear.pyx"
+
 
 
 

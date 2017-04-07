@@ -55,8 +55,7 @@ with open('README.txt') as file:
 
 setup(
     name = "zq",
-
-    version = '0.3',
+    version = '0.4',
     description = 'ZQL - Zabbix Query Language',
     install_requires = ["cython", "msgpack-python", "simplejson", "hy", "pyfiglet",
                 "gevent", "json", "termcolor", "humanfriendly"],

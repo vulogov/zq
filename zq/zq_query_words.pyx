@@ -5,6 +5,12 @@ def Version(ctx):
     return ctx
 
 def Hosts(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectParentTemplates", 1)
+        kw = set_dict_default(kw, "selectGroups", 1)
+        kw = set_dict_default(kw, "selectItems", 1)
+        kw = set_dict_default(kw, "selectInterfaces", ['interfaceid','hostid','dns','port','type','main','ip','useip'])
     try:
         res = apply(ctx.zapi.host.get, (), kw)
         ctx.push({'HOST': res})
@@ -14,11 +20,26 @@ def Hosts(ctx, **kw):
         return ctx
     return ctx
 
-def Interfaces(ctx):
-    ctx.push({'INTERFACES': ctx.zapi.hostinterface.get()})
+
+def Interfaces(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectHosts", 1)
+        kw = set_dict_default(kw, "selectItems", ['itemid','name','key_', 'hostid','type','interfaceid'])
+    try:
+        res = apply(ctx.zapi.hostinterface.get, (), kw)
+        ctx.push({'INTERFACE': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Interfaces) query to Zabbix")
+        return ctx
     return ctx
 
 def Hostgroups(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectHosts", 1)
+        kw = set_dict_default(kw, "selectTemplates", 1)
     try:
         res = apply(ctx.zapi.hostgroup.get, (), kw)
         ctx.push({'HOSTGROUPS': res})
@@ -29,12 +50,37 @@ def Hostgroups(ctx, **kw):
     return ctx
 
 
-def Templates(ctx):
-    ctx.push({'TEMPLATES': ctx.zapi.template.get()})
+def Templates(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectParentTemplates", 1)
+        kw = set_dict_default(kw, "selectHosts", 1)
+        kw = set_dict_default(kw, "selectGroups", 1)
+    try:
+        res = apply(ctx.zapi.template.get, (), kw)
+        ctx.push({'TEMPLATE': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Templates) query to Zabbix")
+        return ctx
     return ctx
 
-def Items(ctx):
-    ctx.push({'ITEMS': ctx.zapi.item.get()})
+def Items(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectInterfaces", 1)
+        kw = set_dict_default(kw, "selectHosts", 1)
+    try:
+        res = apply(ctx.zapi.template.get, (), kw)
+        for i in res:
+            print i.keys()
+            print i
+            print
+        ctx.push({'ITEM': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Items) query to Zabbix")
+        return ctx
     return ctx
 
 def Triggers(ctx):

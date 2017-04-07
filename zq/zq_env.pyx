@@ -41,6 +41,10 @@ class ZQ_ENV(UserDict.UserDict):
         self.envs = LifoQueue(self.cfg["ZQ_MAX_ENV_STACK"])
         self.registerGlobals("Set", Set)
         self.registerGlobals("Append", Append)
+        self.registerGlobals("SearchAndReplace", SearchAndReplace)
+        self.registerGlobals("EnableHost", EnableHost)
+        self.registerGlobals("DisableHost", DisableHost)
+        self.registerGlobals("Variable", Variable)
         self.registerGlobals("Ne", Ne)
         self.registerGlobals("Eq", Eq)
         self.registerGlobals("Lg", Lg)
@@ -89,6 +93,7 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Dup", Dup)
         self.registerGlobals("Merge", Merge)
         self.registerGlobals("Out", Out)
+        self.registerGlobals("Empty", Empty)
         self.registerGlobals("File", File)
         self.registerGlobals("Json", Json)
         self.registerGlobals("Pretty_Json", Pretty_Json)
@@ -99,6 +104,7 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Delete", Delete)
         self.registerGlobals("Create", Create)
         self.registerGlobals("Update", Update)
+        self.registerGlobals("Join", Join)
         self.registerGlobals("Query", Query)
         self.registerGlobals("Call", Call)
         self.registerGlobals("Load", Load)
@@ -111,6 +117,10 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("RawDisplay", RawDisplay)
         self.registerGlobals("Clear", Clear)
         self.registerGlobals("ClearJobQueue", ClearJobQueue)
+        self.registerGlobals("Link", Link)
+        self.registerGlobals("Unlink", Unlink)
+        self.registerGlobals("Applications", Applications)
+
         ##
         self.registerGlobals("GET", GET)
         self.registerGlobals("CREATE", CREATE)
@@ -121,6 +131,14 @@ class ZQ_ENV(UserDict.UserDict):
         ##
         self.registerGlobals("HOST", HOST)
         self.registerGlobals("HOSTGROUPS", HOSTGROUPS)
+        self.registerGlobals("TEMPLATE", TEMPLATE)
+        ## For the hostinterface (Create)
+        self.registerGlobals("AgentHostInterface", AgentHostInterface)
+        self.registerGlobals("SnmpHostInterface", SnmpHostInterface)
+        self.registerGlobals("IPMIHostInterface", IPMIHostInterface)
+        self.registerGlobals("JmxHostInterface", SnmpHostInterface)
+        ## Pre-defined variables
+        self.registerGlobals("ExtendedSelect", True)  ## Add extra data into (Hosts) and friends
 
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)

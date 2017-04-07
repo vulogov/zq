@@ -3,13 +3,34 @@
 ##
 
 
-def Set(_src, _dst, key, value):
+def Set(ctx, _src, _dst, key, value):
     if not _src.has_key(key):
         return _dst
     _dst[key] = value
     return _dst
 
-def Append(_src, _dst, key, value):
+def EnableHost(ctx, _src, _dst, key, value):
+    if not _src.has_key(key):
+        return _dst
+    _dst[key] = 0
+    return _dst
+
+def DisableHost(ctx, _src, _dst, key, value):
+    if not _src.has_key(key):
+        return _dst
+    _dst[key] = 1
+    return _dst
+
+def Variable(ctx, _src, _dst, key, value):
+    true_value = Getv(ctx, value)
+    if true_value == None:
+        return _dst
+    _dst[key] = value
+    return _dst
+
+
+
+def Append(ctx, _src, _dst, key, value):
     if not _src.has_key(key) or type(_src[key]) != types.ListType:
         return _dst
     elif _dst.has_key(key) and type(_dst[key]) == types.ListType:
@@ -21,12 +42,31 @@ def Append(_src, _dst, key, value):
         return _dst
     return _dst
 
+def SearchAndReplace(ctx, _src, _dst, key, value):
+    if not _src.has_key(key):
+        return _dst
+    if value[0] == "/":
+        ## String replacement
+        p = value.split("/")
+        if len(p) != 4 and p[0] != "" and p[3] != "":
+            return _dst
+        _orig, _repl = p[1], p[2]
+        _dst[key] = _src[key]
+        _dst[key] = _dst[key].replace(_orig, _repl)
+    elif value[0] in ['+', '@']:
+        ## Table replacement
+        pass
+    else:
+        pass
+    return _dst
+
+
 
 ##
 ## Update logic
 ##
 
-def _update_element(ctx, _cmd, args, _primary_key, _p):
+def _update_element(ctx, _cmd, args, _primary_key, _group_key, _p):
     for p in _p:
         if not p.has_key(_primary_key):
             return False
@@ -41,31 +81,42 @@ def _update_element(ctx, _cmd, args, _primary_key, _p):
                 ## Bad parameters
                 continue
             try:
-                d = apply(func, (p, d, key, _val))
+                d = apply(func, (ctx, p, d, key, _val))
             except KeyboardInterrupt:
                 return False
         res = apply(_cmd, (), d)
-        if not res.has_key(_primary_key) or len(res[_primary_key]) == 0:
-            print 1,res
+        if not res.has_key(_group_key):
             return False
     return True
 
 
 def _update_hostgroup(ctx, args, kw, _data):
-    print "YYY",_data
-    return _update_element(ctx, ctx.zapi.hostgroup.update, args, "groupid", _data)
+    return _update_element(ctx, ctx.zapi.hostgroup.update, args, "groupid", "groupids", _data)
 
 def _update_host(ctx, args, kw, _data):
-    print "(Update) HOST",_data
-    return True
+    return _update_element(ctx, ctx.zapi.host.update, args, "hostid", "hostids", _data)
+
+def _update_template(ctx, args, kw, _data):
+    return _update_element(ctx, ctx.zapi.template.update, args, "templateid", "templateids", _data)
+
+def _update_interface(ctx, args, kw, _data):
+    return _update_element(ctx, ctx.zapi.hostinterface.update, args, "interfaceid", "interfaceids", _data)
+
+def _update_item(ctx, args, kw, _data):
+    return _update_element(ctx, ctx.zapi.item.update, args, "itemid", "itemids", _data)
+
 
 _UPDATE_CALL_TABLE={
     "HOSTGROUPS": _update_hostgroup,
     "HOST": _update_host,
+    "TEMPLATE": _update_template,
+    "INTERFACE": _update_interface,
+    "ITEM": _update_item,
 }
 
 def Update(ctx, *args, **kw):
-    if not _fill_bjq_queue(ctx, ctx.jobs.direct):
+    kw["mode"] = 2
+    if not _fill_bjq_queue(ctx, ctx.jobs.direct, mode=2):
         if ctx.env.shell != None:
             ctx.env.shell.warning("(Update...) can not populate the queue. Check logic!")
         return ctx
@@ -77,5 +128,5 @@ def Update(ctx, *args, **kw):
         _key, _data = _req
         if not _UPDATE_CALL_TABLE[_key](ctx, args, kw, _data):
             if ctx.env.shell != None:
-                ctx.env.shell.warning("(Update...) can not create element %s"%str(_req))
+                ctx.env.shell.warning("(Update...) can not change element %s"%str(_req))
     return ctx

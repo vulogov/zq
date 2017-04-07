@@ -9,6 +9,11 @@ def _fill_bjq_queue(ctx, _cmd, _key=None, **kw):
             limit = int(kw["limit"])
         except:
             limit = None
+    if not kw.has_key("mode"):
+        ## Default is create
+        mode = 0
+    else:
+        mode = kw["mode"]
     c = 0
     while True:
         if limit != None and c >= limit:
@@ -23,17 +28,23 @@ def _fill_bjq_queue(ctx, _cmd, _key=None, **kw):
         c += 1
         acceptable = False
         for k in job.keys():
-            if not ctx.jobs.isAcceptable(k) or type(job[k]) != types.DictType:
+            if not ctx.jobs.isAcceptable(k) or type(job[k]) not in [ types.DictType, types.ListType ]:
                 acceptable = False
             else:
                 acceptable = True
+            if type(job[k]) == types.ListType and mode == 0:
+                for l in job[k]:
+                    if "CREATE" in l.keys():
+                        acceptable = True
+                    else:
+                        acceptable = False
         if not acceptable:
             ctx.push(job)
             break
         for k in job.keys():
             if _key != None and k == _key:
                 continue
-            if _key != None:
+            if _key != None and type(job[k]) == types.DictType:
                 del job[k][_key]
         res = _cmd(job)
         if res == False:
@@ -42,7 +53,7 @@ def _fill_bjq_queue(ctx, _cmd, _key=None, **kw):
 
 class BJQ:
     def __init__(self, env):
-        self.supported_types = ["HOSTGROUPS", "TEMPLATES", "HOST", "ITEMS", "ACTIONS"]
+        self.supported_types = ["HOSTGROUPS", "TEMPLATE", "HOST", "INTERFACE", "ITEM", "ACTION", "APPLICATION"]
         self.env = env
         self.jobs = Queue.PriorityQueue(maxsize=self.env.cfg["ZQ_MAX_PIPELINE"])
     def isAcceptable(self, key):

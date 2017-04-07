@@ -353,6 +353,15 @@ def extract_key_from_info(_info, main_key, search_key):
             res.append(d[search_key])
     return res
 
+def extract_key_from_list(_list, _key):
+    out = []
+    for d in _list:
+        if not d.has_key(_key):
+            continue
+        if d[_key] not in out:
+            out.append(d[_key])
+    return out
+
 def list2listofdicts(_list, key):
     out = []
     for i in _list:
@@ -380,5 +389,46 @@ def do_template(_buffer, _kw=os.environ, **kw):
     tpl = string.Template(_buffer)
     res = tpl.safe_substitute(_kw)
     return res
+
+def pull_elements_from_stack_by_type(ctx, *_types):
+    out = {}
+    _continue = True
+    while True:
+        if not _continue:
+            break
+        p = ctx.pull()
+        if not p:
+            break
+        for k in p.keys():
+            if k in _types:
+                if k not in out.keys():
+                    out[k] = p[k]
+                else:
+                    out[k] += p[k]
+            else:
+                ctx.push(p)
+                _continue = False
+                break
+
+    return out
+
+def push_elements_back_to_stack(ctx, _data):
+    for k in _data.keys():
+        Push(ctx, k, _data[k])
+
+
+def rename_keys_from_aliases(_data, _aliases):
+    for k in _data.keys():
+        if k in _aliases.keys():
+            _data[_aliases[k]] = _data[k]
+            del _data[k]
+    return _data
+
+def set_dict_default(_d, _key, _default):
+    if _d.has_key(_key):
+        return _d
+    _d[_key] = _default
+    return _d
+
 
 
