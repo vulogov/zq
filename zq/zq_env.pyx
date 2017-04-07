@@ -119,7 +119,7 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("ClearJobQueue", ClearJobQueue)
         self.registerGlobals("Link", Link)
         self.registerGlobals("Unlink", Unlink)
-        self.registerGlobals("Application", Application)
+        self.registerGlobals("Applications", Applications)
 
         ##
         self.registerGlobals("GET", GET)

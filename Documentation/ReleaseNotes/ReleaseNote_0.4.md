@@ -76,7 +76,7 @@ This example will return all hosts, which dns nama matches pattern "test*":
 
 8. (Interfaces) are now supporting (Join)
 
-9. Cainable (Join) is now supported.
+9. Chainable (Join) is now supported.
 
 Example query:
 ```bash
@@ -86,6 +86,17 @@ Example query:
 (Out)
 ```
 This query will select Interfaces where DNS matches "test*", perform the first Join to get the host information and the second Join, which will push only Items into the stack. So...essentially, here is the list of the Items configured for the host where dns matches certain pattern.
+
+10. New "word" (Applications), returning the list of the Zabbix Applications. Supported by (Join)
+
+Example query:
+
+```bash
+(ZBX) (Applications) (Filter TRUE ["name" Eq "APP1"]) 
+  (Join :ITEM False) 
+(Out)
+```
+This query will return the list of Hosts on which we do monitor application "APP1"
 
 ## Updated features
 

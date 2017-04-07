@@ -1,4 +1,4 @@
-def Application(ctx, *args, **kw):
+def Applications(ctx, *args, **kw):
     kw["output"] = "extend"
     if Getv(ctx, "ExtendedSelect"):
         kw = set_dict_default(kw, "selectHost", ['hostid', 'host'])
