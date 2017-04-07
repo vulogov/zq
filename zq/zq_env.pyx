@@ -13,9 +13,10 @@ class CFG(UserDict.UserDict):
 
 
 
-class ZQ_ENV(UserDict.UserDict):
+class ZQ_ENV(UserDict.UserDict, MODCACHE):
     def __init__(self, _shell=None, **kw):
         UserDict.UserDict.__init__(self)
+        MODCACHE.__init__(self)
         self.ready = False
         self.shell = _shell
         self.params = kw
@@ -82,6 +83,7 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Interfaces", Interfaces)
         self.registerGlobals("Version", Version)
         self.registerGlobals("Value", Value)
+        self.registerGlobals("Import", Import)
         self.registerGlobals("Drop", Drop)
         self.registerGlobals("Push", Push)
         self.registerGlobals("New", New)
@@ -143,7 +145,7 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("ExtendedSelect", True)  ## Add extra data into (Hosts) and friends
         ## And the modules, just for fun of it
         self.registerGlobals("Time", time)
-        self.registerGlobals('loop', create_module('loop', _LOOP_MODULE, "Loop functors"))
+        self.registerGlobals('Gen', create_module('Gen', _GEN_MODULE, "Generator functors"))
 
 
     def EVAL(self, _q):

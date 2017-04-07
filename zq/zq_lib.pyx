@@ -435,7 +435,6 @@ def create_module(name, _kw, desc="", **kw):
     for k in kw.keys():
         _kw[k] = kw[k]
     m = types.ModuleType(name, desc)
-    print m,_kw
     m.__dict__.update(_kw)
     return m
 
