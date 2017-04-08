@@ -53,3 +53,35 @@ def F_push(ctx, *args, **kw):
         else:
             pass
     return ctx
+
+def Args_push(ctx, *args, **kw):
+    return Push(ctx, "ARGS", {"args":args, "kw":kw})
+
+def F_star(ctx, *args, **kw):
+    f_q = []
+    a_q = []
+    while True:
+        p = ctx.pull()
+        if not p:
+            break
+        if not p.has_key("FUNCTION") and not p.has_key("ARGS"):
+            ## This is the end
+            ctx.push(p)
+            break
+        if p.has_key("FUNCTION"):
+            f_q.append(p["FUNCTION"])
+        elif p.has_key("ARGS"):
+            a_q.append(p["ARGS"])
+        else:
+            pass
+    for _f in f_q:
+        for f in _f.keys():
+            for a in a_q:
+                _args, _kw = a["args"],a["kw"]
+                for k in kw.keys():
+                    if not _kw.has_key(k):
+                        _kw[k] = kw[k]
+                real_args = tuple([ctx,]+list(_args))
+                apply(_f[f], tuple(_args), _kw)
+    return ctx
+

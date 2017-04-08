@@ -70,6 +70,19 @@ This query will import the ZQL extension module "Demo", making everything in it 
 ```
 This query will pass the reference to the function using word (Value) to the word (F!) which will execute it.
 
+  * (Args-> *args **keywords) - this word will push to the stack the arguments for the latter evaluation
+  * (F* **keywords) - this word will pull the function execution context and arguments from the stack and execute each discovered function with each set of discovered arguments.
+
+Example query:
+```bash
+(ZBX) 
+   (F-> ["Demo.PrintArgs" Demo.PrintArgs]) 
+   (Args-> 1 2 3 42 :answer 42) 
+   (Args-> 3.14 2.8 :boo "Boo") 
+(F* :keyword 12) (Out)
+```
+This query will prepare function execution context for the function Demo.PrintArgs, then pushes two sets of the arguments, then (F* ...) executes those functions. Please note, {keyword arguments} passed to (F* ...) will be added by default to all executions
+
 ## Updated features
 
 ### ZQL Language Core

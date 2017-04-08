@@ -116,6 +116,8 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("F", F)
         self.registerGlobals("F_bang", F_bang)
         self.registerGlobals("F_>", F_push)
+        self.registerGlobals("F*", F_star)
+        self.registerGlobals("Args_>", Args_push)
         self.registerGlobals("IfTrue", IfTrue)
         self.registerGlobals("IfFalse", IfFalse)
         self.registerGlobals("Loop", Loop)
