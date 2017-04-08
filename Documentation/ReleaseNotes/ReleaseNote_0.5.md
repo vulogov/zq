@@ -81,7 +81,7 @@ Example query:
    (Args-> 3.14 2.8 :boo "Boo") 
 (F* :keyword 12) (Out)
 ```
-This query will prepare function execution context for the function Demo.PrintArgs, then pushes two sets of the arguments, then (F* ...) executes those functions. Please note, {keyword arguments} passed to (F* ...) will be added by default to all executions
+This query will prepare function execution context for the function Demo.PrintArgs, then pushes two sets of the arguments, then (F* ...) executes this function twice. Each time with another arguments. Please note, {keyword arguments} passed to (F* ...) will be added by default to all executions
 
 ## Updated features
 
