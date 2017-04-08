@@ -1,11 +1,12 @@
-def Query(ctx, _name, _reference):
+def Query(ctx, _name, _reference, **kw):
     q = load_file_from_the_reference(_reference)
     if q == None:
         Status(ctx, STATUS=False, MESSAGE="Can not load query %s from %s"%(_name, _reference))
         return ctx
     q =list_2_buffer(buffer_2_list(q))
     ctx.env.Queries[_name] = q
-    Status(ctx, STATUS=True, MESSAGE="Query %s loaded from %s" % (_name, _reference))
+    if (kw.has_key("status") and kw["status"] == True) or (not kw.has_key("status")):
+        Status(ctx, STATUS=True, MESSAGE="Query %s loaded from %s" % (_name, _reference))
     return ctx
 
 def Load(ctx, *_name, **kw):

@@ -48,6 +48,28 @@ Example query:
 ```
 This query will import module "Version", which do have a function "Version". Then ZQL will call this function with (Do...) and place the value returned by the function in Stack.
 
+5. Functional programming capabilities are supported by following "words":
+ * (F-> ...) - this word will take a list of tuples, where the first element is a function name and the second element if the reference to this functin and pushes this as execution context to the stack.
+ * (F *arguments, **keywords) - this word will scan the stack for the stored execution context and will execute each finction passing to them parameters passed to the (F...) word.
+ 
+ Example query:
+ ```bash
+(ZBX) (Import "Demo") 
+   (F-> ["Demo.PrintArgs" Demo.PrintArgs]) 
+   (F "Hello world." :answer 42) 
+(Out)
+```
+This query will import the ZQL extension module "Demo", making everything in it available under 'Demo.*' context, then pushes the function from theat module into the stack as execution context, then execute it.
+
+  * (F! ...) - this word will take a reference to the function and will execute that function and return the result
+ Example query:
+ ```bash
+(ZBX) (Import "Version") 
+(Value Version.Version) 
+(F! )
+```
+This query will pass the reference to the function using word (Value) to the word (F!) which will execute it.
+
 ## Updated features
 
 ### ZQL Language Core
@@ -56,6 +78,8 @@ This query will import module "Version", which do have a function "Version". The
 2. (Getv ....) changes the behaviour:
 * By default or if you pass (Getv ... :keep False), (Getv) "word" will remove variable. In essentiality, one (Setv) is one (Getv)
 * If you want to change that behaviour, you must pass keyword parameter (Getv ... :keep True)
+3. "word" (Query) now accepts optional keyword arguments:
+* status = True/False - if status is False, then the status of the query load is not stored in the stack. Otherwise Query pushes (Status) element
 
 ### ZQL command-line tool
 

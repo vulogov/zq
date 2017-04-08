@@ -112,6 +112,10 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("Load", Load)
         self.registerGlobals("LoadPath", LoadPath)
         self.registerGlobals("Do", Do)
+        self.registerGlobals("Do_bang", Do_bang)
+        self.registerGlobals("F", F)
+        self.registerGlobals("F_bang", F_bang)
+        self.registerGlobals("F_>", F_push)
         self.registerGlobals("IfTrue", IfTrue)
         self.registerGlobals("IfFalse", IfFalse)
         self.registerGlobals("Loop", Loop)
@@ -132,6 +136,9 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("UPDATE", UPDATE)
         self.registerGlobals("limit", limit)
         self.registerGlobals("filter", filter)
+        ##
+        self.registerGlobals("FUNCTION", FUNCTION)
+        self.registerGlobals("QUERY", QUERY)
         ##
         self.registerGlobals("HOST", HOST)
         self.registerGlobals("HOSTGROUPS", HOSTGROUPS)

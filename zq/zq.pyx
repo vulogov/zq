@@ -52,6 +52,7 @@ include "zq_query_loop.pyx"
 include "zq_query_extern.pyx"
 include "zq_clear.pyx"
 include "zq_modules.pyx"
+include "zq_func.pyx"
 
 
 
