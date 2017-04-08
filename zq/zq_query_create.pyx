@@ -20,7 +20,6 @@ def _create_host(ctx, args, kw, _data):
     if not _data.has_key("host"):
         return False
     cfg = pull_elements_from_stack_by_type(ctx, "HOSTGROUPS", "TEMPLATE")
-    print "MMMM",cfg
     if not cfg.has_key("HOSTGROUPS"):
         push_elements_back_to_stack(ctx, cfg)
         return False
@@ -31,7 +30,6 @@ def _create_host(ctx, args, kw, _data):
         _templateids = []
     _data["groups"] = _hostgroupids
     _data["templates"] = _templateids
-    print "FFFF",_data
     try:
         res = apply(ctx.zapi.host.create, (), _data)
     except KeyboardInterrupt:

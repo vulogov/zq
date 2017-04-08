@@ -31,14 +31,12 @@ class FilesCache:
         return True
     def add(self, name, _ref):
         if not self.fscache:
-            print 1
             return False
         self.refresh()
         if _ref in self.c.keys() and ((time.time()-self.c[_ref][0]) < self.expire):
             return True
         _mod = load_file_from_the_reference(_ref)
         if not _mod:
-            print 2,_ref
             return False
         n = str(uuid.uuid4())
         n_fname = "%s/%s"%(self.fscache_dir, n)

@@ -14,6 +14,7 @@ class MODCACHE:
                     m = imp.load_source(_name, ref_in_cache)
                     real_name = m.__ZQL_MOD_NAME__
                     self.registerGlobals(real_name, m)
+                    self.shell.ok("Importing %s as %s"%(_name, real_name))
                     return True
         return False
 

@@ -72,10 +72,6 @@ def Items(ctx, **kw):
         kw = set_dict_default(kw, "selectHosts", 1)
     try:
         res = apply(ctx.zapi.template.get, (), kw)
-        for i in res:
-            print i.keys()
-            print i
-            print
         ctx.push({'ITEM': res})
     except:
         if ctx.env.shell != None:
