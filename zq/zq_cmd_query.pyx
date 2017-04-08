@@ -9,6 +9,7 @@ class ZQ_CMD_QUERY:
         self.MODCACHEPATH = get_from_env("ZQ_MODCACHEPATH", default="$HOME/.zql/mcache")
         self.MODCACHEEXPIRE = get_from_env("ZQ_MODCACHEEXPIRE", default="15m")
         self.MODCACHEDIR = get_from_env("ZQ_MODCACHEDIR", default="+"+posixpath.abspath(os.getcwd())+"/modules")
+        self.BOOTSTRAP = get_from_env("ZQ_BOOTSTRAP", default="+" + posixpath.abspath(os.getcwd()) + "/bootstrap.zql")
         try:
             self.MAX_PIPELINE = int(get_from_env("ZQ_MAX_PIPELINE", default="100"))
         except:
@@ -49,6 +50,8 @@ class ZQ_CMD_QUERY:
                                 help="'Column'-separated list of the references for the locations of the loadable modules")
         self.parser.add_argument("--modcache-clear", action="store_true",
                                 help="Clear module cache during startup")
+        self.parser.add_argument("--bootstrap", '-b', type=str, default=self.BOOTSTRAP,
+                                 help="Path to the query file which will be authomatically executed during ZQL init")
 
     def preflight(self):
         if self.args.config != None:
@@ -78,6 +81,12 @@ class ZQ_CMD_QUERY:
             if not self.env.mcache.clear():
                 self.error("Error clearing moule cache in %s" % self.env.cfg["ZQ_MODCACHEPATH"])
                 return False
+        q = load_query_from_the_reference(self.args.bootstrap)
+        if q != None:
+            self.ok("Processing bootstrap from %s"%self.args.bootstrap)
+            self.env.QUERY(q)
+        else:
+            self.warning("Can not process bootstrap from %s"%self.args.bootstrap)
         return True
 
     def make_doc(self):

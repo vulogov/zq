@@ -312,6 +312,12 @@ def load_file_from_the_reference(_ref):
         ## Return the value as is
         return _ref
 
+def load_query_from_the_reference(_ref):
+    _q = load_file_from_the_reference(_ref)
+    if not _q:
+        return None
+    return list_2_buffer(buffer_2_list(_q))
+
 def load_and_parse_from_the_reference(_ref, kw):
     buf = load_file_from_the_reference(_ref)
     if not buf:

@@ -87,6 +87,7 @@ This query will pass the reference to the function using word (Value) to the wor
 * --modcache - ful path to the module cache. Must be writable. ZQL will create it is not existing. Default: "$HOME/.zql/mcache"
 * --modcache-expire - "humanfriendly" expiration time for the modules in cache {number} - seconds, {number}m - munutes, {number}h - hours, {number}d - days
 * --modcache-path - 'column'-separated list of the base references for the ZQL loadable modules. Default: "+./modules" 
+* --bootstrap/-b - reference to the ZQL file which will be executed during ZQL startup. All your (Import...) shall be in bootstrap
 
 
 ## Removed features
