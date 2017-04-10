@@ -4,6 +4,7 @@ Zabbix Query Language is an instrument, which will permit you to send a human-fr
 
 ### Documentation
 
+* Before you start to use the module and tool, please look at the [LICENSE](LICENSE) and the [CREDITS](CREDITS.md).
 * Read the [ZQ Documentation](Documentation/README.md)
 * Read the [Release Notes](Documentation/ReleaseNotes/README.md)
 * Read the [Standard Library](modules/README.md) reference guide.
