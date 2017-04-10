@@ -79,6 +79,8 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("Items", Items)
         self.registerGlobals("Proxies", Proxies)
         self.registerGlobals("Triggers", Triggers)
+        self.registerGlobals("Maintenance", Maintenance)
+        self.registerGlobals("Graphs", Graphs)
         self.registerGlobals("Hostgroups", Hostgroups)
         self.registerGlobals("Interfaces", Interfaces)
         self.registerGlobals("Version", Version)
