@@ -118,6 +118,17 @@ Example query:
 ```
 This query sets two different variables using different words, and then querying all configuration data
 
+12. (ZBX {environment name} *{references}) - this word will add new Zabbix server to the environment and will return the reference on its context
+
+Example query:
+```bash
+(ZBX-> Default \"+../../etc/default/localzabbix2.ini\")
+(Hosts)
+(Out)
+```
+
+
+
 ### Standard modules library
 
 1. Module [CheetahTempate](../../modules/CheetahTemplate.md) exposed as _CT_

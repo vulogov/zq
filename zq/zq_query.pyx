@@ -115,7 +115,6 @@ def ZBX_push(name, *_refs):
                 env.shell.error("Loading Zabbix Server configuration from %s had failed" % _ref)
             return None
         for s in cfg:
-            print s
             _last_ctx = env.srv.addServer(s["url"], s["username"], s["password"], s["name"], s["sender"], s["sender_port"])
     return _last_ctx
 
