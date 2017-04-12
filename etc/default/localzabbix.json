@@ -3,12 +3,16 @@
     "name": "zabbix",
     "url": "http://192.168.101.23/zabbix",
     "username": "Admin",
-    "password": "zabbix"
+    "password": "zabbix",
+    "sender": "192.168.101.23",
+    "sender_port": 10051
   },
   {
     "name": "zabbix2",
     "url": "http://192.168.101.23/zabbix",
     "username": "Admin",
-    "password": "zabbix"
+    "password": "zabbix",
+    "sender": "192.168.101.23",
+    "sender_port": 10051
   }
 ]

@@ -26,7 +26,34 @@ def load_config_file(path):
                 d["url"] = config.get(s, "url")
                 d["username"] = config.get(s, "username")
                 d["password"] = config.get(s, "password")
+                d["sender"] = config.get(s, "sender")
+                d["sender_port"] = int(config.get(s, "sender_port"))
                 out.append(d)
             return out
         except KeyboardInterrupt:
             return None
+
+def Cfg(ctx, *_name):
+    _ok = []
+    _ret = {"CFG":[{},]}
+    for n in _name:
+        for k in ctx.env.cfg.keys():
+            if fnmatch.fnmatch(k, n) and k not in _ok:
+                _ret["CFG"][0][k] = ctx.env.cfg[k]
+                _ok.append(k)
+    ctx.push(_ret)
+    return ctx
+
+def Cfg_bang(ctx, _name):
+    if ctx.env.cfg.has_key(_name):
+        return ctx.env.cfg[_name]
+    return None
+
+def Cfg_set(ctx, _name, _val):
+    ctx.env.cfg[_name] = _val
+    return ctx
+
+def Cfg_star(ctx, **kw):
+    for k in kw.keys():
+        Cfg_set(ctx, k, kw[k])
+    return ctx

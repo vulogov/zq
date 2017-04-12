@@ -83,6 +83,47 @@ Example query:
 ```
 This query will prepare function execution context for the function Demo.PrintArgs, then pushes two sets of the arguments, then (F* ...) executes this function twice. Each time with another arguments. Please note, {keyword arguments} passed to (F* ...) will be added by default to all executions
 
+6. Data acuisition word (Templates)
+7. Data acuisition word (Graphs)
+8. Data acuisition word (Maintenance)
+9. Data acuisition word (Proxies)
+10. (Join) now supports (Templates) (Graphs) (Proxies (Maintenance))
+11. Environment configuration manipulatoin words:
+  * (Cfg {name}) - obtaining information from the ZQL Environment configuration and if found, placed it in the Stack as a Dictinary with key "CFG"
+  
+  Example query:
+  ```bash
+(ZBX) (Cfg "ZQ_REF_BASE") (Out)
+```
+This query will query a single configuration parameter
+
+   Example query:
+```bash
+(ZBX) (Cfg "*") (Out) (Pretty_Json)
+```
+This query will pretty-print your configuration.
+
+  
+  * (Cfg! {name or pattern}) - acting as (Cfg), but instead of pushing config value to the Stack, it's returning it. WARNING!!!, this is a "border word", you will loose a context after (Cfg!...)
+  * (Cfg-> {name} {value}) - put the value in the ZQL Environment configuration under specified name
+  * (Cfg* {**key-value pairs}) - put multiple configuration options
+  
+Example query:
+```bash
+(ZBX) 
+  (Cfg* :ZQ_PI 3.14) 
+  (Cfg-> "ZQ_ANSWER" 42) 
+  (Cfg "*") 
+(Empty)
+```
+This query sets two different variables using different words, and then querying all configuration data
+
+### Standard modules library
+
+1. Module [CheetahTempate](../../modules/CheetahTemplate.md) exposed as _CT_
+
+This module render ZQL data from the stack using Cheetah Templating engine. Please see [module documentation](../../modules/CheetahTemplate.md) for more info.
+
 ## Updated features
 
 ### ZQL Language Core
@@ -93,6 +134,8 @@ This query will prepare function execution context for the function Demo.PrintAr
 * If you want to change that behaviour, you must pass keyword parameter (Getv ... :keep True)
 3. "word" (Query) now accepts optional keyword arguments:
 * status = True/False - if status is False, then the status of the query load is not stored in the stack. Otherwise Query pushes (Status) element
+4. To keep with "good word naming practice", (Out!) is an alias to the (Out)
+
 
 ### ZQL command-line tool
 

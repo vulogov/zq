@@ -20,6 +20,7 @@ NONE = None
 NEW = "NEW"
 PULL = "PULL"
 DEFAULT = "DEFAULT"
+Default = "default"
 CR = "\n"
 
 

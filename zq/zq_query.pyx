@@ -92,14 +92,32 @@ def ZBX(ctx=None, server="zabbix", name="default"):
             env.shell.error("DEFAULT context has been requested, but there is None. Check logic!")
             return None
         return _ctx
+    elif type(ctx) == types.DictType and ctx.has_key("CTX"):
+        env.srv[server].push(ctx)
     else:
         pass
     return env.srv[server]
-def ZBXS(name="default"):
+
+def ZBX_star(name="default"):
     env = ENVIRONMENT(name)
-    return env.srv.data
+    _val =  [env.srv.data,]
+    return {'CTX':_val}
 
-
+def ZBX_push(name, *_refs):
+    env = ENVIRONMENT(name)
+    _last_ctx = None
+    for _ref in _refs:
+        if env.shell != None:
+            env.shell.ok("Loading Zabbix Server configuration from %s"%_ref)
+        cfg = load_config_file(_ref)
+        if cfg == None:
+            if env.shell != None:
+                env.shell.error("Loading Zabbix Server configuration from %s had failed" % _ref)
+            return None
+        for s in cfg:
+            print s
+            _last_ctx = env.srv.addServer(s["url"], s["username"], s["password"], s["name"], s["sender"], s["sender_port"])
+    return _last_ctx
 
 
 
