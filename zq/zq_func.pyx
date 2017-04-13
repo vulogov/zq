@@ -52,6 +52,8 @@ def F_push(ctx, *args, **kw):
             Push(ctx, "QUERY", {_name: _fun})
         else:
             pass
+    for _name in kw.keys():
+        Push(ctx, "FUNCTION", {_name:kw[_name]})
     return ctx
 
 def Args_push(ctx, *args, **kw):
