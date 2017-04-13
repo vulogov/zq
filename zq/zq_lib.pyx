@@ -173,6 +173,15 @@ def buffer_2_list(_buffer):
             continue
         out.append(l)
     return out
+
+def buffer_2_list_raw(_buffer):
+    out = []
+    for l in _buffer.split("\n"):
+        l = l.strip()
+        out.append(l)
+    return out
+
+
 def list_2_buffer(_list):
     return "".join(_list)
 

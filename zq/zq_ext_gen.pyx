@@ -17,8 +17,25 @@ def _ip4net_generator(_net="192.168.0.0/24"):
         out.append(str(i))
     return out[1:-1]
 
+def _reference_content_generator(_ref):
+    buf = load_file_from_the_reference(_ref)
+    if not buf:
+        return []
+    return buffer_2_list_raw(buf)
+
+def _pipe_generator(_cmd):
+    try:
+        buf = os.popen(_cmd).read()
+    except:
+        return []
+    if not buf:
+        return []
+    return buffer_2_list_raw(buf)
+
 _GEN_MODULE = {
     'Range': _range_generator,
     'UUID': _uuid_generator,
     'IP4NET': _ip4net_generator,
+    'Ref': _reference_content_generator,
+    'Cmd': _pipe_generator,
 }

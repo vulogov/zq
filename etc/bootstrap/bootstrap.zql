@@ -1,6 +1,6 @@
 (ZBX)
 (Ok "Bootstrapping ZQL")
 (Import "Demo")
-(Import "version")
+(Import "Version")
 (Import "CheetahTemplate")
 (Ok "Bootstrapping done")
