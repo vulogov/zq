@@ -5,4 +5,8 @@ recursive-include zq CMakeLists.txt
 recursive-include src *.pyi
 recursive-include include *
 recursive-include cmake *
+recursive-include querylib *.zql
+recursive-include templates *.tpl
+recursive-include modules *.py
+
 

@@ -1,5 +1,5 @@
 def Clear(ctx):
-    ctx.reload()
+    ctx.reload(reconnect=True)
     _ctx = ClearJobQueue(ctx)
 
 def Empty(ctx):

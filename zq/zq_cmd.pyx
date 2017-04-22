@@ -39,7 +39,7 @@ class ZQ_GEN(object):
                 continue
             if m != None:
                 try:
-                    self.ok("Calling preflight in %s"%b.__name__)
+                    self.ok("Calling %s in %s"%(name,b.__name__))
                     res = apply(m, (self,), {})
                 except KeyboardInterrupt:
                     res = False
@@ -56,6 +56,7 @@ class ZQ_GEN(object):
             self.ready = False
             return False
         self.env.cfg["ZQ_HOME"] = self.args.home
+        self.env.cfg["Q_VERBOSE"] = self.args.v
         self.env.cfg["ZQ_ENV_NAME"] = self.args.default_environment
         self.env.cfg["ZQ_ENV_PATH"] = "%s/%s/"%(self.env.cfg["ZQ_HOME"], self.env.cfg["ZQ_ENV_NAME"])
         if self.env.cfg["ZQ_ENV_PATH"] == "+":
@@ -72,10 +73,14 @@ class ZQ_GEN(object):
     def process(self):
         self.args = self.parser.parse_args()
         #print self.args
+        self.ok("Initializing ZQL shell")
         self._call_hiera("make_doc", "Error creating documentation in %s")
         self.env = ZQ_ENV(self)
+        print 3
         ENVIRONMENT(self.args.default_environment,self.env)
+        self.ok("Calling preflight routines")
         self.main_preflight()
+        self.ok("Preflight done")
         if self.args.banner:
             self.banner()
         for e in ENV.keys():

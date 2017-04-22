@@ -1,8 +1,8 @@
-set( CLIPS6_MODULE_PATH /usr/local/lib/clips6 )
-set( CLIPS6_INCLUDE_PATH /usr/local/include/clips6 )
-set( CLIPS6_CLIPSLIBRARY_PATH /usr/local/lib )
-set( CLIPS6_CLIPSBIN_PATH /usr/local/bin )
-set( CLIPS6_CLIPSETC_PATH /usr/local/etc/clips6 )
-set( CLIPS6_BUILDLIBRARY_PATH ${CLIPS6_MODULE_PATH}/build )
+set( ZQ_MODULE_PATH /usr/local/lib/zql )
+set( ZQ_INCLUDE_PATH /usr/local/include/clips6 )
+set( ZQ_LIBRARY_PATH /usr/local/lib )
+set( ZQ_BIN_PATH /usr/local/bin )
+set( ZQ_ETC_PATH /usr/local/etc/zql )
+set( ZQ_BUILDLIBRARY_PATH ${ZQ_MODULE_PATH}/build )
 
 

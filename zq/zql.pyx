@@ -5,9 +5,11 @@ include "zq_cmd.pyx"
 include "zq_cmd_exec.pyx"
 include "zq_cmd_eval.pyx"
 include "zq_cmd_query.pyx"
+include "zq_cmd_batch.pyx"
 
-class ZQ_SHELL(ZQ_GEN,ZQ_TERMINAL,ZQ_HELP,ZQ_CMD_EVAL,ZQ_CMD_QUERY,ZQ_CMD_EXEC):
+class ZQ_SHELL(ZQ_GEN,ZQ_TERMINAL,ZQ_HELP,ZQ_CMD_EVAL,ZQ_CMD_QUERY,ZQ_CMD_EXEC,ZQ_BATCH):
     def __init__(self):
+        self.env = None
         self.doc = []
         self.log = None
         ZQ_GEN.__init__(self, "zql v %s" % ZQ_VERSION, "zql - Zabbix Query Shell")
@@ -15,6 +17,7 @@ class ZQ_SHELL(ZQ_GEN,ZQ_TERMINAL,ZQ_HELP,ZQ_CMD_EVAL,ZQ_CMD_QUERY,ZQ_CMD_EXEC):
         ZQ_HELP.__init__(self)
         ZQ_CMD_EVAL.__init__(self)
         ZQ_CMD_QUERY.__init__(self)
+        ZQ_BATCH.__init__(self)
         self.BANNER = "ZQL %s"%ZQ_VERSION
     def main_preflight(self):
         self._main_preflight()
@@ -25,6 +28,8 @@ class ZQ_SHELL(ZQ_GEN,ZQ_TERMINAL,ZQ_HELP,ZQ_CMD_EVAL,ZQ_CMD_QUERY,ZQ_CMD_EXEC):
         return True
 
 def main():
+    print "JJJ",repr(sys.argv)
+    print "JJJJJJ",len(sys.argv[1])
     cmd = ZQ_SHELL()
     cmd.process()
 

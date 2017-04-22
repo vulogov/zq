@@ -13,9 +13,10 @@ class CFG(UserDict.UserDict):
 
 
 
-class ZQ_ENV(UserDict.UserDict):
+class ZQ_ENV(UserDict.UserDict, MODCACHE):
     def __init__(self, _shell=None, **kw):
         UserDict.UserDict.__init__(self)
+        MODCACHE.__init__(self)
         self.ready = False
         self.shell = _shell
         self.params = kw
@@ -37,6 +38,7 @@ class ZQ_ENV(UserDict.UserDict):
         self.cfg["ZQ_ENV_NAME"] = "default"
         self.cfg["ZQ_MAX_PIPELINE"] = 100
         self.cfg["ZQ_MAX_ENV_STACK"] = 100
+        self.cfg["ZQ_VERBOSE"] = 0
         self.cfg["ZQ_UNSAFE_GLOBALS"] = False
         self.envs = LifoQueue(self.cfg["ZQ_MAX_ENV_STACK"])
         self.registerGlobals("Set", Set)
@@ -56,6 +58,7 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("NONE", NONE)
         self.registerGlobals("NEW", NEW)
         self.registerGlobals("DEFAULT", DEFAULT)
+        self.registerGlobals("Default", Default)
         self.registerGlobals("T", T)
         self.registerGlobals("F", F)
         self.registerGlobals("Match", Match)
@@ -72,16 +75,21 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("proxy_hostid", proxy_hostid)
         ##
         self.registerGlobals("ZBX", ZBX)
+        self.registerGlobals("ZBX*", ZBX_star)
+        self.registerGlobals("ZBX_>", ZBX_push)
         self.registerGlobals("Filter", Filter)
         self.registerGlobals("Hosts", Hosts)
         self.registerGlobals("Templates", Templates)
         self.registerGlobals("Items", Items)
         self.registerGlobals("Proxies", Proxies)
         self.registerGlobals("Triggers", Triggers)
+        self.registerGlobals("Maintenance", Maintenance)
+        self.registerGlobals("Graphs", Graphs)
         self.registerGlobals("Hostgroups", Hostgroups)
         self.registerGlobals("Interfaces", Interfaces)
         self.registerGlobals("Version", Version)
         self.registerGlobals("Value", Value)
+        self.registerGlobals("Import", Import)
         self.registerGlobals("Drop", Drop)
         self.registerGlobals("Push", Push)
         self.registerGlobals("New", New)
@@ -93,6 +101,7 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Dup", Dup)
         self.registerGlobals("Merge", Merge)
         self.registerGlobals("Out", Out)
+        self.registerGlobals("Out_bang", Out)
         self.registerGlobals("Empty", Empty)
         self.registerGlobals("File", File)
         self.registerGlobals("Json", Json)
@@ -109,8 +118,20 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("Call", Call)
         self.registerGlobals("Load", Load)
         self.registerGlobals("LoadPath", LoadPath)
+        self.registerGlobals("Do", Do)
+        self.registerGlobals("Do_bang", Do_bang)
+        self.registerGlobals("F", F)
+        self.registerGlobals("F_bang", F_bang)
+        self.registerGlobals("F_>", F_push)
+        self.registerGlobals("F*", F_star)
+        self.registerGlobals("Args_>", Args_push)
+        self.registerGlobals("Cfg", Cfg)
+        self.registerGlobals("Cfg_bang", Cfg_bang)
+        self.registerGlobals("Cfg_>", Cfg_set)
+        self.registerGlobals("Cfg*", Cfg_star)
         self.registerGlobals("IfTrue", IfTrue)
         self.registerGlobals("IfFalse", IfFalse)
+        self.registerGlobals("Loop", Loop)
         self.registerGlobals("Error", Error)
         self.registerGlobals("Warning", Warning)
         self.registerGlobals("Ok", Ok)
@@ -129,6 +150,9 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("limit", limit)
         self.registerGlobals("filter", filter)
         ##
+        self.registerGlobals("FUNCTION", FUNCTION)
+        self.registerGlobals("QUERY", QUERY)
+        ##
         self.registerGlobals("HOST", HOST)
         self.registerGlobals("HOSTGROUPS", HOSTGROUPS)
         self.registerGlobals("TEMPLATE", TEMPLATE)
@@ -139,6 +163,10 @@ class ZQ_ENV(UserDict.UserDict):
         self.registerGlobals("JmxHostInterface", SnmpHostInterface)
         ## Pre-defined variables
         self.registerGlobals("ExtendedSelect", True)  ## Add extra data into (Hosts) and friends
+        ## And the modules, just for fun of it
+        self.registerGlobals("Time", time)
+        self.registerGlobals('Gen', create_module('Gen', _GEN_MODULE, "Generator functors"))
+
 
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)

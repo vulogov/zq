@@ -17,10 +17,13 @@ def Setv(ctx, name, val=None, **kw):
             pass
     return ctx
 
-def Getv(ctx, name):
+def Getv(ctx, name, **kw):
     if ctx.env.cfg["ZQ_UNSAFE_GLOBALS"]:
         return None
     try:
-        return ctx.env.Globals[name]
+        res = ctx.env.Globals[name]
     except KeyboardInterrupt:
         return None
+    if not kw.has_key("keep") or ( kw.has_key("keep") and kw["keep"] == False):
+        del ctx.env.Globals[name]
+    return res

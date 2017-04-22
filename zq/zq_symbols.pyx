@@ -20,6 +20,7 @@ NONE = None
 NEW = "NEW"
 PULL = "PULL"
 DEFAULT = "DEFAULT"
+Default = "default"
 CR = "\n"
 
 
@@ -52,4 +53,9 @@ HOST="HOST"
 HOSTGROUPS="HOSTGROUPS"
 TEMPLATE="TEMPLATE"
 INTERFACE="INTERFACE"
+
+## Function programming
+FUNCTION=0
+QUERY=1
+
 

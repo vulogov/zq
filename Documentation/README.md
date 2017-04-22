@@ -2,5 +2,5 @@
 
 ### PDF presentations
 
-* [ZQL - The Query Language](ZQL_the_query_language_0.1.pdf)
+* [ZQL - The Query Language](ZQL_the_query_language_0.5.pdf)
 * [ZQL - Command Line Tool](ZQL_command_line_tool_0.1 copy.pdf)

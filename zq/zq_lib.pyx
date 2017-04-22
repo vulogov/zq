@@ -173,6 +173,15 @@ def buffer_2_list(_buffer):
             continue
         out.append(l)
     return out
+
+def buffer_2_list_raw(_buffer):
+    out = []
+    for l in _buffer.split("\n"):
+        l = l.strip()
+        out.append(l)
+    return out
+
+
 def list_2_buffer(_list):
     return "".join(_list)
 
@@ -312,6 +321,12 @@ def load_file_from_the_reference(_ref):
         ## Return the value as is
         return _ref
 
+def load_query_from_the_reference(_ref):
+    _q = load_file_from_the_reference(_ref)
+    if not _q:
+        return None
+    return list_2_buffer(buffer_2_list(_q))
+
 def load_and_parse_from_the_reference(_ref, kw):
     buf = load_file_from_the_reference(_ref)
     if not buf:
@@ -429,6 +444,15 @@ def set_dict_default(_d, _key, _default):
         return _d
     _d[_key] = _default
     return _d
+
+def create_module(name, _kw, desc="", **kw):
+    import types
+    for k in kw.keys():
+        _kw[k] = kw[k]
+    m = types.ModuleType(name, desc)
+    m.__dict__.update(_kw)
+    return m
+
 
 
 
