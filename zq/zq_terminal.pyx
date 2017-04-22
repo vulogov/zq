@@ -53,13 +53,14 @@ class ZQ_TERMINAL:
     def ok(self, msg, **kw):
         if self.log != None:
             self.log.ok(msg, kw)
-        if self.args.v == None or self.args.v < 2:
+        #if (self.args.v == None or self.args.v < 2) or (self.env != None and self.env.cfg["ZQ_VERBOSE"] < 2):
+        if (self.args.v == None or self.args.v < 2):
             return
         console_ok(msg%kw)
     def warning(self, msg, **kw):
         if self.log != None:
             self.log.ok(msg, kw)
-        if self.args.v == None or self.args.v < 1:
+        if (self.args.v == None or self.args.v < 1):
             return
         console_warning(msg % kw)
     def error(self, msg, **kw):

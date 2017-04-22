@@ -9,6 +9,7 @@ include "zq_cmd_batch.pyx"
 
 class ZQ_SHELL(ZQ_GEN,ZQ_TERMINAL,ZQ_HELP,ZQ_CMD_EVAL,ZQ_CMD_QUERY,ZQ_CMD_EXEC,ZQ_BATCH):
     def __init__(self):
+        self.env = None
         self.doc = []
         self.log = None
         ZQ_GEN.__init__(self, "zql v %s" % ZQ_VERSION, "zql - Zabbix Query Shell")
@@ -27,7 +28,8 @@ class ZQ_SHELL(ZQ_GEN,ZQ_TERMINAL,ZQ_HELP,ZQ_CMD_EVAL,ZQ_CMD_QUERY,ZQ_CMD_EXEC,Z
         return True
 
 def main():
-    print repr(sys.argv)
+    print "JJJ",repr(sys.argv)
+    print "JJJJJJ",len(sys.argv[1])
     cmd = ZQ_SHELL()
     cmd.process()
 

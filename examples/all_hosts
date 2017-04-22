@@ -1,4 +1,4 @@
-#!/usr/local/bin/zql --modcache-clear --ref-base=+../../querylib/  -vv --traceback  --url=http://192.168.101.23/zabbix --bootstrap=+../../etc/bootstrap/bootstrap.zql --modcache-expire=24h batch
+#!/usr/bin/env  zql --modcache-clear --ref-base=+../../querylib/  -vv --traceback  --url=http://192.168.101.23/zabbix -vv --bootstrap=+../../etc/bootstrap/bootstrap.zql --modcache-expire=24h batch
 (Hosts)
 (Out)
    (Pretty_Json)

@@ -38,6 +38,7 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.cfg["ZQ_ENV_NAME"] = "default"
         self.cfg["ZQ_MAX_PIPELINE"] = 100
         self.cfg["ZQ_MAX_ENV_STACK"] = 100
+        self.cfg["ZQ_VERBOSE"] = 0
         self.cfg["ZQ_UNSAFE_GLOBALS"] = False
         self.envs = LifoQueue(self.cfg["ZQ_MAX_ENV_STACK"])
         self.registerGlobals("Set", Set)

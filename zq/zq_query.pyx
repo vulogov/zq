@@ -13,13 +13,13 @@ class ZQ_ZBX(object):
         self.zapi = None
         self.value = LifoQueue(self.env.cfg["ZQ_MAX_PIPELINE"])
         self.jobs = BJQ(self.env)
-        self.reconnect()
-    def reload(self):
+    def reload(self, **kw):
         """
         reload() will clear all (but jobs) context queues and reconnect to Zabbix
         :return:
         """
-        self.reconnect()
+        if kw.has_key("reconnect") and kw["reconnect"] == True:
+            self.reconnect()
         while True:
             p = self.pull()
             if not p:
@@ -32,6 +32,8 @@ class ZQ_ZBX(object):
         try:
             self.zapi = ZabbixAPI(server=self.url)
             self.zapi.login(user=self._username, password=self._password)
+            if self.shell != None:
+                self.shell.ok("Connected to %s"%self.url)
         except:
             self.zapi = None
             if self.shell != None:
@@ -96,7 +98,10 @@ def ZBX(ctx=None, server="zabbix", name="default"):
         env.srv[server].push(ctx)
     else:
         pass
-    return env.srv[server]
+    _ctx = env.srv[server]
+    if _ctx.zapi == None:
+        _ctx.reconnect()
+    return _ctx
 
 def ZBX_star(name="default"):
     env = ENVIRONMENT(name)
@@ -116,6 +121,7 @@ def ZBX_push(name, *_refs):
             return None
         for s in cfg:
             _last_ctx = env.srv.addServer(s["url"], s["username"], s["password"], s["name"], s["sender"], s["sender_port"])
+            _last_ctx.reconnect()
     return _last_ctx
 
 
