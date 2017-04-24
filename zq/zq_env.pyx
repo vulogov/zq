@@ -141,6 +141,10 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("Link", Link)
         self.registerGlobals("Unlink", Unlink)
         self.registerGlobals("Applications", Applications)
+        self.registerGlobals("Users", Users)
+        self.registerGlobals("Usergroups", Usergroups)
+        self.registerGlobals("Usermedias", Usermedias)
+        self.registerGlobals("Mediatypes", Mediatypes)
 
         ##
         self.registerGlobals("GET", GET)

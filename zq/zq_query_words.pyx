@@ -139,6 +139,58 @@ def Graphs(ctx, **kw):
         return ctx
     return ctx
 
+def Users(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectMedias", ['mediaid', 'mediatypeid'])
+        kw = set_dict_default(kw, "selectMediatypes", ['mediatypeid', 'description'])
+        kw = set_dict_default(kw, "selectUsrgrps", ['usrgrpid', 'name'])
+    try:
+        res = apply(ctx.zapi.user.get, (), kw)
+        ctx.push({'USER': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Users) query to Zabbix")
+        return ctx
+    return ctx
 
+
+def Usergroups(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectUsers", ['userid', 'alias'])
+        kw = set_dict_default(kw, "selectRights", 1)
+    try:
+        res = apply(ctx.zapi.usergroup.get, (), kw)
+        ctx.push({'USERGROUP': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Usergroups) query to Zabbix")
+        return ctx
+    return ctx
+
+def Usermedias(ctx, **kw):
+    kw["output"] = "extend"
+    try:
+        res = apply(ctx.zapi.usermedia.get, (), kw)
+        ctx.push({'USERMEDIA': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Usermedias) query to Zabbix")
+        return ctx
+    return ctx
+
+def Mediatypes(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectUsers", ['userid', 'alias'])
+    try:
+        res = apply(ctx.zapi.mediatype.get, (), kw)
+        ctx.push({'MEDIATYPE': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Mediatypes) query to Zabbix")
+        return ctx
+    return ctx
 
 
