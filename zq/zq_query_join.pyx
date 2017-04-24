@@ -13,6 +13,7 @@ _select_trigger = {'selectHosts':1,
                     'selectItems':['itemid','name','key_', 'hostid','type','interfaceid'],
                     "selectDependencies": ['triggerid', ],
                    }
+_select_usermacro = {'selectHosts':1, 'selectGroups':1, 'selectTemplates':1}
 
 def _join_element(ctx, _cmds, args, kw, data):
     mode_2 = {}
@@ -97,6 +98,14 @@ def _join_proxies(ctx, args, kw, data):
         ("hostid", "hostids", "hostids", "HOST", ctx.zapi.host.get, _select_host, 0),
     ], args, kw, data)
 
+def _join_macro(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("hostid", "hostids", "hostids", "HOST", ctx.zapi.host.get, _select_host, 0),
+        ("groupid", "groups", "groupids", "HOSTGROUPS", ctx.zapi.hostgroup.get, {}, 1),
+        ("templateid", "templates", "templateids", "TEMPLATE", ctx.zapi.template.get, _select_template, 1),
+    ], args, kw, data)
+
+
 _JOIN_CALL_TABLE={
     "HOSTGROUPS": _join_hostgroups,
     "HOST": _join_host,
@@ -107,6 +116,7 @@ _JOIN_CALL_TABLE={
     "GRAPH": _join_graph,
     "TRIGGER": _join_triggers,
     "PROXY": _join_proxies,
+    "MACRO": _join_macro,
 }
 
 

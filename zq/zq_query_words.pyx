@@ -193,4 +193,19 @@ def Mediatypes(ctx, **kw):
         return ctx
     return ctx
 
+def Macros(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectHosts", 1)
+        kw = set_dict_default(kw, "selectGroups", 1)
+        kw = set_dict_default(kw, "selectTemplates", 1)
+    try:
+        res = apply(ctx.zapi.usermacro.get, (), kw)
+        ctx.push({'MACRO': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Macros) query to Zabbix")
+        return ctx
+    return ctx
+
 

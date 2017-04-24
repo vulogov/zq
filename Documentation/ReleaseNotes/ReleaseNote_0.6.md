@@ -30,6 +30,17 @@ Example query:
 (ZBX) (Mediatypes) (Out)
 ```
 
+4. New word (Macros) will return the list of the global or user macros 
+
+Example query:
+```bash
+(ZBX) (Macros) (Out)
+```
+
+5. (Join) support for the following words:
+* (Macros)
+
+
 ### Standard modules library
 
 
