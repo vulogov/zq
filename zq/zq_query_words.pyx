@@ -114,6 +114,7 @@ def Maintenance(ctx, **kw):
     if Getv(ctx, "ExtendedSelect"):
         kw = set_dict_default(kw, "selectHosts", 1)
         kw = set_dict_default(kw, "selectGroups", 1)
+        kw = set_dict_default(kw, "selectTimeperiods", "extend")
     try:
         res = apply(ctx.zapi.maintenance.get, (), kw)
         ctx.push({'MAINTENANCE': res})
@@ -152,6 +153,22 @@ def Graphitems(ctx, **kw):
         return ctx
     return ctx
 
+def Graphprototypes(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectTemplates", 1)
+        kw = set_dict_default(kw, "selectHosts", 1)
+        kw = set_dict_default(kw, "selectGroups", 1)
+        kw = set_dict_default(kw, "selectItems", ['itemid', 'name', 'key_', 'hostid', 'type', 'interfaceid'])
+        kw = set_dict_default(kw, "selectGraphItems", "extend")
+    try:
+        res = apply(ctx.zapi.graphprototype.get, (), kw)
+        ctx.push({'GRAPHPROTOTYPE': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Graphprototypes) query to Zabbix")
+        return ctx
+    return ctx
 
 def Users(ctx, **kw):
     kw["output"] = "extend"
@@ -347,3 +364,25 @@ def Hostprototypes(ctx, **kw):
             ctx.env.shell.error("Error in submitting (Hostprototypes) query to Zabbix")
         return ctx
     return ctx
+
+def Maps(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "expandUrls", "true")
+        kw = set_dict_default(kw, "selectIconMap", "extend")
+        kw = set_dict_default(kw, "selectLinks", "extend")
+        kw = set_dict_default(kw, "selectSelements", "extend")
+        kw = set_dict_default(kw, "selectUrls", "extend")
+        kw = set_dict_default(kw, "selectUsers", "extend")
+        kw = set_dict_default(kw, "selectUserGroups", "extend")
+    try:
+        res = apply(ctx.zapi.map.get, (), kw)
+        ctx.push({'MAP': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Hostprototypes) query to Zabbix")
+        return ctx
+    return ctx
+
+
+

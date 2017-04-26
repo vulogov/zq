@@ -85,6 +85,7 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("Triggers", Triggers)
         self.registerGlobals("Maintenance", Maintenance)
         self.registerGlobals("Graphs", Graphs)
+        self.registerGlobals("Graphprototypes", Graphprototypes)
         self.registerGlobals("Hostgroups", Hostgroups)
         self.registerGlobals("Interfaces", Interfaces)
         self.registerGlobals("Version", Version)
