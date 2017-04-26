@@ -53,7 +53,8 @@ def _fill_bjq_queue(ctx, _cmd, _key=None, **kw):
 
 class BJQ:
     def __init__(self, env):
-        self.supported_types = ["HOSTGROUPS", "TEMPLATE", "HOST", "INTERFACE", "ITEM", "ACTION", "APPLICATION", "MACRO"]
+        self.supported_types = ["HOSTGROUPS", "TEMPLATE", "HOST", "INTERFACE", "ITEM", "ACTION",
+                                "APPLICATION", "USER", "USERGROUP", "MACRO", "SCREEN", "SCREENITEM"]
         self.env = env
         self.jobs = Queue.PriorityQueue(maxsize=self.env.cfg["ZQ_MAX_PIPELINE"])
     def isAcceptable(self, key):

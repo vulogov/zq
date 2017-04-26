@@ -37,8 +37,17 @@ Example query:
 (ZBX) (Macros) (Out)
 ```
 
-5. (Join) support for the following words:
+4. New word (Screens) will return the list of the screens 
+
+Example query:
+```bash
+(ZBX) (Screens) (Out)
+```
+
+99. (Join) support for the following words:
 * (Macros)
+* (Users)
+* (Usergroups)
 
 
 ### Standard modules library

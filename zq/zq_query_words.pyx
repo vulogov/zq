@@ -208,4 +208,71 @@ def Macros(ctx, **kw):
         return ctx
     return ctx
 
+def Scripts(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectHosts", 1)
+        kw = set_dict_default(kw, "selectGroups", 1)
+    try:
+        res = apply(ctx.zapi.script.get, (), kw)
+        ctx.push({'SCRIPT': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Scripts) query to Zabbix")
+        return ctx
+    return ctx
+
+def Screens(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectUsers", 'extend')
+        kw = set_dict_default(kw, "selectUserGroups", 'extend')
+        kw = set_dict_default(kw, "selectScreenItems", ['screenitemid',])
+    try:
+        res = apply(ctx.zapi.screen.get, (), kw)
+        ctx.push({'SCREEN': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Screens) query to Zabbix")
+        return ctx
+    return ctx
+
+def Templatescreens(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectScreenItems", ['screenitemid',])
+    try:
+        res = apply(ctx.zapi.screen.get, (), kw)
+        ctx.push({'TEMPLATESCREEN': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Templatescreens) query to Zabbix")
+        return ctx
+    return ctx
+
+
+def Screenitems(ctx, **kw):
+    kw["output"] = "extend"
+    try:
+        res = apply(ctx.zapi.screenitem.get, (), kw)
+        ctx.push({'SCREENITEM': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Screenitems) query to Zabbix")
+        return ctx
+    return ctx
+
+def Valuemaps(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectMappings", 1)
+        kw = set_dict_default(kw, "searchWildcardsEnabled", True)
+    try:
+        res = apply(ctx.zapi.valuemap.get, (), kw)
+        ctx.push({'VALUEMAP': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Valuemaps) query to Zabbix")
+        return ctx
+    return ctx
 

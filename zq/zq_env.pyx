@@ -146,6 +146,11 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("Usermedias", Usermedias)
         self.registerGlobals("Mediatypes", Mediatypes)
         self.registerGlobals("Macros", Macros)
+        self.registerGlobals("Valuemaps", Valuemaps)
+        self.registerGlobals("Screenitems", Screenitems)
+        self.registerGlobals("Templatescreens", Templatescreens)
+        self.registerGlobals("Screens", Screens)
+        self.registerGlobals("Scripts", Scripts)
 
         ##
         self.registerGlobals("GET", GET)
@@ -171,7 +176,7 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         ## And the modules, just for fun of it
         self.registerGlobals("Time", time)
         self.registerGlobals('Gen', create_module('Gen', _GEN_MODULE, "Generator functors"))
-
+        self.registerGlobals('Date', create_module('Date', _DATE_MODULE, "Date functors"))
 
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)

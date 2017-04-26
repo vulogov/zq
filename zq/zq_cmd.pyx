@@ -76,7 +76,6 @@ class ZQ_GEN(object):
         self.ok("Initializing ZQL shell")
         self._call_hiera("make_doc", "Error creating documentation in %s")
         self.env = ZQ_ENV(self)
-        print 3
         ENVIRONMENT(self.args.default_environment,self.env)
         self.ok("Calling preflight routines")
         self.main_preflight()

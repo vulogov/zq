@@ -28,8 +28,6 @@ class ZQ_SHELL(ZQ_GEN,ZQ_TERMINAL,ZQ_HELP,ZQ_CMD_EVAL,ZQ_CMD_QUERY,ZQ_CMD_EXEC,Z
         return True
 
 def main():
-    print "JJJ",repr(sys.argv)
-    print "JJJJJJ",len(sys.argv[1])
     cmd = ZQ_SHELL()
     cmd.process()
 

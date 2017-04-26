@@ -13,6 +13,27 @@ _select_trigger = {'selectHosts':1,
                     'selectItems':['itemid','name','key_', 'hostid','type','interfaceid'],
                     "selectDependencies": ['triggerid', ],
                    }
+_select_usrgrps = {
+    "selectUsrgrps": ['usrgrpid', 'name'],
+}
+_select_mediatype = {
+    "selectUsers": ['userid', 'alias'],
+}
+_select_media = {
+    "selectMedias": ['mediaid', 'mediatypeid'],
+}
+_select_usr = {
+    "selectMedias": ['mediaid', 'mediatypeid'],
+    "selectMediatypes": ['mediatypeid', 'description'],
+    "selectUsrgrps": ['usrgrpid', 'name'],
+}
+_select_screen = {
+    "selectUsrgrps": 'extend',
+    "selectUsers": 'extend',
+    "selectScreenItems": ['screenitemid',],
+}
+_select_screenitem = {
+}
 _select_usermacro = {'selectHosts':1, 'selectGroups':1, 'selectTemplates':1}
 
 def _join_element(ctx, _cmds, args, kw, data):
@@ -26,6 +47,7 @@ def _join_element(ctx, _cmds, args, kw, data):
         elif _mode == 1:
             work_data = []
             for _d in data:
+                print _d,query_key,key
                 work_data += extract_key_from_info(_d, query_key, key)
         _cmd_kw[select_key] = work_data
         if len(work_data) == 0:
@@ -105,6 +127,26 @@ def _join_macro(ctx, args, kw, data):
         ("templateid", "templates", "templateids", "TEMPLATE", ctx.zapi.template.get, _select_template, 1),
     ], args, kw, data)
 
+def _join_screen(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("userid", "userids", "userids", "USER", ctx.zapi.user.get, _select_usr, 1),
+        ("usrgroupid", "usergroups", "usrgroupids", "USERGROUP", ctx.zapi.usergroup.get, _select_usrgrps, 1),
+        ("screenitemid", "screenitems", "screenitemids", "SCREENITEM", ctx.zapi.screenitem.get, _select_screenitem, 1),
+    ], args, kw, data)
+
+def _join_user(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("usrgrpid", "usrgrps", "usrgrpids", "USERGROUP", ctx.zapi.usergroup.get, _select_usrgrps, 1),
+        ("mediatypeid", "mediatypes", "mediatypeids", "MEDIATYPE", ctx.zapi.mediatype.get, _select_mediatype, 1),
+        ("mediaid", "medias", "mediaids", "MEDIA", ctx.zapi.usermedia.get, _select_media, 1),
+    ], args, kw, data)
+
+def _join_usergroup(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("userid", "users", "userids", "USER", ctx.zapi.user.get, _select_usr, 1),
+    ], args, kw, data)
+
+
 
 _JOIN_CALL_TABLE={
     "HOSTGROUPS": _join_hostgroups,
@@ -117,6 +159,10 @@ _JOIN_CALL_TABLE={
     "TRIGGER": _join_triggers,
     "PROXY": _join_proxies,
     "MACRO": _join_macro,
+    "USER": _join_user,
+    "USERGROUP": _join_usergroup,
+    "SCREEN": _join_screen,
+    #"SCREENITEM": _join_screenitem,
 }
 
 
