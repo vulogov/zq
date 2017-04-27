@@ -156,6 +156,16 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("Hostprototypes", Hostprototypes)
         self.registerGlobals("Screens", Screens)
         self.registerGlobals("Scripts", Scripts)
+        self.registerGlobals("Maps", Maps)
+        self.registerGlobals("Webscenarios", Webscenarios)
+        self.registerGlobals("Iconmaps", Iconmaps)
+        self.registerGlobals("Images", Images)
+        self.registerGlobals("LLDs", LLDs)
+        self.registerGlobals("Itemprototypes", Itemprototypes)
+        self.registerGlobals("Triggerprototypes", Triggerprototypes)
+        self.registerGlobals("Templatescreenitems", Templatescreenitems)
+        self.registerGlobals("Actions", Actions)
+
 
         ##
         self.registerGlobals("GET", GET)

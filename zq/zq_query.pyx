@@ -34,6 +34,8 @@ class ZQ_ZBX(object):
             self.zapi.login(user=self._username, password=self._password)
             if self.shell != None:
                 self.shell.ok("Connected to %s"%self.url)
+            self.zapi.env = self.env
+            self.zapi._shell = self.shell
         except:
             self.zapi = None
             if self.shell != None:

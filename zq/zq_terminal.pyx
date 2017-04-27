@@ -36,6 +36,10 @@ def console_ok(msg):
     print str_ok(msg)
 def console_important(msg):
     print str_important(msg)
+def console_write(_subj, msg):
+    print color("+"*10, "yellow") + color(" [%s] "%_subj, "cyan") + color("%s" % time.strftime("%H:%M:%S"), "blue") + color("="*50, "yellow")
+    print white(msg)
+    print color("-"*40, "yellow")
 
 
 def str_dict(d):
@@ -53,7 +57,6 @@ class ZQ_TERMINAL:
     def ok(self, msg, **kw):
         if self.log != None:
             self.log.ok(msg, kw)
-        #if (self.args.v == None or self.args.v < 2) or (self.env != None and self.env.cfg["ZQ_VERBOSE"] < 2):
         if (self.args.v == None or self.args.v < 2):
             return
         console_ok(msg%kw)
@@ -69,4 +72,11 @@ class ZQ_TERMINAL:
         console_error(msg % kw)
     def important(self, msg, **kw):
         console_important(msg % kw)
+    def write(self, _subj, msg, **kw):
+        if self.log != None:
+            self.log.ok(msg, kw)
+        if (self.args.v == None or self.args.v < 2):
+            return
+        console_write(_subj, msg%kw)
+
 

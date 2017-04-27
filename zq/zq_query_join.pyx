@@ -134,6 +134,11 @@ def _join_screen(ctx, args, kw, data):
         ("screenitemid", "screenitems", "screenitemids", "SCREENITEM", ctx.zapi.screenitem.get, _select_screenitem, 1),
     ], args, kw, data)
 
+def _join_screenitem(ctx, args, kw, data):
+    return _join_element(ctx, [
+    ], args, kw, data)
+
+
 def _join_user(ctx, args, kw, data):
     return _join_element(ctx, [
         ("usrgrpid", "usrgrps", "usrgrpids", "USERGROUP", ctx.zapi.usergroup.get, _select_usrgrps, 1),
@@ -145,6 +150,12 @@ def _join_usergroup(ctx, args, kw, data):
     return _join_element(ctx, [
         ("userid", "users", "userids", "USER", ctx.zapi.user.get, _select_usr, 1),
     ], args, kw, data)
+
+def _join_mediatypes(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("userid", "users", "userids", "USER", ctx.zapi.user.get, _select_usr, 1),
+    ], args, kw, data)
+
 
 
 
@@ -162,7 +173,8 @@ _JOIN_CALL_TABLE={
     "USER": _join_user,
     "USERGROUP": _join_usergroup,
     "SCREEN": _join_screen,
-    #"SCREENITEM": _join_screenitem,
+    "SCREENITEM": _join_screenitem,
+    "MEDIATYPE": _join_mediatypes,
 }
 
 

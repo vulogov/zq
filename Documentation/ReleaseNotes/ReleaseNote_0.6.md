@@ -44,10 +44,31 @@ Example query:
 (ZBX) (Screens) (Out)
 ```
 
+4. New word (Screenitems) will return the list of the screen items 
+
+Example query:
+```bash
+(ZBX) (Screenitems) (Out)
+```
+
+5. New word (Actions) will return the list of the Actions 
+
+Example query:
+```bash
+(ZBX) (Actions) (Out)
+``` 
+
+
+
+
 99. (Join) support for the following words:
 * (Macros)
 * (Users)
 * (Usergroups)
+* (Screens)
+* (Screenitems)
+* (Mediatypes)
+
 
 
 ### Standard modules library

@@ -153,22 +153,6 @@ def Graphitems(ctx, **kw):
         return ctx
     return ctx
 
-def Graphprototypes(ctx, **kw):
-    kw["output"] = "extend"
-    if Getv(ctx, "ExtendedSelect"):
-        kw = set_dict_default(kw, "selectTemplates", 1)
-        kw = set_dict_default(kw, "selectHosts", 1)
-        kw = set_dict_default(kw, "selectGroups", 1)
-        kw = set_dict_default(kw, "selectItems", ['itemid', 'name', 'key_', 'hostid', 'type', 'interfaceid'])
-        kw = set_dict_default(kw, "selectGraphItems", "extend")
-    try:
-        res = apply(ctx.zapi.graphprototype.get, (), kw)
-        ctx.push({'GRAPHPROTOTYPE': res})
-    except:
-        if ctx.env.shell != None:
-            ctx.env.shell.error("Error in submitting (Graphprototypes) query to Zabbix")
-        return ctx
-    return ctx
 
 def Users(ctx, **kw):
     kw["output"] = "extend"
@@ -293,6 +277,18 @@ def Screenitems(ctx, **kw):
         return ctx
     return ctx
 
+def Templatescreenitems(ctx, **kw):
+    kw["output"] = "extend"
+    try:
+        res = apply(ctx.zapi.templatescreenitem.get, (), kw)
+        ctx.push({'TEMPLATESCREENITEM': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Templatescreenitems) query to Zabbix")
+        return ctx
+    return ctx
+
+
 def Valuemaps(ctx, **kw):
     kw["output"] = "extend"
     if Getv(ctx, "ExtendedSelect"):
@@ -348,22 +344,6 @@ def Discoveredchecks(ctx, **kw):
         return ctx
     return ctx
 
-def Hostprototypes(ctx, **kw):
-    kw["output"] = "extend"
-    if Getv(ctx, "ExtendedSelect"):
-        kw = set_dict_default(kw, "selectTemplates", "extend")
-        kw = set_dict_default(kw, "selectInventory", "extend")
-        kw = set_dict_default(kw, "selectParentHost", "extend")
-        kw = set_dict_default(kw, "selectGroupLinks", "extend")
-        kw = set_dict_default(kw, "selectDiscoveryRule", "extend")
-    try:
-        res = apply(ctx.zapi.hostprototype.get, (), kw)
-        ctx.push({'HOSTPROTOTYPE': res})
-    except:
-        if ctx.env.shell != None:
-            ctx.env.shell.error("Error in submitting (Hostprototypes) query to Zabbix")
-        return ctx
-    return ctx
 
 def Maps(ctx, **kw):
     kw["output"] = "extend"
@@ -384,5 +364,145 @@ def Maps(ctx, **kw):
         return ctx
     return ctx
 
+def Webscenarios(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectHosts", "extend")
+        kw = set_dict_default(kw, "selectSteps", "extend")
+    try:
+        res = apply(ctx.zapi.httptest.get, (), kw)
+        ctx.push({'WEBSCENARIO': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Webscenarios) query to Zabbix")
+        return ctx
+    return ctx
+
+def Iconmaps(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectMappings", "extend")
+    try:
+        res = apply(ctx.zapi.iconmap.get, (), kw)
+        ctx.push({'ICONMAP': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Iconmaps) query to Zabbix")
+        return ctx
+    return ctx
 
 
+def Images(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "select_image", "extend")
+    try:
+        res = apply(ctx.zapi.image.get, (), kw)
+        ctx.push({'IMAGE': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Images) query to Zabbix")
+        return ctx
+    return ctx
+
+def LLDs(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectFilter", "extend")
+        kw = set_dict_default(kw, "selectGraphs", "extend")
+        kw = set_dict_default(kw, "selectHostPrototypes", "extend")
+        kw = set_dict_default(kw, "selectHosts", "extend")
+        kw = set_dict_default(kw, "selectItems", "extend")
+        kw = set_dict_default(kw, "selectTriggers", "extend")
+    try:
+        res = apply(ctx.zapi.discoveryrule.get, (), kw)
+        ctx.push({'LLD': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (LLDs) query to Zabbix")
+        return ctx
+    return ctx
+
+def Itemprototypes(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectFilter", "extend")
+        kw = set_dict_default(kw, "selectGraphs", "extend")
+        kw = set_dict_default(kw, "selectHostPrototypes", "extend")
+        kw = set_dict_default(kw, "selectHosts", "extend")
+        kw = set_dict_default(kw, "selectItems", "extend")
+        kw = set_dict_default(kw, "selectTriggers", "extend")
+    try:
+        res = apply(ctx.zapi.itemprototype.get, (), kw)
+        ctx.push({'ITEMPROTOTYPE': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Itemprototypes) query to Zabbix")
+        return ctx
+    return ctx
+
+def Triggerprototypes(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectDiscoveryRule", "extend")
+        kw = set_dict_default(kw, "selectFunctions", "extend")
+        kw = set_dict_default(kw, "selectGroups ", "extend")
+        kw = set_dict_default(kw, "selectHosts", "extend")
+        kw = set_dict_default(kw, "selectItems", "extend")
+        kw = set_dict_default(kw, "selectDependencies", "extend")
+    try:
+        res = apply(ctx.zapi.triggerprototype.get, (), kw)
+        ctx.push({'TRIGGERPROTOTYPE': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Triggerprototypes) query to Zabbix")
+        return ctx
+    return ctx
+
+def Graphprototypes(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectTemplates", 1)
+        kw = set_dict_default(kw, "selectHosts", 1)
+        kw = set_dict_default(kw, "selectGroups", 1)
+        kw = set_dict_default(kw, "selectItems", ['itemid', 'name', 'key_', 'hostid', 'type', 'interfaceid'])
+        kw = set_dict_default(kw, "selectGraphItems", "extend")
+    try:
+        res = apply(ctx.zapi.graphprototype.get, (), kw)
+        ctx.push({'GRAPHPROTOTYPE': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Graphprototypes) query to Zabbix")
+        return ctx
+    return ctx
+
+def Hostprototypes(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectTemplates", "extend")
+        kw = set_dict_default(kw, "selectInventory", "extend")
+        kw = set_dict_default(kw, "selectParentHost", "extend")
+        kw = set_dict_default(kw, "selectGroupLinks", "extend")
+        kw = set_dict_default(kw, "selectDiscoveryRule", "extend")
+    try:
+        res = apply(ctx.zapi.hostprototype.get, (), kw)
+        ctx.push({'HOSTPROTOTYPE': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Hostprototypes) query to Zabbix")
+        return ctx
+    return ctx
+
+def Actions(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectFilter", "extend")
+        kw = set_dict_default(kw, "selectOperations", "extend")
+    try:
+        res = apply(ctx.zapi.action.get, (), kw)
+        ctx.push({'ACTION': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Actions) query to Zabbix")
+        return ctx
+    return ctx
