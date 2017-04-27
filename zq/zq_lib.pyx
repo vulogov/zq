@@ -350,6 +350,9 @@ def check_reference_read(_ref, _dir=False):
     if _ref[0] == "@":
         ## In 0.2 we do not know how to check URL references
         return True
+    if _ref[0] == '=':
+        ## In 0.6 we do not thoroughly check GitHub
+        return True
     if _ref[0] == "+":
         _ref = _ref[1:]
     if _dir:

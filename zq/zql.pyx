@@ -1,18 +1,20 @@
 include "zq.pyx"
 include "zq_terminal.pyx"
 include "zq_query.pyx"
+include "zq_args.pyx"
 include "zq_cmd.pyx"
 include "zq_cmd_exec.pyx"
 include "zq_cmd_eval.pyx"
 include "zq_cmd_query.pyx"
 include "zq_cmd_batch.pyx"
 
-class ZQ_SHELL(ZQ_GEN,ZQ_TERMINAL,ZQ_HELP,ZQ_CMD_EVAL,ZQ_CMD_QUERY,ZQ_CMD_EXEC,ZQ_BATCH):
+class ZQ_SHELL(ZQ_GEN,ZQ_TERMINAL,ZQ_HELP,ZQ_CMD_EVAL,ZQ_CMD_QUERY,ZQ_CMD_EXEC,ZQ_BATCH, ZQ_ARGS):
     def __init__(self):
         self.env = None
         self.doc = []
         self.log = None
-        ZQ_GEN.__init__(self, "zql v %s" % ZQ_VERSION, "zql - Zabbix Query Shell")
+        ZQ_GEN.__init__(self, "(zql) ver %s" % ZQ_VERSION, "zql - Zabbix Query Shell")
+        ZQ_ARGS.__init__(self)
         ZQ_TERMINAL.__init__(self)
         ZQ_HELP.__init__(self)
         ZQ_CMD_EVAL.__init__(self)
