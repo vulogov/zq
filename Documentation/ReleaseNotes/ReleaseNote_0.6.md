@@ -77,10 +77,29 @@ Example query:
 ## Updated features
 
 ### ZQL Language Core
+1. New format for the reference, supporting references to the files in a public GitHub. Format of the reference:
 
+"="{GitHub username}"/"{GitHub repo name":"{Path to the file in Repo}
 
+Example:
+```bash
+=vulogov/zq:/examples/Print_Ok.zql
+```
 
 ### ZQL command-line tool
+
+1. New keyword argument [--args]/[-A] with the reference value, pointing at the INI-style file, containing parameters which ZQL passes to the argument parser, as they passed in command line.
+ Example:
+ ```bash
+[zql]
+v=2
+modcache_clear=True
+ref_base=+../../querylib/
+traceback=True
+url=http://192.168.101.23/zabbix
+bootstrap=+../../etc/bootstrap/bootstrap.zql
+modcache_expire=24h
+```
 
 
 

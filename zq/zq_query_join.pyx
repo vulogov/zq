@@ -1,7 +1,8 @@
 _select_host = {"selectInterfaces":['interfaceid','hostid','dns','port','type','main','ip','useip'],
-                                 'selectGroups':1, 'selectItems':['itemid','name','key_', 'hostid','type','interfaceid'],
-                                 'selectParentTemplates':1,
-                                 'selectTriggers': ['triggerid'],
+                'selectGroups':1, 'selectItems':['itemid','name','key_', 'hostid','type','interfaceid'],
+                'selectParentTemplates':1,
+                'selectTriggers': ['triggerid'],
+                'output': 'extend',
                 }
 _select_template = {'selectGroups':1, 'selectItems':['itemid','name','key_', 'hostid','type','interfaceid'],
                                  'selectParentTemplates':1}
@@ -34,6 +35,28 @@ _select_screen = {
 }
 _select_screenitem = {
 }
+_select_graphprototype ={
+    "selectTemplates": 1,
+    "selectHosts": 1,
+    "selectGroups": 1,
+    "selectItems": ['itemid', 'name', 'key_', 'hostid', 'type', 'interfaceid'],
+    "selectGraphItems": "extend",
+}
+_select_itemprototype ={
+    "selectFilter": "extend",
+    "selectHostPrototypes": "extend",
+    "selectHosts": "extend",
+    "selectItems": ['itemid', 'name', 'key_', 'hostid', 'type', 'interfaceid'],
+    "selectTriggers": "extend",
+}
+_select_hostprototype = {
+    "selectTemplates": "extend",
+    "selectInventory": "extend",
+    "selectParentHost": "extend",
+    "selectGroupLinks": "extend",
+    "selectDiscoveryRule": "extend",
+}
+
 _select_usermacro = {'selectHosts':1, 'selectGroups':1, 'selectTemplates':1}
 
 def _join_element(ctx, _cmds, args, kw, data):
@@ -43,7 +66,6 @@ def _join_element(ctx, _cmds, args, kw, data):
             continue
         if _mode == 0:
             work_data = extract_key_from_list(data, key)
-            print work_data, key
         elif _mode == 1:
             work_data = []
             for _d in data:
@@ -156,6 +178,16 @@ def _join_mediatypes(ctx, args, kw, data):
         ("userid", "users", "userids", "USER", ctx.zapi.user.get, _select_usr, 1),
     ], args, kw, data)
 
+def _join_lld(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("hostid", "hosts", "hostids", "HOST", ctx.zapi.host.get, _select_host, 1),
+        ("hostid", "hosts", "hostids", "TEMPLATE", ctx.zapi.template.get, _select_template, 1),
+        ("graphid", "graphs", "graphids", "GRAPHPROTOTYPE", ctx.zapi.graphprototype.get, _select_graphprototype, 1),
+        ("itemid", "items", "itemids", "ITEMPROTOTYPE", ctx.zapi.itemprototype.get, _select_itemprototype, 1),
+        ("hostprototypeid", "hostPrototypes", "hostprototypeids", ctx.zapi.hostprototype.get, _select_hostprototype, 1),
+
+    ], args, kw, data)
+
 
 
 
@@ -175,6 +207,7 @@ _JOIN_CALL_TABLE={
     "SCREEN": _join_screen,
     "SCREENITEM": _join_screenitem,
     "MEDIATYPE": _join_mediatypes,
+    "LLD": _join_lld,
 }
 
 
