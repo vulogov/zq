@@ -181,14 +181,74 @@ def _join_mediatypes(ctx, args, kw, data):
 def _join_lld(ctx, args, kw, data):
     return _join_element(ctx, [
         ("hostid", "hosts", "hostids", "HOST", ctx.zapi.host.get, _select_host, 1),
-        ("hostid", "hosts", "hostids", "TEMPLATE", ctx.zapi.template.get, _select_template, 1),
+        ("hostid", "hosts", "templateids", "TEMPLATE", ctx.zapi.template.get, _select_template, 1),
         ("graphid", "graphs", "graphids", "GRAPHPROTOTYPE", ctx.zapi.graphprototype.get, _select_graphprototype, 1),
         ("itemid", "items", "itemids", "ITEMPROTOTYPE", ctx.zapi.itemprototype.get, _select_itemprototype, 1),
         ("hostprototypeid", "hostPrototypes", "hostprototypeids", ctx.zapi.hostprototype.get, _select_hostprototype, 1),
 
     ], args, kw, data)
 
+def _join_hostprototype(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("templateid", "templates", "templateids", "TEMPLATE", ctx.zapi.template.get, _select_template, 1),
+    ], args, kw, data)
 
+def _join_graphprototype(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("templateid", "templates", "templateids", "TEMPLATE", ctx.zapi.template.get, _select_template, 1),
+        ("itemid", "items", "itemids", "ITEMPROTOTYPE", ctx.zapi.itemprototype.get, _select_itemprototype, 1),
+        ("groupid", "groups", "groupids", "HOSTGROUPS", ctx.zapi.hostgroup.get, {}, 1),
+        ("graphitemid", "gitems", "graphitemids", "GRAPHITEMSS", ctx.zapi.graphitem.get, {}, 1),
+        ("hostid", "hosts", "hostids", "HOST", ctx.zapi.host.get, _select_host, 1),
+    ], args, kw, data)
+
+def _join_triggerprototype(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("templateid", "templates", "templateids", "TEMPLATE", ctx.zapi.template.get, _select_template, 1),
+        ("groupid", "groups", "groupids", "HOSTGROUPS", ctx.zapi.hostgroup.get, {}, 1),
+        ("hostid", "hosts", "hostids", "HOST", ctx.zapi.host.get, _select_host, 1),
+        ("itemid", "items", "itemids", "ITEMPROTOTYPE", ctx.zapi.itemprototype.get, _select_itemprototype, 1),
+    ], args, kw, data)
+
+def _join_itemprototype(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("hostid", "hosts", "hostids", "HOST", ctx.zapi.host.get, _select_host, 1),
+        ("graphid", "graphs", "graphids", "GRAPHPROTOTYPE", ctx.zapi.graphprototype.get, _select_graphprototype, 1),
+    ], args, kw, data)
+
+def _join_webscenario(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("hostid", "hosts", "hostids", "HOST", ctx.zapi.host.get, _select_host, 1),
+        ("hostid", "hosts", "templateids", "TEMPLATE", ctx.zapi.template.get, _select_template, 1),
+    ], args, kw, data)
+
+def _join_maps(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("usrgrpid", "usrgrps", "usrgrpids", "USERGROUP", ctx.zapi.usergroup.get, _select_usrgrps, 1),
+        ("userid", "users", "userids", "USER", ctx.zapi.user.get, _select_usr, 1),
+    ], args, kw, data)
+
+def _join_drule(ctx, args, kw, data):
+    return _join_element(ctx, [
+
+
+    ], args, kw, data)
+
+def _join_dservice(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("hostid", "hosts", "hostids", "HOST", ctx.zapi.host.get, _select_host, 1),
+
+    ], args, kw, data)
+
+def _join_dcheck(ctx, args, kw, data):
+    return _join_element(ctx, [
+
+    ], args, kw, data)
+
+def _join_dhost(ctx, args, kw, data):
+    return _join_element(ctx, [
+
+    ], args, kw, data)
 
 
 _JOIN_CALL_TABLE={
@@ -208,6 +268,16 @@ _JOIN_CALL_TABLE={
     "SCREENITEM": _join_screenitem,
     "MEDIATYPE": _join_mediatypes,
     "LLD": _join_lld,
+    "HOSTPROTOTYPE": _join_hostprototype,
+    "GRAPHPROTOTYPE": _join_graphprototype,
+    "TRIGGERPROTOTYPE": _join_triggerprototype,
+    "ITEMPROTOTYPE": _join_itemprototype,
+    "WEBSCENARIO": _join_webscenario,
+    "MAP": _join_maps,
+    "DRULE": _join_drule,
+    "DCHECK": _join_dcheck,
+    "DSERVICE": _join_dservice,
+    "DHOST": _join_dhost,
 }
 
 

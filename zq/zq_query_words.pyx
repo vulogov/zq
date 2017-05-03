@@ -304,6 +304,20 @@ def Valuemaps(ctx, **kw):
     return ctx
 
 
+def Discoveredrules(ctx, **kw):
+    kw["output"] = "extend"
+    if Getv(ctx, "ExtendedSelect"):
+        kw = set_dict_default(kw, "selectDCheckds", "extend")
+        kw = set_dict_default(kw, "selectDHosts", "extend")
+    try:
+        res = apply(ctx.zapi.drule.get, (), kw)
+        ctx.push({'DRULE': res})
+    except:
+        if ctx.env.shell != None:
+            ctx.env.shell.error("Error in submitting (Discoveredrules) query to Zabbix")
+        return ctx
+    return ctx
+
 def Discoveredhosts(ctx, **kw):
     kw["output"] = "extend"
     if Getv(ctx, "ExtendedSelect"):

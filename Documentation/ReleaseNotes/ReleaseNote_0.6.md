@@ -68,6 +68,13 @@ Example query:
 * (Screens)
 * (Screenitems)
 * (Mediatypes)
+* (LLDs)
+* (Hostprototyles)
+* (Graphprototypes)
+* (Triggerprototpes)
+* (Itemprototypes)
+* (Webscenarios)
+* (Maps)
 
 
 

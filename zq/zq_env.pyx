@@ -150,6 +150,7 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("Valuemaps", Valuemaps)
         self.registerGlobals("Screenitems", Screenitems)
         self.registerGlobals("Templatescreens", Templatescreens)
+        self.registerGlobals("Discoveredrules", Discoveredrules)
         self.registerGlobals("Discoveredhosts", Discoveredhosts)
         self.registerGlobals("Discoveredservices", Discoveredservices)
         self.registerGlobals("Discoveredchecks", Discoveredchecks)
