@@ -75,6 +75,10 @@ Example query:
 * (Itemprototypes)
 * (Webscenarios)
 * (Maps)
+* (Discoveredrules)
+* (Discoveredchecks)
+* (Discoveredservices)
+* (Discoveredhosts)
 
 
 
