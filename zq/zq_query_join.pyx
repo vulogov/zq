@@ -56,6 +56,13 @@ _select_hostprototype = {
     "selectGroupLinks": "extend",
     "selectDiscoveryRule": "extend",
 }
+_select_dcheck ={
+
+}
+_select_drule = {
+    "selectDChecks":"extend",
+    "selectDHosts": "extend",
+}
 
 _select_usermacro = {'selectHosts':1, 'selectGroups':1, 'selectTemplates':1}
 
@@ -230,14 +237,14 @@ def _join_maps(ctx, args, kw, data):
 
 def _join_drule(ctx, args, kw, data):
     return _join_element(ctx, [
-
+        ("dcheckid", "dchecks", "dcheckids", "DCHECK", ctx.zapi.dcheck.get, _select_dcheck, 1),
 
     ], args, kw, data)
 
 def _join_dservice(ctx, args, kw, data):
     return _join_element(ctx, [
         ("hostid", "hosts", "hostids", "HOST", ctx.zapi.host.get, _select_host, 1),
-
+        ("druleid", "druless", "druleids", "DRULE", ctx.zapi.drule.get, _select_drule, 1),
     ], args, kw, data)
 
 def _join_dcheck(ctx, args, kw, data):
@@ -247,7 +254,7 @@ def _join_dcheck(ctx, args, kw, data):
 
 def _join_dhost(ctx, args, kw, data):
     return _join_element(ctx, [
-
+        ("druleid", "druless", "druleids", "DRULE", ctx.zapi.drule.get, _select_drule, 1),
     ], args, kw, data)
 
 

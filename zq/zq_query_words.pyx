@@ -307,7 +307,7 @@ def Valuemaps(ctx, **kw):
 def Discoveredrules(ctx, **kw):
     kw["output"] = "extend"
     if Getv(ctx, "ExtendedSelect"):
-        kw = set_dict_default(kw, "selectDCheckds", "extend")
+        kw = set_dict_default(kw, "selectDChecks", "extend")
         kw = set_dict_default(kw, "selectDHosts", "extend")
     try:
         res = apply(ctx.zapi.drule.get, (), kw)
