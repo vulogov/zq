@@ -99,7 +99,7 @@ Example:
     )
 (Out)
 ```
-In this example, first, we loading subquery "LoopDemo1", then we are looping through generated values and will call the list of the subqueries as many times as we have a generated dictionaries.
+In this example, first, we loading subquery "LoopDemo1", then we are looping through generated values and will call the list of the subqueries as many times as we have a generated dictionaries. Please note, we are passing the generators _by the reference_, not as values enclosed in (). Passing generator by value will call it's premature execution and will not bring you the result you are looking for. 
 
 
 99. (Join) support for the following words:
@@ -121,6 +121,12 @@ In this example, first, we loading subquery "LoopDemo1", then we are looping thr
 
 ### Standard modules library
 
+1. Module "Gen", is a standard system module included in the environment by default and can be referred by value as (Gen.{function name}) or by reference as Gen.{function name}. Here is the list of the generators that available for you in this module:
+* Gen.UUID({number of UUID's}) - this generator will generate you a UUID4. Optional parameter is the number of the UUID's that you require. Default - sys.maxint
+* Gen.Ref({Reference}) - this generator will read content of the text file referred by the reference and each pass will return you a next line in the file. Lines are stripped.
+* Gen.Range({begin} {end} {step}) - this generator will generate you a integer numbers within a range, between {begin} and {end} with the {step} provided by user.
+* Gen.Cmd({command}) - this generator executes a command on the local node and grep the lines of the output from thet command. Each pass will get you next line. Lines are stripped.
+* Gen.IPV4NET({CIDR}) - this generator gives you the range of the IP addresses of the netword passed as a parameter, minus network and broadcast addresses.
 
 ## Updated features
 
