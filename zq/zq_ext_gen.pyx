@@ -22,6 +22,23 @@ class zrange:
         else:
             raise StopIteration()
 
+class vrange:
+    def __init__(self, val, n):
+        self.i = 0
+        self.n = n
+        self.val = val
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.i < self.n:
+            i = self.i
+            self.i += 1
+            return self.val
+        else:
+            raise StopIteration()
+
 EMPTY_LIST = iter([])
 
 def _range_generator(_b=0,_e=sys.maxint, step=1):
@@ -63,10 +80,16 @@ def _pipe_generator(_cmd):
         res = res[1:]
     return iter(res)
 
+def _value_generator(_value, _n=sys.maxint):
+    return vrange(_value, _n)
+
+
+
 _GEN_MODULE = {
     'Range': _range_generator,
     'UUID': _uuid_generator,
     'IP4NET': _ip4net_generator,
     'Ref': _reference_content_generator,
     'Cmd': _pipe_generator,
+    'Value': _value_generator,
 }

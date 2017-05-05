@@ -127,7 +127,7 @@ In this example, first, we loading subquery "LoopDemo1", then we are looping thr
 * Gen.Range({begin} {end} {step}) - this generator will generate you a integer numbers within a range, between {begin} and {end} with the {step} provided by user.
 * Gen.Cmd({command}) - this generator executes a command on the local node and grep the lines of the output from thet command. Each pass will get you next line. Lines are stripped.
 * Gen.IPV4NET({CIDR}) - this generator gives you the range of the IP addresses of the netword passed as a parameter, minus network and broadcast addresses.
-
+* Gen.Value({value} {optionasl number of values}) - this generator will always return the specified value up to number of times specified as second parameter.
 ## Updated features
 
 ### ZQL Language Core
