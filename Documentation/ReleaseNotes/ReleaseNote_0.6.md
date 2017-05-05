@@ -58,7 +58,48 @@ Example query:
 (ZBX) (Actions) (Out)
 ``` 
 
+6. Group of words with (Join) support for querying the Zabbix configuration:
+* (Hostprototypes)
+* (Graphprototypes)
+* (Triggerprototypes)
+* (Itemprototypes)
+* (LLDs)
+* (Images)
+* (Iconmaps)
+* (Webscenarios)
+* (Maps)
+* (Discoveredrules)
+* (Discoveredhosts)
+* (Discoveredservices)
+* (Discoveredchecks)
 
+6. Standard (Loop) word will use the generators and based on the generated key->value, will call a Subquery. So, how this works:
+* You will specify the generation policy as the keyword parameters as
+```bash
+:KEY [{Generator name} {Optional generator arguments} {Optinal generator keyword}]
+```
+if your generator doesn't require parameters, you can pass it by reference like
+```bash
+:KEY {Generator name}
+```
+You can use your own generators, or use standard ZQL generators included with submodule "Gen"
+Example:
+```bash
+:UUID Gen.UUID :GROUP [Gen.Ref ["+/etc/group"]]
+```
+This generation policy with each loop pass will denerate a dictionary, with the keys UUID or GROUP and values - generated UUID and line from /etc/group
+* Then you will call (Loop) passing the list of the subqueries as an argument parameters (please note, you must (Load) them first), and generation policy as the keyword parameters. The (Loop) will finish when the first generator throws StopIteration exception
+Example:
+```bash
+(ZBX) 
+    (Load "LoopDemo1") 
+    (Loop "LoopDemo1" 
+        :UUID [Gen.UUID ] 
+        :GROUP [Gen.Cmd ["cat /etc/group"]]
+    )
+(Out)
+```
+In this example, first, we loading subquery "LoopDemo1", then we are looping through generated values and will call the list of the subqueries as many times as we have a generated dictionaries.
 
 
 99. (Join) support for the following words:

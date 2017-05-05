@@ -1,0 +1,11 @@
+##
+## This query will display "OK" message about group record
+## it is only here for demonstrating
+##
+## Parameter:
+##    $UUID - group record UUID
+##    $GROUP - group record
+## Return:
+##    Context
+##
+(Ok "UUID of the Group record[$GROUP] is $UUID")
