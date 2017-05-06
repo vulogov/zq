@@ -101,6 +101,14 @@ Example:
 ```
 In this example, first, we loading subquery "LoopDemo1", then we are looping through generated values and will call the list of the subqueries as many times as we have a generated dictionaries. Please note, we are passing the generators _by the reference_, not as values enclosed in (). Passing generator by value will call it's premature execution and will not bring you the result you are looking for. 
 
+7. "Little (Create) helper" (Loop-> ...) word. Instead of calling subquery, (Loop-> ...) pushes generated dictionary to the stack for the use by (Create). Format of the call is: (Loop-> {Key for the (New)} **{Generators statements})
+
+Example:
+```bash
+(ZBX) (Loop-> "HOSTGROUPS" :name [Gen.Name ["test" "" 0 10]])(Create)
+```
+This one-line word will create 10 Hostgroups with names from "test1" to "test10"
+
 
 99. (Join) support for the following words:
 * (Macros)

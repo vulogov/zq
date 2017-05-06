@@ -1,3 +1,8 @@
+def _PLoop(ctx, _dict, args, kw):
+    for q in args:
+        _New(ctx, q, _dict)
+    return ctx
+
 def _QLoop(ctx, _dict, args, kw):
     for q in args:
         _Call(ctx, q, _dict)
@@ -35,4 +40,8 @@ def _Loop(ctx, _fun, args, kw):
 
 def Loop(ctx, *args, **kw):
     _Loop(ctx, _QLoop, args, kw)
+    return ctx
+
+def Loop_push(ctx, *args, **kw):
+    _Loop(ctx, _PLoop, args, kw)
     return ctx

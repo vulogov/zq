@@ -133,6 +133,7 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("IfTrue", IfTrue)
         self.registerGlobals("IfFalse", IfFalse)
         self.registerGlobals("Loop", Loop)
+        self.registerGlobals("Loop_>", Loop_push)
         self.registerGlobals("Error", Error)
         self.registerGlobals("Warning", Warning)
         self.registerGlobals("Ok", Ok)
