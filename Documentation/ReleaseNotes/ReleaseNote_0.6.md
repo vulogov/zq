@@ -132,9 +132,18 @@ In this example, first, we loading subquery "LoopDemo1", then we are looping thr
 
 Example:
 ```bash
-[Gen.Name ["test" ".example.com"] 
+[Gen.Name ["test" ".example.com"]]
 ```
 Will generate you "test1.example.com", "test2.example.com" and so on
+
+* Gen.Random({begin} {end} {step}) - generating pseudo-random integer number in a range
+
+Example:
+
+```bash
+[Gen.Random [1 99]]
+```
+
 
 ## Updated features 
 

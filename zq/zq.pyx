@@ -13,6 +13,7 @@ import posixpath
 import copy
 import Queue
 import base64
+import random
 from hy.lex import parser, lexer
 from hy.importer import hy_eval
 from hy import HyList

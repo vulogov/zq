@@ -57,6 +57,24 @@ class prange:
             return "%s%d%s"%(self.val1, self.i,self.val2)
         else:
             raise StopIteration()
+class rrange:
+    def __init__(self, n1=0, n2=sys.maxint, step=1):
+        self.b = n1
+        self.i = n1
+        self.n = n2
+        self.step = step
+        random.seed(os.urandom(1024))
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.i < self.n:
+            i = self.i
+            self.i += self.step
+            return str(random.randint(self.b, self.n))
+        else:
+            raise StopIteration()
 
 EMPTY_LIST = iter([])
 
@@ -105,6 +123,9 @@ def _pipe_generator(_cmd):
 def _value_generator(_value, _n=sys.maxint):
     return vrange(_value, _n)
 
+def _random_generator(_b=0,_e=sys.maxint, step=1):
+    return rrange(_b, _e, step)
+
 
 
 _GEN_MODULE = {
@@ -115,4 +136,5 @@ _GEN_MODULE = {
     'Cmd': _pipe_generator,
     'Value': _value_generator,
     'Name': _prange_generator,
+    'Random': _random_generator,
 }
