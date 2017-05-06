@@ -317,6 +317,12 @@ def load_file_from_the_reference(_ref):
             return None
         finally:
             return s
+    elif _ref[0] == '=':
+        from github import Github
+        _repo, _path = _ref[1:].split(':')
+        g = Github()
+        r = g.get_repo(_repo)
+        return base64.b64decode(r.get_contents(_path).content)
     else:
         ## Return the value as is
         return _ref
@@ -343,6 +349,9 @@ def load_and_parse_from_the_reference(_ref, kw):
 def check_reference_read(_ref, _dir=False):
     if _ref[0] == "@":
         ## In 0.2 we do not know how to check URL references
+        return True
+    if _ref[0] == '=':
+        ## In 0.6 we do not thoroughly check GitHub
         return True
     if _ref[0] == "+":
         _ref = _ref[1:]

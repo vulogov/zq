@@ -12,6 +12,8 @@ import string
 import posixpath
 import copy
 import Queue
+import base64
+import random
 from hy.lex import parser, lexer
 from hy.importer import hy_eval
 from hy import HyList
@@ -28,6 +30,7 @@ include "zq_env_modcache.pyx"
 include "zq_env.pyx"
 include "zq_bjq.pyx"
 include "zq_ext_gen.pyx"
+include "zq_ext_time.pyx"
 include "zq_query.pyx"
 include "zq_query_display.pyx"
 include "zq_query_status.pyx"

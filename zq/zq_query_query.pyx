@@ -61,8 +61,11 @@ def LoadPath(ctx, *path_list, **kw):
     return ctx
 
 
-def Call(ctx, _name, **kw):
+def _Call(ctx, _name, kw):
     tpl = string.Template(ctx.env.Queries[_name])
     real_query = tpl.safe_substitute(kw)
     _ctx = ctx.env.QUERY(real_query, ctx=ctx)
     return ctx
+
+def Call(ctx, _name, **kw):
+    return _Call(ctx, name, kw)

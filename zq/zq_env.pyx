@@ -85,6 +85,7 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("Triggers", Triggers)
         self.registerGlobals("Maintenance", Maintenance)
         self.registerGlobals("Graphs", Graphs)
+        self.registerGlobals("Graphprototypes", Graphprototypes)
         self.registerGlobals("Hostgroups", Hostgroups)
         self.registerGlobals("Interfaces", Interfaces)
         self.registerGlobals("Version", Version)
@@ -132,6 +133,7 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("IfTrue", IfTrue)
         self.registerGlobals("IfFalse", IfFalse)
         self.registerGlobals("Loop", Loop)
+        self.registerGlobals("Loop_>", Loop_push)
         self.registerGlobals("Error", Error)
         self.registerGlobals("Warning", Warning)
         self.registerGlobals("Ok", Ok)
@@ -141,6 +143,31 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("Link", Link)
         self.registerGlobals("Unlink", Unlink)
         self.registerGlobals("Applications", Applications)
+        self.registerGlobals("Users", Users)
+        self.registerGlobals("Usergroups", Usergroups)
+        self.registerGlobals("Usermedias", Usermedias)
+        self.registerGlobals("Mediatypes", Mediatypes)
+        self.registerGlobals("Macros", Macros)
+        self.registerGlobals("Valuemaps", Valuemaps)
+        self.registerGlobals("Screenitems", Screenitems)
+        self.registerGlobals("Templatescreens", Templatescreens)
+        self.registerGlobals("Discoveredrules", Discoveredrules)
+        self.registerGlobals("Discoveredhosts", Discoveredhosts)
+        self.registerGlobals("Discoveredservices", Discoveredservices)
+        self.registerGlobals("Discoveredchecks", Discoveredchecks)
+        self.registerGlobals("Hostprototypes", Hostprototypes)
+        self.registerGlobals("Screens", Screens)
+        self.registerGlobals("Scripts", Scripts)
+        self.registerGlobals("Maps", Maps)
+        self.registerGlobals("Webscenarios", Webscenarios)
+        self.registerGlobals("Iconmaps", Iconmaps)
+        self.registerGlobals("Images", Images)
+        self.registerGlobals("LLDs", LLDs)
+        self.registerGlobals("Itemprototypes", Itemprototypes)
+        self.registerGlobals("Triggerprototypes", Triggerprototypes)
+        self.registerGlobals("Templatescreenitems", Templatescreenitems)
+        self.registerGlobals("Actions", Actions)
+
 
         ##
         self.registerGlobals("GET", GET)
@@ -166,7 +193,7 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         ## And the modules, just for fun of it
         self.registerGlobals("Time", time)
         self.registerGlobals('Gen', create_module('Gen', _GEN_MODULE, "Generator functors"))
-
+        self.registerGlobals('Date', create_module('Date', _DATE_MODULE, "Date functors"))
 
     def EVAL(self, _q):
         return zq_eval(_q, self, self.shell)

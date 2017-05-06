@@ -10,9 +10,12 @@ class ZQ_GEN(object):
             self.ZQ_HOME = get_from_env("ZQ_HOME", default="%s/.zq"%os.environ["HOME"])
         except:
             self.ZQ_HOME = "/tmp"
+        self.ZQ_ARGS = get_from_env("ZQ_ARGS", default=None)
         self.parser = argparse.ArgumentParser(prog='zql', description=_desc, epilog=self.epilog)
         self.parser.add_argument("--banner", action="store_true", help="Display banner during start")
         self.parser.add_argument("--home", "-H", type=str, default=self.ZQ_HOME,
+                                 help="Path to the default home directory or URL")
+        self.parser.add_argument("--args", "-A", type=str, default=self.ZQ_ARGS,
                                  help="Path to the default home directory or URL")
         self.parser.add_argument('N', metavar='N', type=str, nargs='*',
                                  help='Parameters')
@@ -72,11 +75,11 @@ class ZQ_GEN(object):
         return True
     def process(self):
         self.args = self.parser.parse_args()
-        #print self.args
         self.ok("Initializing ZQL shell")
+        if not self.parse_and_set_args():
+            return False
         self._call_hiera("make_doc", "Error creating documentation in %s")
         self.env = ZQ_ENV(self)
-        print 3
         ENVIRONMENT(self.args.default_environment,self.env)
         self.ok("Calling preflight routines")
         self.main_preflight()

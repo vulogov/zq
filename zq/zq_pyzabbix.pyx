@@ -35,6 +35,8 @@ class ZabbixAPI(object):
             timeout: optional connect and read timeout in seconds, default: None (if you're using Requests >= 2.4 you can set it as tuple: "(connect, read)" which is used to set individual connect and read timeouts.)
         """
 
+        self._shell = None
+        self.env   = None
         if session:
             self.session = session
         else:
@@ -103,9 +105,9 @@ class ZabbixAPI(object):
         logger.debug("Sending: %s", json.dumps(request_json,
                                                indent=4,
                                                separators=(',', ': ')))
-        print json.dumps(request_json,
-                            indent=4,
-                            separators=(',', ': '))
+        if self._shell != None:
+            _req = json.dumps(request_json, indent=4, separators=(',', ': '))
+            self._shell.write("Request to Zabbix", _req)
         response = self.session.post(
             self.url,
             data=json.dumps(request_json),
