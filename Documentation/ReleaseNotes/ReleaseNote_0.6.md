@@ -128,7 +128,15 @@ In this example, first, we loading subquery "LoopDemo1", then we are looping thr
 * Gen.Cmd({command}) - this generator executes a command on the local node and grep the lines of the output from thet command. Each pass will get you next line. Lines are stripped.
 * Gen.IPV4NET({CIDR}) - this generator gives you the range of the IP addresses of the netword passed as a parameter, minus network and broadcast addresses.
 * Gen.Value({value} {optionasl number of values}) - this generator will always return the specified value up to number of times specified as second parameter.
-## Updated features
+* Gen.Name({prefix}, {optional suffix}, {start=1} {end=sys.maxint} {step=1}) - this generator will generate you a name-like objects, consisting of {prefix}{number}{suffix}.
+
+Example:
+```bash
+[Gen.Name ["test" ".example.com"] 
+```
+Will generate you "test1.example.com", "test2.example.com" and so on
+
+## Updated features 
 
 ### ZQL Language Core
 1. New format for the reference, supporting references to the files in a public GitHub. Format of the reference:

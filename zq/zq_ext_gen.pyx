@@ -39,10 +39,32 @@ class vrange:
         else:
             raise StopIteration()
 
+class prange:
+    def __init__(self, val1, val2, n1=0, n2=sys.maxint, step=1):
+        self.i = n1
+        self.n = n2
+        self.step = step
+        self.val1 = val1
+        self.val2 = val2
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.i < self.n:
+            i = self.i
+            self.i += self.step
+            return "%s%d%s"%(self.val1, self.i,self.val2)
+        else:
+            raise StopIteration()
+
 EMPTY_LIST = iter([])
 
 def _range_generator(_b=0,_e=sys.maxint, step=1):
     return iter(range(_b, _e, step))
+
+def _prange_generator(prefix, suffix="", _b=0,_e=sys.maxint, step=1):
+    return prange(prefix, suffix, _b, _e, step)
 
 def _uuid_generator(_n=sys.maxint):
     import uuid
@@ -92,4 +114,5 @@ _GEN_MODULE = {
     'Ref': _reference_content_generator,
     'Cmd': _pipe_generator,
     'Value': _value_generator,
+    'Name': _prange_generator,
 }
