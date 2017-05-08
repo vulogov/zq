@@ -167,7 +167,9 @@ class ZQ_ENV(UserDict.UserDict, MODCACHE):
         self.registerGlobals("Triggerprototypes", Triggerprototypes)
         self.registerGlobals("Templatescreenitems", Templatescreenitems)
         self.registerGlobals("Actions", Actions)
-
+        self.registerGlobals("Trends", Trends)
+        self.registerGlobals("History", History)
+        self.registerGlobals("SLA", SLA)
 
         ##
         self.registerGlobals("GET", GET)

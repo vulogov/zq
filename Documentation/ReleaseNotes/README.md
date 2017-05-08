@@ -5,5 +5,7 @@
 * [Release 0.4](ReleaseNote_0.4.md)
 * [Release 0.5](ReleaseNote_0.5.md)
 * [Release 0.6](ReleaseNote_0.6.md)
+* [Release 0.7](ReleaseNote_0.7.md)
+
 
 

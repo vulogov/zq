@@ -56,6 +56,10 @@ include "zq_query_extern.pyx"
 include "zq_clear.pyx"
 include "zq_modules.pyx"
 include "zq_func.pyx"
+include "zq_query_history.pyx"
+include "zq_query_trends.pyx"
+include "zq_query_sla.pyx"
+
 
 
 
