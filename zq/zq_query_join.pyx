@@ -1,6 +1,6 @@
 _select_host = {"selectInterfaces":['interfaceid','hostid','dns','port','type','main','ip','useip'],
-                'selectGroups':1, 'selectItems':['itemid','name','key_', 'hostid','type','interfaceid'],
-                'selectParentTemplates':1,
+                'selectGroups':"extend", 'selectItems':['itemid','name','key_', 'hostid','type','interfaceid'],
+                'selectParentTemplates':"extend",
                 'selectTriggers': ['triggerid'],
                 'output': 'extend',
                 }
@@ -76,7 +76,6 @@ def _join_element(ctx, _cmds, args, kw, data):
         elif _mode == 1:
             work_data = []
             for _d in data:
-                print _d,query_key,key
                 work_data += extract_key_from_info(_d, query_key, key)
         _cmd_kw[select_key] = work_data
         if len(work_data) == 0:

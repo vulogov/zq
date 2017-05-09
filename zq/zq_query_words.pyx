@@ -7,9 +7,9 @@ def Version(ctx):
 def Hosts(ctx, **kw):
     kw["output"] = "extend"
     if Getv(ctx, "ExtendedSelect"):
-        kw = set_dict_default(kw, "selectParentTemplates", 1)
-        kw = set_dict_default(kw, "selectGroups", 1)
-        kw = set_dict_default(kw, "selectItems", 1)
+        kw = set_dict_default(kw, "selectParentTemplates", "extend")
+        kw = set_dict_default(kw, "selectGroups", "extend")
+        kw = set_dict_default(kw, "selectItems", "extend")
         kw = set_dict_default(kw, "selectInterfaces", ['interfaceid','hostid','dns','port','type','main','ip','useip'])
         kw = set_dict_default(kw, "selectTriggers", ['triggerid',])
     try:

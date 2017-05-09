@@ -14,6 +14,7 @@ import copy
 import Queue
 import base64
 import random
+import copy
 from hy.lex import parser, lexer
 from hy.importer import hy_eval
 from hy import HyList
