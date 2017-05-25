@@ -16,7 +16,7 @@ class ZQ_GEN(object):
         self.parser.add_argument("--home", "-H", type=str, default=self.ZQ_HOME,
                                  help="Path to the default home directory or URL")
         self.parser.add_argument("--args", "-A", type=str, default=self.ZQ_ARGS,
-                                 help="Path to the default home directory or URL")
+                                 help="Path to the file defininig defauklt arguments")
         self.parser.add_argument('N', metavar='N', type=str, nargs='*',
                                  help='Parameters')
         self.ready = True

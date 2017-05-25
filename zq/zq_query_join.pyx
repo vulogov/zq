@@ -253,7 +253,12 @@ def _join_dcheck(ctx, args, kw, data):
 
 def _join_dhost(ctx, args, kw, data):
     return _join_element(ctx, [
-        ("druleid", "druless", "druleids", "DRULE", ctx.zapi.drule.get, _select_drule, 1),
+        ("druleid", "drules", "druleids", "DRULE", ctx.zapi.drule.get, _select_drule, 1),
+    ], args, kw, data)
+
+def _join_sla(ctx, args, kw, data):
+    return _join_element(ctx, [
+        ("serviceid", "serviceid", "serviceids", "SLA", ctx.zapi.service.getsla, {}, 0),
     ], args, kw, data)
 
 
@@ -284,6 +289,7 @@ _JOIN_CALL_TABLE={
     "DCHECK": _join_dcheck,
     "DSERVICE": _join_dservice,
     "DHOST": _join_dhost,
+    "SERVICE": _join_sla,
 }
 
 

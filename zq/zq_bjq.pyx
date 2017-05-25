@@ -56,7 +56,7 @@ class BJQ:
         self.supported_types = ["HOSTGROUPS", "TEMPLATE", "HOST", "INTERFACE", "ITEM", "ACTION",
                                 "APPLICATION", "USER", "MEDIATYPE", "USERGROUP", "MACRO", "SCREEN", "SCREENITEM",
                                 "LLD", "HOSTPROTOTYPE", "ITEMPROTOTYPE", "GRAPHPROTOTYPE", "TRIGGERPROTOTYPE",
-                                "WEBSCENARIO", "MAP", "DRULE", "DHOST", "DSERVICE", "DCHECK"]
+                                "WEBSCENARIO", "MAP", "DRULE", "DHOST", "DSERVICE", "DCHECK", "SERVICE", "SLA"]
         self.env = env
         self.jobs = Queue.PriorityQueue(maxsize=self.env.cfg["ZQ_MAX_PIPELINE"])
     def isAcceptable(self, key):
