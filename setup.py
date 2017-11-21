@@ -58,7 +58,7 @@ setup(
     version = '0.5',
     description = 'ZQL - Zabbix Query Language',
     install_requires = ["cython", "msgpack-python", "simplejson", "hy", "pyfiglet",
-                "gevent", "json", "termcolor", "humanfriendly", "ipaddr", "pyfscache",
+                "gevent", "termcolor", "humanfriendly", "ipaddr", "pyfscache",
                 "Cheetah",
     ],
     requires = [],
